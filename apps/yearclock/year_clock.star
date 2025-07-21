@@ -134,7 +134,7 @@ def get_gradient_color(position, hemisphere):
     # Define color stops for the gradient
     # These represent the seasons with smooth transitions
     color_stops = [
-        "#4169E1",  # Royal Blue (Winter)
+        "#4169E1",  # Royal Blue (Winter - January)
         "#00CED1",  # Dark Turquoise (Late Winter/Early Spring)
         "#00FF7F",  # Spring Green (Spring)
         "#FFD700",  # Gold (Late Spring/Early Summer)
@@ -142,7 +142,10 @@ def get_gradient_color(position, hemisphere):
         "#FF4500",  # Orange Red (Late Summer)
         "#DC143C",  # Crimson (Early Fall)
         "#8B0000",  # Dark Red (Late Fall)
-        "#4169E1",  # Royal Blue (Back to Winter)
+        "#722F37",  # Dark Red-Purple (November)
+        "#5D4E75",  # Muted Purple (Early December)
+        "#4B6CB7",  # Purple-Blue (Mid December)
+        "#4169E1",  # Royal Blue (Winter - Late December/January)
     ]
 
     # Reverse for southern hemisphere

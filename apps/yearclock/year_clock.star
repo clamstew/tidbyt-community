@@ -113,16 +113,36 @@ def main(config):
                 ),
                 # Optional date display in bottom corner
                 render.Padding(
-                    pad = (1, 26, 0, 0),
+                    pad = (get_date_x_position(config), 26, 0, 0),
                     child = render.Text(
                         content = now.format("Jan 2"),
                         font = "tom-thumb",
-                        color = "#FFFFFF",
+                        color = get_date_color(hemisphere),
                     ),
                 ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
         ),
     )
+
+def get_date_color(hemisphere):
+    """Get appropriate date text color based on hemisphere/season"""
+
+    # Northern hemisphere summer = light colors, need dark text
+    # Southern hemisphere summer = dark colors, can use light text
+    if hemisphere == "northern":
+        return "#000000"  # Black text for better contrast on summer yellows/oranges
+    else:
+        return "#FFFFFF"  # White text works well on southern summer (darker colors)
+
+def get_date_x_position(config):
+    """Get X position for date, with debug override if available"""
+    debug_x = config.get("debug_date_x")
+    if debug_x and debug_x.isdigit():
+        return int(debug_x)
+
+    # Default position - left side for now
+    # TODO: Add overlap detection later
+    return 1
 
 def get_gradient_color(position, hemisphere):
     """
@@ -229,6 +249,13 @@ def get_schema():
                 name = "Location",
                 desc = "Location for timezone",
                 icon = "locationDot",
+            ),
+            schema.Text(
+                id = "debug_date_x",
+                name = "[DEBUG] Date X Position",
+                desc = "Override date X position (0-57, dev only)",
+                icon = "sliders",
+                default = "",
             ),
         ],
     )

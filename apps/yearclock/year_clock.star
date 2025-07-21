@@ -119,7 +119,7 @@ def main(config):
                         font = "tom-thumb",
                         color = "#FFFFFF",
                     ),
-                ) if config.bool("show_date", True) else render.Box(width = 0, height = 0),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
         ),
     )
@@ -209,7 +209,6 @@ def get_schema():
     return schema.Schema(
         version = "1",
         fields = [
-
             schema.Dropdown(
                 id = "hemisphere",
                 name = "Hemisphere",

@@ -228,7 +228,7 @@ def get_schema():
                 name = "Show Date",
                 desc = "Display current date in corner",
                 icon = "calendar",
-                default = True,
+                default = False,
             ),
         ],
     )

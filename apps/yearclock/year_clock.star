@@ -182,13 +182,14 @@ def interpolate_color(color1, color2, t):
     g = int(g1 + (g2 - g1) * t)
     b = int(b1 + (b2 - b1) * t)
 
-    # Convert back to hex
-    return "#%s%s%s" % (hex_pad(r), hex_pad(g), hex_pad(b))
+    # Convert back to hex using simple lookup table
+    hex_chars = "0123456789ABCDEF"
 
-def hex_pad(value):
-    """Convert integer to 2-digit hex string"""
-    hex_val = hex(value)[2:].upper()  # Remove '0x' prefix and make uppercase
-    return hex_val.zfill(2)  # Pad with zeros to ensure 2 digits
+    r_hex = hex_chars[r // 16] + hex_chars[r % 16]
+    g_hex = hex_chars[g // 16] + hex_chars[g % 16]
+    b_hex = hex_chars[b // 16] + hex_chars[b % 16]
+
+    return "#" + r_hex + g_hex + b_hex
 
 def get_schema():
     hemisphere_options = [

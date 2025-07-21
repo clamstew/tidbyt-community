@@ -209,12 +209,7 @@ def get_schema():
     return schema.Schema(
         version = "1",
         fields = [
-            schema.Location(
-                id = "location",
-                name = "Location",
-                desc = "Location for timezone",
-                icon = "locationDot",
-            ),
+
             schema.Dropdown(
                 id = "hemisphere",
                 name = "Hemisphere",
@@ -229,6 +224,12 @@ def get_schema():
                 desc = "Display current date in corner",
                 icon = "calendar",
                 default = False,
+            ),
+            schema.Location(
+                id = "location",
+                name = "Location",
+                desc = "Location for timezone",
+                icon = "locationDot",
             ),
         ],
     )

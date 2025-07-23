@@ -30,7 +30,7 @@
 - [ ] Add toggle option for monochrome/grayscale mode
 - [ ] Design grayscale gradient that still shows year progression
 - [ ] Maintain good contrast for dial marker in monochrome
-- [ ] Consider different monochrome styles (black/white, sepia, etc.)
+- [ ] Consider different monochrome styles (black/white, sepia, red, blue, green, etc.) - may mean should be a select vs a toggle
 
 ### 4. Pull Request Documentation
 

@@ -223,7 +223,7 @@ def main(config):
 
 def get_date_color(color_scheme, hemisphere):
     """Get appropriate date text color based on color scheme and hemisphere"""
-    
+
     if color_scheme == "rainbow":
         if hemisphere == "northern":
             return "#000000"  # Black text for better contrast on summer yellows/oranges
@@ -270,16 +270,16 @@ def get_color_palette(color_scheme):
 def get_gradient_color(position, color_scheme, hemisphere):
     """
     Get color for a position (0.0 to 1.0) in the year gradient.
-    
+
     Args:
         position: Float from 0.0 to 1.0 representing position in year
         color_scheme: String identifying which color palette to use
         hemisphere: String "northern" or "southern" for seasonal positioning
     """
-    
+
     # Get the appropriate color palette
     color_stops = get_color_palette(color_scheme)
-    
+
     # Handle southern hemisphere positioning (shift by 6 months for all color schemes)
     if hemisphere == "southern":
         position = (position + 0.5) % 1.0

@@ -20,6 +20,31 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Auto-refresh works out of the box with Tidbyt's config system
 - Cleaned up legacy debug_date_x functionality which was replaced by the date picker
 
+### 1.8. Build Test Harness ✅
+
+- [x] ~~Create automated test script that loops through all configuration permutations~~ **COMPLETED: test_harness.sh created**
+- [x] ~~Use `pixlet render` with different parameter combinations (color_scheme, hemisphere, show_date, etc.)~~ **COMPLETED: 48 test cases**
+- [x] ~~Run `pixlet check` and `pixlet format` as part of QA sanity checks~~ **COMPLETED: Both included**
+- [x] ~~Test all color scheme + hemisphere combinations~~ **COMPLETED: All 6×2=12 combinations tested**
+- [x] ~~Test with different debug dates throughout the year~~ **COMPLETED: 5 seasonal positions tested**
+- [x] ~~Save parameter combinations that match URL query parameters for easy debugging~~ **COMPLETED: All parameters shown in test output**
+- [x] ~~Output results in readable format showing which combinations pass/fail~~ **COMPLETED: Color-coded output with summary**
+
+**Implementation Notes:**
+
+- Test harness runs 48 comprehensive tests covering all permutations
+- **Enhanced**: Now saves all rendered images to `temp/` folder with descriptive filenames
+- Parameters in `pixlet render` calls match URL parameters: `color_scheme=red hemisphere=southern show_date=true`
+- Tests edge cases like year boundaries (Dec 31, Jan 1) and leap day (Feb 29)
+- Includes seasonal position testing (solstices, equinoxes, new year)
+- Color-coded output shows ✓ for pass, ✗ for fail with detailed error commands
+- Script exits with code 0 for all pass, code 1 for any failures
+- **Enhanced**: Shows summary of generated images (46 .webp files organized by category)
+- **Enhanced**: Created `temp/README.md` documenting all test image categories
+- **Result: All 48 tests passing! 🎉**
+- **Benefit**: Visual cache of all configurations for design review and regression testing
+- **Note**: `.webp` files already ignored in main `.gitignore` - no additional gitignore entries needed
+
 ### 2. Southern Hemisphere Color Review
 
 - [ ] Review southern hemisphere seasonal color mapping -- This would actually be much easier to do after we can slide the slider around because part of the reason I think that the colors are less optimal in the southern is because you have the right and left side from the northern hemisphere running together with their own colors and maybe they didn't totally lineup, but they kinda looked right on the left and right side of display but when they meet in the middle, maybe they don't look great

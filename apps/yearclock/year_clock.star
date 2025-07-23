@@ -26,8 +26,13 @@ def main(config):
     location = json.decode(config.get("location", DEFAULT_LOCATION))
     timezone = location["timezone"]
 
-    # Get current time in user's timezone
-    now = time.now().in_location(timezone)
+    # Get current time in user's timezone, or use debug time if provided
+    debug_date = config.get("debug_date")
+    if debug_date:
+        # Parse the debug date and use it instead of current time
+        now = time.parse_time(debug_date).in_location(timezone)
+    else:
+        now = time.now().in_location(timezone)
 
     # Get hemisphere setting
     hemisphere = config.get("hemisphere", "northern")
@@ -249,6 +254,12 @@ def get_schema():
                 name = "Location",
                 desc = "Location for timezone",
                 icon = "locationDot",
+            ),
+            schema.DateTime(
+                id = "debug_date",
+                name = "[DEBUG] Test Date",
+                desc = "Pick a date to preview colors (year doesn't matter)",
+                icon = "calendar",
             ),
             schema.Text(
                 id = "debug_date_x",

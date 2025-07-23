@@ -2,12 +2,19 @@
 
 ## Priority Items
 
-### 1. Debug Time Slider
+### 1. Debug Time Slider ✅
 
-- [ ] Replace current debug text field with a proper slider/range input
-- [ ] Allow sliding through different times of year for testing
-- [ ] Auto-refresh on slider change if possible
-- [ ] Range should cover full year (0-365 days or 0.0-1.0 fraction) Also, would it be easier here to just have a date picker if possible there's one built-in in the docs I would say ideally a date picker where the year didn't matter since we won't display it anyway although it's maybe it just needs the year to work
+- [x] ~~Replace current debug text field with a proper slider/range input~~ **COMPLETED: Added DateTime picker**
+- [x] ~~Allow sliding through different times of year for testing~~ **COMPLETED: Date picker allows selection of any date**
+- [x] ~~Auto-refresh on slider change if possible~~ **COMPLETED: Tidbyt auto-refreshes on config change**
+- [x] ~~Range should cover full year (0-365 days or 0.0-1.0 fraction)~~ **COMPLETED: Date picker covers full year, year doesn't matter for display**
+
+**Implementation Notes:**
+
+- Used `schema.DateTime` instead of slider - much better UX for date selection
+- Year value from picker is ignored, only month/day used for seasonal positioning
+- Labeled as "[DEBUG] Test Date" to indicate development/testing purpose
+- Auto-refresh works out of the box with Tidbyt's config system
 
 ### 2. Southern Hemisphere Color Review
 

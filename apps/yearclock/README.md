@@ -8,33 +8,44 @@ Year Clock transforms your Tidbyt into a slow-moving, year-long timepiece that r
 
 ## Features
 
-- **Rainbow Gradient Display**: The entire year represented as a smooth color transition
-- **Seasonal Color Mapping**: Cooler colors (blues, teals) for winter months, warmer colors (yellows, oranges, reds) for summer
-- **Hemisphere Support**: Northern and Southern hemisphere modes flip the seasonal color mapping
+- **Multiple Color Schemes**: Choose from Rainbow, Grayscale, Red, Blue, Green, or Purple gradients
+- **Seasonal Color Mapping**: Colors flow from darker (winter) to brighter (summer) throughout the year
+- **Hemisphere Support**: Northern and Southern hemisphere modes flip the seasonal positioning for any color scheme
 - **Retro Dial Marker**: A white dial line with beveled edges and magenta accent dots shows today's position
 - **Optional Date Display**: Shows current date in the corner (configurable)
 - **Timezone Aware**: Uses your location for accurate local time calculations
 
-## Color Progression
+## Color Schemes
 
-The rainbow follows the natural flow of seasons:
+Choose from multiple color palettes, each following the natural flow of seasons:
 
-**Northern Hemisphere:**
+**Rainbow (Default)**
 
-- Winter (Jan-Feb): Deep blues and turquoise
-- Spring (Mar-May): Greens and golds
-- Summer (Jun-Aug): Yellows and oranges
-- Fall (Sep-Dec): Reds and crimsons
+- Winter: Deep blues and turquoise
+- Spring: Greens and golds
+- Summer: Yellows and oranges
+- Fall: Reds and crimsons
 
-**Southern Hemisphere:**
+**Monochrome Options**
 
-- Seasons are shifted 6 months to match local climate patterns
+- **Grayscale**: Smooth black to white gradient
+- **Red**: Dark red to bright red/pink progression
+- **Blue**: Navy to sky blue progression
+- **Green**: Forest green to lime green progression
+- **Purple**: Deep purple to lavender progression
+
+**Hemisphere Settings**
+
+- **Northern**: Colors flow with traditional seasons (dark winter → bright summer)
+- **Southern**: Colors are shifted 6 months to match local climate patterns
 
 ## Configuration Options
 
-- **Location**: Set your location for proper timezone handling
-- **Hemisphere**: Choose Northern or Southern hemisphere for seasonal color alignment
+- **Color Scheme**: Choose from Rainbow, Grayscale, Red, Blue, Green, or Purple
+- **Hemisphere**: Choose Northern or Southern hemisphere for seasonal positioning
 - **Show Date**: Toggle the date display in the bottom corner
+- **Location**: Set your location for proper timezone handling
+- **[DEBUG] Test Date**: Pick any date to preview how colors look throughout the year
 
 ## Inspiration
 

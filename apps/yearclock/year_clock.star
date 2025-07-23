@@ -10,6 +10,97 @@ load("render.star", "render")
 load("schema.star", "schema")
 load("time.star", "time")
 
+# Color Palette Constants - makes code more readable and maintainable
+RAINBOW_PALETTE = [
+    "#4169E1",  # Royal Blue (Winter - January)
+    "#00CED1",  # Dark Turquoise (Late Winter/Early Spring)
+    "#00FF7F",  # Spring Green (Spring)
+    "#FFD700",  # Gold (Late Spring/Early Summer)
+    "#FF8C00",  # Dark Orange (Summer)
+    "#FF4500",  # Orange Red (Late Summer)
+    "#DC143C",  # Crimson (Early Fall)
+    "#8B0000",  # Dark Red (Late Fall)
+    "#722F37",  # Dark Red-Purple (November)
+    "#5D4E75",  # Muted Purple (Early December)
+    "#4B6CB7",  # Purple-Blue (Mid December)
+    "#4169E1",  # Royal Blue (Winter - Late December/January)
+]
+
+GRAYSCALE_PALETTE = [
+    "#1A1A1A",  # Very Dark Gray (Winter)
+    "#2E2E2E",  # Dark Gray
+    "#424242",  # Medium Dark Gray
+    "#565656",  # Medium Gray
+    "#6A6A6A",  # Light Medium Gray
+    "#7E7E7E",  # Light Gray
+    "#929292",  # Lighter Gray
+    "#A6A6A6",  # Even Lighter Gray
+    "#BABABA",  # Very Light Gray
+    "#CECECE",  # Near White
+    "#E2E2E2",  # Almost White
+    "#1A1A1A",  # Very Dark Gray (back to winter)
+]
+
+RED_PALETTE = [
+    "#2D0000",  # Very Dark Red
+    "#4A0000",  # Dark Red
+    "#660000",  # Darker Red
+    "#800000",  # Maroon
+    "#B30000",  # Medium Red
+    "#CC0000",  # Bright Red
+    "#FF0000",  # Pure Red
+    "#FF3333",  # Light Red
+    "#FF6666",  # Lighter Red
+    "#FF9999",  # Pink Red
+    "#FFCCCC",  # Very Light Pink
+    "#2D0000",  # Very Dark Red (back to start)
+]
+
+BLUE_PALETTE = [
+    "#000033",  # Very Dark Blue
+    "#000066",  # Dark Navy
+    "#000099",  # Navy
+    "#0000CC",  # Medium Blue
+    "#0033FF",  # Bright Blue
+    "#3366FF",  # Light Blue
+    "#6699FF",  # Lighter Blue
+    "#99CCFF",  # Sky Blue
+    "#CCE6FF",  # Very Light Blue
+    "#E6F3FF",  # Pale Blue
+    "#F0F8FF",  # Alice Blue
+    "#000033",  # Very Dark Blue (back to start)
+]
+
+GREEN_PALETTE = [
+    "#002200",  # Very Dark Green
+    "#004400",  # Dark Green
+    "#006600",  # Forest Green
+    "#008800",  # Medium Green
+    "#00AA00",  # Bright Green
+    "#00CC00",  # Lime Green
+    "#00FF00",  # Pure Green
+    "#33FF33",  # Light Green
+    "#66FF66",  # Lighter Green
+    "#99FF99",  # Mint Green
+    "#CCFFCC",  # Very Light Green
+    "#002200",  # Very Dark Green (back to start)
+]
+
+PURPLE_PALETTE = [
+    "#2D0033",  # Very Dark Purple
+    "#4A0066",  # Dark Purple
+    "#660099",  # Deep Purple
+    "#8000CC",  # Purple
+    "#9933FF",  # Bright Purple
+    "#B366FF",  # Light Purple
+    "#CC99FF",  # Lighter Purple
+    "#E6CCFF",  # Lavender
+    "#F0E6FF",  # Very Light Lavender
+    "#F8F0FF",  # Pale Lavender
+    "#FDFAFF",  # Almost White Lavender
+    "#2D0033",  # Very Dark Purple (back to start)
+]
+
 DEFAULT_LOCATION = """
 {
 	"lat": "40.6781784",
@@ -34,7 +125,8 @@ def main(config):
     else:
         now = time.now().in_location(timezone)
 
-    # Get hemisphere setting
+    # Get color scheme and hemisphere settings
+    color_scheme = config.get("color_scheme", "rainbow")
     hemisphere = config.get("hemisphere", "northern")
 
     # Calculate year progress (0.0 to 1.0)
@@ -44,14 +136,14 @@ def main(config):
     elapsed = now - year_start
     year_fraction = elapsed.seconds / year_duration.seconds
 
-    # Create the rainbow gradient background
+    # Create the gradient background
     gradient_children = []
     for x in range(64):
         # Calculate position in gradient (0.0 to 1.0)
         pos = x / 63.0
 
         # Get color for this position
-        color = get_gradient_color(pos, hemisphere)
+        color = get_gradient_color(pos, color_scheme, hemisphere)
 
         # Create a vertical line for this x position
         gradient_children.append(
@@ -122,22 +214,33 @@ def main(config):
                     child = render.Text(
                         content = now.format("Jan 2"),
                         font = "tom-thumb",
-                        color = get_date_color(hemisphere),
+                        color = get_date_color(color_scheme, hemisphere),
                     ),
                 ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
         ),
     )
 
-def get_date_color(hemisphere):
-    """Get appropriate date text color based on hemisphere/season"""
-
-    # Northern hemisphere summer = light colors, need dark text
-    # Southern hemisphere summer = dark colors, can use light text
-    if hemisphere == "northern":
-        return "#000000"  # Black text for better contrast on summer yellows/oranges
+def get_date_color(color_scheme, hemisphere):
+    """Get appropriate date text color based on color scheme and hemisphere"""
+    
+    if color_scheme == "rainbow":
+        if hemisphere == "northern":
+            return "#000000"  # Black text for better contrast on summer yellows/oranges
+        else:
+            return "#FFFFFF"  # White text works well on southern summer (darker colors)
+    elif color_scheme == "grayscale":
+        return "#000000"  # Black text for contrast on gray gradients
+    elif color_scheme == "red":
+        return "#FFFFFF"  # White text for contrast on red backgrounds
+    elif color_scheme == "blue":
+        return "#FFFFFF"  # White text for contrast on blue backgrounds
+    elif color_scheme == "green":
+        return "#000000"  # Black text for contrast on green backgrounds
+    elif color_scheme == "purple":
+        return "#FFFFFF"  # White text for contrast on purple backgrounds
     else:
-        return "#FFFFFF"  # White text works well on southern summer (darker colors)
+        return "#000000"  # Default to black text
 
 def get_date_x_position():
     """Get X position for date"""
@@ -146,33 +249,39 @@ def get_date_x_position():
     # TODO: Add overlap detection later
     return 1
 
-def get_gradient_color(position, hemisphere):
+def get_color_palette(color_scheme):
+    """Get the color palette for a given color scheme"""
+    if color_scheme == "rainbow":
+        return RAINBOW_PALETTE
+    elif color_scheme == "grayscale":
+        return GRAYSCALE_PALETTE
+    elif color_scheme == "red":
+        return RED_PALETTE
+    elif color_scheme == "blue":
+        return BLUE_PALETTE
+    elif color_scheme == "green":
+        return GREEN_PALETTE
+    elif color_scheme == "purple":
+        return PURPLE_PALETTE
+    else:
+        # Default fallback
+        return RAINBOW_PALETTE
+
+def get_gradient_color(position, color_scheme, hemisphere):
     """
     Get color for a position (0.0 to 1.0) in the year gradient.
-    Northern hemisphere: winter=cool, summer=warm
-    Southern hemisphere: reversed
+    
+    Args:
+        position: Float from 0.0 to 1.0 representing position in year
+        color_scheme: String identifying which color palette to use
+        hemisphere: String "northern" or "southern" for seasonal positioning
     """
-
-    # Define color stops for the gradient
-    # These represent the seasons with smooth transitions
-    color_stops = [
-        "#4169E1",  # Royal Blue (Winter - January)
-        "#00CED1",  # Dark Turquoise (Late Winter/Early Spring)
-        "#00FF7F",  # Spring Green (Spring)
-        "#FFD700",  # Gold (Late Spring/Early Summer)
-        "#FF8C00",  # Dark Orange (Summer)
-        "#FF4500",  # Orange Red (Late Summer)
-        "#DC143C",  # Crimson (Early Fall)
-        "#8B0000",  # Dark Red (Late Fall)
-        "#722F37",  # Dark Red-Purple (November)
-        "#5D4E75",  # Muted Purple (Early December)
-        "#4B6CB7",  # Purple-Blue (Mid December)
-        "#4169E1",  # Royal Blue (Winter - Late December/January)
-    ]
-
-    # Reverse for southern hemisphere
+    
+    # Get the appropriate color palette
+    color_stops = get_color_palette(color_scheme)
+    
+    # Handle southern hemisphere positioning (shift by 6 months for all color schemes)
     if hemisphere == "southern":
-        # Shift by 6 months (0.5)
         position = (position + 0.5) % 1.0
 
     # Calculate which segment we're in
@@ -217,6 +326,33 @@ def interpolate_color(color1, color2, t):
     return "#" + r_hex + g_hex + b_hex
 
 def get_schema():
+    color_scheme_options = [
+        schema.Option(
+            display = "Rainbow",
+            value = "rainbow",
+        ),
+        schema.Option(
+            display = "Grayscale",
+            value = "grayscale",
+        ),
+        schema.Option(
+            display = "Red",
+            value = "red",
+        ),
+        schema.Option(
+            display = "Blue",
+            value = "blue",
+        ),
+        schema.Option(
+            display = "Green",
+            value = "green",
+        ),
+        schema.Option(
+            display = "Purple",
+            value = "purple",
+        ),
+    ]
+
     hemisphere_options = [
         schema.Option(
             display = "Northern Hemisphere",
@@ -232,9 +368,17 @@ def get_schema():
         version = "1",
         fields = [
             schema.Dropdown(
+                id = "color_scheme",
+                name = "Color Scheme",
+                desc = "Choose color palette for the year gradient",
+                icon = "palette",
+                default = "rainbow",
+                options = color_scheme_options,
+            ),
+            schema.Dropdown(
                 id = "hemisphere",
                 name = "Hemisphere",
-                desc = "Choose hemisphere for seasonal colors",
+                desc = "Choose hemisphere for seasonal positioning",
                 icon = "globe",
                 default = "northern",
                 options = hemisphere_options,

@@ -1,5 +1,7 @@
 # TODO - Year Clock Improvements
 
+REQUIRED: always put all files in `apps/yearclock/**` into the context window.
+
 ## Priority Items
 
 ### 1. Debug Time Slider ✅
@@ -25,12 +27,21 @@
 - [ ] Fix awkward color transitions if present
 - [ ] Ensure colors match actual southern hemisphere seasons
 
-### 3. Monochrome Mode
+### 3. Monochrome Mode ✅
 
-- [ ] Add toggle option for monochrome/grayscale mode
-- [ ] Design grayscale gradient that still shows year progression
-- [ ] Maintain good contrast for dial marker in monochrome
-- [ ] Consider different monochrome styles (black/white, sepia, red, blue, green, etc.) - may mean should be a select vs a toggle
+- [x] ~~Add toggle option for monochrome/grayscale mode~~ **COMPLETED: Added color scheme dropdown**
+- [x] ~~Design grayscale gradient that still shows year progression~~ **COMPLETED: Multiple gradients available**
+- [x] ~~Maintain good contrast for dial marker in monochrome~~ **COMPLETED: Works with all color schemes**
+- [x] ~~Consider different monochrome styles (black/white, sepia, red, blue, green, etc.) - may mean should be a select vs a toggle~~ **COMPLETED: 6 color schemes available**
+
+**Implementation Notes:**
+
+- Added Color Scheme dropdown with 6 options: Rainbow, Grayscale, Red, Blue, Green, Purple
+- Kept Hemisphere setting separate - applies to any color scheme for seasonal positioning
+- Each color scheme flows from darker (winter) to brighter (summer) colors
+- Automatic date text color selection for optimal contrast with each color scheme
+- All color palettes defined as constants for maintainability
+- Clean switch-case logic in `get_color_palette()` function
 
 ### 4. Pull Request Documentation
 

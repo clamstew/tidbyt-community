@@ -69,14 +69,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - **Benefits**: Easy visual scanning of all configurations, perfect for design review and regression testing
 - **Enhanced**: Added date display overlap tests showing dial marker positioned behind date text in February
 
-### 2. Southern Hemisphere Color Review
-
-- [ ] Review southern hemisphere seasonal color mapping -- This would actually be much easier to do after we can slide the slider around because part of the reason I think that the colors are less optimal in the southern is because you have the right and left side from the northern hemisphere running together with their own colors and maybe they didn't totally lineup, but they kinda looked right on the left and right side of display but when they meet in the middle, maybe they don't look great
-- [ ] Test colors across different times of year
-- [ ] Fix awkward color transitions if present
-- [ ] Ensure colors match actual southern hemisphere seasons
-
-### 3. Monochrome Mode ✅
+### 2. Monochrome Mode ✅
 
 - [x] ~~Add toggle option for monochrome/grayscale mode~~ **COMPLETED: Added color scheme dropdown**
 - [x] ~~Design grayscale gradient that still shows year progression~~ **COMPLETED: Multiple gradients available**
@@ -91,6 +84,72 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Automatic date text color selection for optimal contrast with each color scheme
 - All color palettes defined as constants for maintainability
 - Clean switch-case logic in `get_color_palette()` function
+
+### 3. Comprehensive Visual Review
+
+**Goal**: Systematically review all visual states using the test harness images in `temp/showcase.html`. Review for design quality, color transitions, seasonal accuracy, and overall aesthetics across all configurations.
+
+#### 3.1. Color Scheme Quality Review
+
+- [ ] **Rainbow Scheme**: Review base rainbow gradient - colors flow smoothly, seasonal mapping feels natural
+- [ ] **Grayscale Scheme**: Confirm smooth black-to-white progression without harsh jumps
+- [ ] **Red Scheme**: Validate dark-to-bright red progression looks visually appealing
+- [ ] **Blue Scheme**: Check navy-to-sky-blue transition quality and seasonal feel
+- [ ] **Green Scheme**: Review forest-to-lime green progression for visual smoothness
+- [ ] **Purple Scheme**: Validate deep-purple-to-lavender gradient flow
+
+#### 3.2. Hemisphere Positioning Review
+
+- [ ] **Northern Hemisphere**: Confirm color positioning matches expected seasons (bright colors in summer position)
+- [ ] **Southern Hemisphere**: Verify 6-month shift looks correct (bright colors in winter position from northern perspective)
+- [ ] **Rainbow Comparison**: Side-by-side northern vs southern rainbow to check transition quality
+- [ ] **Grayscale Comparison**: Side-by-side northern vs southern grayscale for consistency
+- [ ] **Color Transition Quality**: Check where hemispheres "meet" - no awkward color jumps or poor blends
+
+#### 3.3. Date Display Contrast Review
+
+- [ ] **Rainbow + Date**: Verify date text is readable across all background colors (both hemispheres)
+- [ ] **Grayscale + Date**: Confirm black text shows clearly on gray gradients
+- [ ] **Red + Date**: Check white text contrast on red backgrounds
+- [ ] **Blue + Date**: Verify white text readability on blue backgrounds
+- [ ] **Green + Date**: Validate black text contrast on green backgrounds
+- [ ] **Purple + Date**: Check white text readability on purple backgrounds
+
+#### 3.4. Date Display Overlap Analysis
+
+- [ ] **February Positioning**: Review dial marker placement during February dates (early year)
+- [ ] **Overlap Scenarios**: Check Feb 1, Valentine's Day, Leap Day for dial/date conflicts
+- [ ] **Rainbow Overlap**: Verify dial marker visibility against rainbow background in February
+- [ ] **Grayscale Overlap**: Check dial marker contrast against grayscale in February
+- [ ] **Red Overlap**: Validate dial marker stands out on red background in February
+
+#### 3.5. Seasonal Positioning Accuracy
+
+- [ ] **New Year (Jan 1)**: Confirm dial appears at year start (left edge) for all schemes
+- [ ] **Spring Equinox (Mar 20)**: Verify dial at ~25% position, colors match spring feeling
+- [ ] **Summer Solstice (Jun 21)**: Check dial at ~50% position, brightest colors visible
+- [ ] **Fall Equinox (Sep 22)**: Validate dial at ~75% position, autumn color transition
+- [ ] **Winter Solstice (Dec 21)**: Confirm dial near year end, darkest colors
+
+#### 3.6. Edge Cases & Special Scenarios
+
+- [ ] **Year Boundaries**: Dec 31 Northern vs Jan 1 Southern positioning accuracy
+- [ ] **Leap Day**: Feb 29 displays correctly with proper seasonal positioning
+- [ ] **Comprehensive Configs**: Complex parameter combinations render properly
+- [ ] **Contrast Extremes**: Maximum contrast scenarios (like grayscale + date) remain readable
+
+#### 3.7. Overall Design Cohesion
+
+- [ ] **Dial Marker Design**: White dial line with shadows/highlights works across all color schemes
+- [ ] **Accent Dots**: Magenta top/bottom dots provide good contrast on all backgrounds
+- [ ] **Visual Hierarchy**: Date text doesn't compete with or distract from main gradient display
+- [ ] **Seasonal Feel**: Each color scheme successfully conveys the passage of time through the year
+
+**Tools for Review:**
+
+- **Primary**: `temp/showcase.html` - organized visual gallery with 4x zoom
+- **Secondary**: Individual .webp files in `temp/` folder for detailed inspection
+- **Reference**: `temp/README.md` for understanding test categories and parameters
 
 ### 4. Pull Request Documentation
 

@@ -12,18 +12,18 @@ load("time.star", "time")
 
 # Color Palette Constants - makes code more readable and maintainable
 RAINBOW_PALETTE = [
-    "#4169E1",  # Royal Blue (Winter - January)
-    "#00CED1",  # Dark Turquoise (Late Winter/Early Spring)
-    "#00FF7F",  # Spring Green (Spring)
-    "#FFD700",  # Gold (Late Spring/Early Summer)
-    "#FF8C00",  # Dark Orange (Summer)
-    "#FF4500",  # Orange Red (Late Summer)
-    "#DC143C",  # Crimson (Early Fall)
-    "#8B0000",  # Dark Red (Late Fall)
-    "#722F37",  # Dark Red-Purple (November)
-    "#5D4E75",  # Muted Purple (Early December)
-    "#4B6CB7",  # Purple-Blue (Mid December)
-    "#4169E1",  # Royal Blue (Winter - Late December/January)
+    "#8A2BE2",  # Blue Violet (edges)
+    "#4169E1",  # Royal Blue
+    "#00BFFF",  # Deep Sky Blue
+    "#00CED1",  # Dark Turquoise
+    "#00FF7F",  # Spring Green
+    "#ADFF2F",  # Green Yellow
+    "#FFFF00",  # Yellow (bright center)
+    "#FF8C00",  # Dark Orange (bright center)
+    "#FF4500",  # Orange Red
+    "#DC143C",  # Crimson
+    "#B22222",  # Fire Brick
+    "#8A2BE2",  # Blue Violet (edges)
 ]
 
 GRAYSCALE_PALETTE = [
@@ -270,6 +270,7 @@ def get_color_palette(color_scheme):
 def get_gradient_color(position, color_scheme, hemisphere):
     """
     Get color for a position (0.0 to 1.0) in the year gradient.
+    Creates a mirrored/symmetrical gradient that peaks in the center.
 
     Args:
         position: Float from 0.0 to 1.0 representing position in year
@@ -284,18 +285,37 @@ def get_gradient_color(position, color_scheme, hemisphere):
     if hemisphere == "southern":
         position = (position + 0.5) % 1.0
 
-    # Calculate which segment we're in
-    num_segments = len(color_stops) - 1
+    # Take only the bright half of the palette (center portion)
+    # For a 12-color palette, use colors 3-8 (the bright summer colors)
+    palette_length = len(color_stops)
+    bright_start = palette_length // 4  # Start at 25% through palette
+    bright_end = (3 * palette_length) // 4  # End at 75% through palette
+    bright_colors = color_stops[bright_start:bright_end + 1]
+
+    # Create mirrored gradient: bright colors in center, darker colors on edges
+    # Position 0.0 = leftmost edge, 0.5 = center, 1.0 = rightmost edge
+    # Map position to distance from center (0.0 at center, 0.5 at edges)
+    distance_from_center = abs(position - 0.5) * 2.0
+
+    # Map distance from center to bright color palette
+    # 0.0 (center) = end of bright colors, 1.0 (edges) = start of bright colors
+    bright_position = 1.0 - distance_from_center
+
+    # Calculate which segment we're in using the bright position
+    num_segments = len(bright_colors) - 1
+    if num_segments == 0:
+        return bright_colors[0]
+    
     segment_size = 1.0 / num_segments
-    segment = int(position / segment_size)
+    segment = int(bright_position / segment_size)
     segment = min(segment, num_segments - 1)
 
     # Calculate position within segment
-    local_pos = (position % segment_size) / segment_size
+    local_pos = (bright_position % segment_size) / segment_size
 
     # Interpolate between colors
-    color1 = color_stops[segment]
-    color2 = color_stops[segment + 1]
+    color1 = bright_colors[segment]
+    color2 = bright_colors[segment + 1]
 
     return interpolate_color(color1, color2, local_pos)
 

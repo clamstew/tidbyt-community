@@ -73,6 +73,7 @@
   - [ ] Make location optional with sensible default
   - [ ] Keep location but hide it in "Advanced" section
 - [ ] **Impact assessment** - What breaks if we remove location dependency?
+- [ ] **Remove get_date_x_position function** - Since overlap detection is WON'T DO, just hardcode x=1 in render code
 
 **Implementation Notes:**
 
@@ -80,6 +81,7 @@
 - Location setting adds complexity for minimal benefit
 - Most users set location once and never change it
 - Could simplify onboarding experience
+- get_date_x_position() currently just returns 1, so can be removed entirely
 
 ## Notes
 

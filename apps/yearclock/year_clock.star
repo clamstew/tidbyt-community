@@ -292,10 +292,19 @@ def get_gradient_color(position, color_scheme, hemisphere):
     bright_end = bright_start + (palette_length // 2)  # Take about half the palette
     bright_colors = color_stops[bright_start:bright_end + 1]
 
-    # Create mirrored gradient: bright colors in center, darker colors on edges
-    # Position 0.0 = leftmost edge, 0.5 = center, 1.0 = rightmost edge
-    # Map position to distance from center (0.0 at center, 0.5 at edges)
-    distance_from_center = abs(position - 0.5) * 2.0
+    # Create mirrored gradient: bright colors peak in August/September (hottest months)
+    # Position 0.0 = Jan 1, 0.65 = late August peak, 1.0 = Dec 31
+    # Shift the center from summer solstice (0.5) to late summer (0.65)
+    peak_position = 0.65  # Late August/early September
+    
+    # Calculate distance from peak, handling year wrap-around
+    distance_from_peak = min(abs(position - peak_position), 
+                            abs(position - peak_position + 1.0),
+                            abs(position - peak_position - 1.0))
+    
+    # Scale to 0.0-1.0 range (0.0 = at peak, 1.0 = furthest from peak)
+    max_distance = 0.5  # Maximum possible distance in circular year
+    distance_from_center = min(distance_from_peak / max_distance, 1.0)
 
     # Map distance from center to bright color palette
     # 0.0 (center) = end of bright colors, 1.0 (edges) = start of bright colors

@@ -92,6 +92,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 #### 3.1. Color Scheme Quality Review
 
 - [ ] **Rainbow Scheme**: Review base rainbow gradient - colors flow smoothly, seasonal mapping feels natural
+- [ ] **Seasonal Accuracy**: Consider shifting gradient peak from June solstice to August/September (hottest months) - red-orange should appear around position 0.62-0.70 instead of 0.5
 - [ ] **Grayscale Scheme**: Confirm smooth black-to-white progression without harsh jumps
 - [ ] **Red Scheme**: Validate dark-to-bright red progression looks visually appealing
 - [ ] **Blue Scheme**: Check navy-to-sky-blue transition quality and seasonal feel

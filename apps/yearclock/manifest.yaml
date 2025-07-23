@@ -3,6 +3,6 @@ id: year-clock
 name: Year Clock
 summary: Rainbow year tracker
 desc: Displays a rainbow gradient representing the year with a retro dial marker showing today's position. Inspired by vintage rainbow wall clocks that track yearly progress with warmer colors for summer and cooler colors for winter.
-author: Community
+author: clamstew
 fileName: year_clock.star
 packageName: yearclock

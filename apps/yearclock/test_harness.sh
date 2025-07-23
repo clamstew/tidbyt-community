@@ -75,6 +75,21 @@ for scheme in "${COLOR_SCHEMES[@]}"; do
 done
 echo ""
 
+echo "${BLUE}4.5. Testing date display with potential dial overlap (February)...${NC}"
+# Test cases where dial marker could overlap with date display (early in year)
+FEBRUARY_DATES=("2024-02-01T00:00:00Z" "2024-02-14T12:00:00Z" "2024-02-29T23:59:59Z")
+FEBRUARY_NAMES=("Feb1" "ValentinesDay" "LeapDay")
+OVERLAP_SCHEMES=("rainbow" "grayscale" "red")
+
+for i in "${!FEBRUARY_DATES[@]}"; do
+    date="${FEBRUARY_DATES[$i]}"
+    name="${FEBRUARY_NAMES[$i]}"
+    for scheme in "${OVERLAP_SCHEMES[@]}"; do
+        run_test "Date overlap test: $scheme @ $name" "pixlet render year_clock.star color_scheme=$scheme show_date=true debug_date='$date'" "03_overlap_${scheme}_${name}.webp"
+    done
+done
+echo ""
+
 echo "${BLUE}5. Testing seasonal positions (debug dates)...${NC}"
 # Test key dates throughout the year
 TEST_DATES=("2024-01-01T00:00:00Z" "2024-03-20T00:00:00Z" "2024-06-21T00:00:00Z" "2024-09-22T00:00:00Z" "2024-12-21T00:00:00Z")

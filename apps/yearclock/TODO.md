@@ -32,16 +32,17 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 **Implementation Notes:**
 
-- Test harness runs 48 comprehensive tests covering all permutations
+- Test harness runs 57 comprehensive tests covering all permutations
 - **Enhanced**: Now saves all rendered images to `temp/` folder with descriptive filenames
 - Parameters in `pixlet render` calls match URL parameters: `color_scheme=red hemisphere=southern show_date=true`
 - Tests edge cases like year boundaries (Dec 31, Jan 1) and leap day (Feb 29)
 - Includes seasonal position testing (solstices, equinoxes, new year)
+- **Enhanced**: Added date display overlap tests for February dates (dial marker behind date text)
 - Color-coded output shows ✓ for pass, ✗ for fail with detailed error commands
 - Script exits with code 0 for all pass, code 1 for any failures
-- **Enhanced**: Shows summary of generated images (46 .webp files organized by category)
+- **Enhanced**: Shows summary of generated images (55 .webp files organized by category)
 - **Enhanced**: Created `temp/README.md` documenting all test image categories
-- **Result: All 48 tests passing! 🎉**
+- **Result: All 57 tests passing! 🎉**
 - **Benefit**: Visual cache of all configurations for design review and regression testing
 - **Note**: `.webp` files already ignored in main `.gitignore` - no additional gitignore entries needed
 
@@ -65,6 +66,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - **Parameter Display**: All pixlet parameters shown as monospace captions for easy debugging
 - **Comparison Views**: Side-by-side Rainbow/Grayscale hemisphere comparisons + full grids
 - **Benefits**: Easy visual scanning of all configurations, perfect for design review and regression testing
+- **Enhanced**: Added date display overlap tests showing dial marker positioned behind date text in February
 
 ### 2. Southern Hemisphere Color Review
 

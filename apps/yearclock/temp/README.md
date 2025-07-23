@@ -36,26 +36,28 @@ Run the test harness from the parent directory to regenerate all images:
 
 Images are organized by test category with descriptive filenames:
 
-### 🎨 01*colorscheme*\*.webp (6 files)
+### 🎨 01*colorscheme*\*.webp (7 files)
 
 Basic color scheme tests - shows each color palette with default settings:
 
-- `01_colorscheme_rainbow.webp` - Default rainbow gradient
+- `01_colorscheme_rainbow.webp` - Default rainbow gradient (aesthetic focus)
+- `01_colorscheme_thermal.webp` - Thermal rainbow gradient (temperature logic: blue=cold, red=hot)
 - `01_colorscheme_grayscale.webp` - Black to white gradient
 - `01_colorscheme_red.webp` - Dark red to light red gradient
 - `01_colorscheme_blue.webp` - Navy to sky blue gradient
 - `01_colorscheme_green.webp` - Forest green to lime gradient
 - `01_colorscheme_purple.webp` - Deep purple to lavender gradient
 
-### 🌍 02*hemisphere*\*.webp (12 files)
+### 🌍 02*hemisphere*\*.webp (14 files)
 
 Color scheme + hemisphere combinations - shows seasonal positioning:
 
 - Format: `02_hemisphere_{colorscheme}_{hemisphere}.webp`
-- Tests all 6 color schemes × 2 hemispheres (12 combinations)
+- Tests all 7 color schemes × 2 hemispheres (14 combinations)
 - Southern hemisphere shifts colors by 6 months (seasonal inversion)
+- Includes thermal scheme showing temperature-based seasonal positioning
 
-### 📅 03*date*\*.webp (12 files)
+### 📅 03*date*\*.webp (14 files)
 
 Date display tests - shows text contrast with different backgrounds:
 

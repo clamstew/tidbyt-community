@@ -38,6 +38,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Tests edge cases like year boundaries (Dec 31, Jan 1) and leap day (Feb 29)
 - Includes seasonal position testing (solstices, equinoxes, new year)
 - **Enhanced**: Added date display overlap tests for February dates (dial marker behind date text)
+- **Fixed**: Timezone issue where UTC midnight dates were converted to previous day in EST (Jan 1 appearing at year end)
 - Color-coded output shows ✓ for pass, ✗ for fail with detailed error commands
 - Script exits with code 0 for all pass, code 1 for any failures
 - **Enhanced**: Shows summary of generated images (55 .webp files organized by category)

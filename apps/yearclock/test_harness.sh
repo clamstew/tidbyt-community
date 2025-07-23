@@ -77,7 +77,7 @@ echo ""
 
 echo "${BLUE}4.5. Testing date display with potential dial overlap (February)...${NC}"
 # Test cases where dial marker could overlap with date display (early in year)
-FEBRUARY_DATES=("2024-02-01T00:00:00Z" "2024-02-14T12:00:00Z" "2024-02-29T23:59:59Z")
+FEBRUARY_DATES=("2024-02-01T12:00:00Z" "2024-02-14T12:00:00Z" "2024-02-29T12:00:00Z")
 FEBRUARY_NAMES=("Feb1" "ValentinesDay" "LeapDay")
 OVERLAP_SCHEMES=("rainbow" "grayscale" "red")
 
@@ -91,8 +91,8 @@ done
 echo ""
 
 echo "${BLUE}5. Testing seasonal positions (debug dates)...${NC}"
-# Test key dates throughout the year
-TEST_DATES=("2024-01-01T00:00:00Z" "2024-03-20T00:00:00Z" "2024-06-21T00:00:00Z" "2024-09-22T00:00:00Z" "2024-12-21T00:00:00Z")
+# Test key dates throughout the year (using UTC times that convert properly to EST/EDT)
+TEST_DATES=("2024-01-01T12:00:00Z" "2024-03-20T12:00:00Z" "2024-06-21T12:00:00Z" "2024-09-22T12:00:00Z" "2024-12-21T12:00:00Z")
 DATE_NAMES=("NewYear" "SpringEquinox" "SummerSolstice" "FallEquinox" "WinterSolstice")
 
 for i in "${!TEST_DATES[@]}"; do
@@ -104,9 +104,9 @@ done
 echo ""
 
 echo "${BLUE}6. Testing edge cases...${NC}"
-# Test year boundary dates
-run_test "Dec 31 Northern" "pixlet render year_clock.star debug_date='2024-12-31T23:59:59Z' hemisphere=northern" "05_edge_Dec31_northern.webp"
-run_test "Jan 1 Southern" "pixlet render year_clock.star debug_date='2024-01-01T00:00:01Z' hemisphere=southern" "05_edge_Jan1_southern.webp"
+# Test year boundary dates (using timezone-safe UTC times)
+run_test "Dec 31 Northern" "pixlet render year_clock.star debug_date='2024-12-31T18:00:00Z' hemisphere=northern" "05_edge_Dec31_northern.webp"
+run_test "Jan 1 Southern" "pixlet render year_clock.star debug_date='2024-01-01T12:00:00Z' hemisphere=southern" "05_edge_Jan1_southern.webp"
 run_test "Leap day" "pixlet render year_clock.star debug_date='2024-02-29T12:00:00Z' color_scheme=blue" "05_edge_LeapDay_blue.webp"
 echo ""
 

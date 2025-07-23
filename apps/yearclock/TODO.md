@@ -45,17 +45,17 @@
 - [ ] Include screenshots or examples of different states
 - [ ] Document expected behavior for each configuration
 
-### 5. Date Positioning & Overlap Detection
+### 5. Date Positioning & Overlap Detection (WON'T DO)
 
-- [ ] **Evaluate get_date_x_position function** - Currently just returns 1, needs proper logic or deletion
-- [ ] **Smart date positioning** - Detect when dial marker would overlap with date display
-- [ ] **Overlap resolution strategies**:
-  - [ ] Shorten date format when near dial marker (e.g., "Jan 2" → "1/2")
-  - [ ] Move date to opposite side when dial marker is close
-  - [ ] Dynamic Y positioning - move date up/down to avoid overlap
-  - [ ] Hide date temporarily when overlap would occur
-- [ ] **Simple fallback approach** - If dial marker is in last ~15 pixels, shorten date format
-- [ ] **Testing with debug date picker** - Use to test overlap scenarios across the year
+- [-] **Evaluate get_date_x_position function** - Currently just returns 1, needs proper logic or deletion
+- [-] **Smart date positioning** - Detect when dial marker would overlap with date display
+- [-] **Overlap resolution strategies**:
+  - [-] Shorten date format when near dial marker (e.g., "Jan 2" → "1/2")
+  - [-] Move date to opposite side when dial marker is close
+  - [-] Dynamic Y positioning - move date up/down to avoid overlap
+  - [-] Hide date temporarily when overlap would occur
+- [-] **Simple fallback approach** - If dial marker is in last ~15 pixels, shorten date format
+- [-] **Testing with debug date picker** - Use to test overlap scenarios across the year
 
 **Implementation Notes:**
 
@@ -63,6 +63,23 @@
 - Date width varies by format ("Jan 2" vs "December 25")
 - Consider screen real estate (64x32 pixels) when positioning
 - Could be configurable: "Auto-adjust date position" toggle
+
+### 6. Evaluate Timezone/Location Necessity
+
+- [ ] **Review location setting requirement** - Do we really need timezone for date-only display?
+- [ ] **Simplify configuration** - Most users probably never change location/timezone
+- [ ] **Consider alternatives**:
+  - [ ] Remove location requirement entirely (use system/browser timezone)
+  - [ ] Make location optional with sensible default
+  - [ ] Keep location but hide it in "Advanced" section
+- [ ] **Impact assessment** - What breaks if we remove location dependency?
+
+**Implementation Notes:**
+
+- Currently only using timezone for date calculation, not time display
+- Location setting adds complexity for minimal benefit
+- Most users set location once and never change it
+- Could simplify onboarding experience
 
 ## Notes
 

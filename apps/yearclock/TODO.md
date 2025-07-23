@@ -45,6 +45,27 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - **Benefit**: Visual cache of all configurations for design review and regression testing
 - **Note**: `.webp` files already ignored in main `.gitignore` - no additional gitignore entries needed
 
+### 1.9. Create Visual Showcase Page ✅
+
+- [x] ~~Build HTML showcase page to display all test images in organized sections~~ **COMPLETED: showcase.html created**
+- [x] ~~Scale up 64x32 images for better visibility (3x or 4x zoom)~~ **COMPLETED: 4x zoom (256×128)**
+- [x] ~~Group images by test category with clear section headers~~ **COMPLETED: 6 organized sections**
+- [x] ~~Add Tidbyt device frame simulation around images for realistic preview~~ **COMPLETED: 3D device frames with hover effects**
+- [x] ~~Include image filenames and parameter descriptions~~ **COMPLETED: Parameter captions for all images**
+- [x] ~~Make page responsive and easy to navigate~~ **COMPLETED: Responsive grid layout + table of contents**
+- [x] ~~Consider adding side-by-side comparison views for hemisphere differences~~ **COMPLETED: Comparison grids for Rainbow/Grayscale**
+
+**Implementation Notes:**
+
+- **Location**: `temp/showcase.html` - opens directly in browser with `open temp/showcase.html`
+- **Scaling**: Images displayed at 4x size (256×128) with pixelated rendering for crisp edges
+- **Design**: Dark theme with realistic Tidbyt device simulation including bezels, shadows, and screen effects
+- **Organization**: 6 sections - Color Schemes → Hemispheres → Date Display → Seasonal → Edge Cases → Comprehensive
+- **Features**: Table of contents navigation, stats dashboard, hover effects, responsive mobile layout
+- **Parameter Display**: All pixlet parameters shown as monospace captions for easy debugging
+- **Comparison Views**: Side-by-side Rainbow/Grayscale hemisphere comparisons + full grids
+- **Benefits**: Easy visual scanning of all configurations, perfect for design review and regression testing
+
 ### 2. Southern Hemisphere Color Review
 
 - [ ] Review southern hemisphere seasonal color mapping -- This would actually be much easier to do after we can slide the slider around because part of the reason I think that the colors are less optimal in the southern is because you have the right and left side from the northern hemisphere running together with their own colors and maybe they didn't totally lineup, but they kinda looked right on the left and right side of display but when they meet in the middle, maybe they don't look great

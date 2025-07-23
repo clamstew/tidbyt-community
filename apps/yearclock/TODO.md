@@ -8,6 +8,7 @@
 - [x] ~~Allow sliding through different times of year for testing~~ **COMPLETED: Date picker allows selection of any date**
 - [x] ~~Auto-refresh on slider change if possible~~ **COMPLETED: Tidbyt auto-refreshes on config change**
 - [x] ~~Range should cover full year (0-365 days or 0.0-1.0 fraction)~~ **COMPLETED: Date picker covers full year, year doesn't matter for display**
+- [x] ~~Clean up old debug_date_x positioning logic~~ **COMPLETED: Removed unused debug_date_x text field and related code**
 
 **Implementation Notes:**
 
@@ -15,6 +16,7 @@
 - Year value from picker is ignored, only month/day used for seasonal positioning
 - Labeled as "[DEBUG] Test Date" to indicate development/testing purpose
 - Auto-refresh works out of the box with Tidbyt's config system
+- Cleaned up legacy debug_date_x functionality which was replaced by the date picker
 
 ### 2. Southern Hemisphere Color Review
 

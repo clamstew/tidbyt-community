@@ -118,7 +118,7 @@ def main(config):
                 ),
                 # Optional date display in bottom corner
                 render.Padding(
-                    pad = (get_date_x_position(config), 26, 0, 0),
+                    pad = (get_date_x_position(), 26, 0, 0),
                     child = render.Text(
                         content = now.format("Jan 2"),
                         font = "tom-thumb",
@@ -139,11 +139,8 @@ def get_date_color(hemisphere):
     else:
         return "#FFFFFF"  # White text works well on southern summer (darker colors)
 
-def get_date_x_position(config):
-    """Get X position for date, with debug override if available"""
-    debug_x = config.get("debug_date_x")
-    if debug_x and debug_x.isdigit():
-        return int(debug_x)
+def get_date_x_position():
+    """Get X position for date"""
 
     # Default position - left side for now
     # TODO: Add overlap detection later
@@ -260,13 +257,6 @@ def get_schema():
                 name = "[DEBUG] Test Date",
                 desc = "Pick a date to preview colors (year doesn't matter)",
                 icon = "calendar",
-            ),
-            schema.Text(
-                id = "debug_date_x",
-                name = "[DEBUG] Date X Position",
-                desc = "Override date X position (0-57, dev only)",
-                icon = "sliders",
-                default = "",
             ),
         ],
     )

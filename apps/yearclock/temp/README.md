@@ -2,6 +2,36 @@
 
 This directory contains automatically generated test images from the Year Clock app test harness. All images are 64x32 pixels and show different configuration combinations.
 
+## 🚀 Generating Images
+
+Run the test harness from the parent directory to regenerate all images:
+
+### Quick Image Generation (Recommended)
+
+```bash
+../test_harness.sh -W
+# or
+../test_harness.sh --write-only
+```
+
+**Benefits**: Fast execution, skips code validation checks, focuses only on image generation (55 tests).
+
+### Full Test Suite
+
+```bash
+../test_harness.sh
+```
+
+**Benefits**: Complete validation including code quality checks, slower but comprehensive (57 tests).
+
+### Help
+
+```bash
+../test_harness.sh --help
+```
+
+**Note**: Use `-W` flag when iterating on visual changes to avoid lint/format failures that don't affect image output.
+
 ## File Naming Convention
 
 Images are organized by test category with descriptive filenames:

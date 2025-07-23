@@ -44,6 +44,8 @@
         font-size: 3.5em;
         font-weight: 700;
         margin-bottom: 10px;
+      }
+      .header h1 span {
         background: linear-gradient(45deg, #ffffff, #f8fafc);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -205,7 +207,10 @@
   <body>
     <div class="container">
       <div class="header">
-        <h1>🌈 Year Clock Showcase</h1>
+        <h1>
+          🌈
+          <span> Year Clock Showcase </span>
+        </h1>
         <p>
           Comprehensive visual testing gallery for all color schemes,
           hemispheres, and configurations
@@ -221,9 +226,9 @@
       <div class="regeneration-info">
         <h3>🔄 Regenerating Images</h3>
         <p>
-          Run <code>./test_harness.sh -W</code> to regenerate all images. (Use
-          <code>./test_harness.sh</code> to regenerate all images with sanity
-          checks.)
+          Run <code>./test_harness.sh -W</code> to regenerate all images.<br />
+          (Use <code>./test_harness.sh</code> to regenerate all images with
+          sanity checks.)
         </p>
       </div>
 

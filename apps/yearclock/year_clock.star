@@ -285,11 +285,11 @@ def get_gradient_color(position, color_scheme, hemisphere):
     if hemisphere == "southern":
         position = (position + 0.5) % 1.0
 
-    # Take only the bright half of the palette (center portion)
-    # For a 12-color palette, use colors 3-8 (the bright summer colors)
+    # Take a blue-weighted portion of the palette (more cool colors, less intense warm)
+    # For a 12-color palette, use colors 2-7 (includes more blues, less intense oranges)
     palette_length = len(color_stops)
-    bright_start = palette_length // 4  # Start at 25% through palette
-    bright_end = (3 * palette_length) // 4  # End at 75% through palette
+    bright_start = max(1, palette_length // 6)  # Start earlier to include more blues
+    bright_end = bright_start + (palette_length // 2)  # Take about half the palette
     bright_colors = color_stops[bright_start:bright_end + 1]
 
     # Create mirrored gradient: bright colors in center, darker colors on edges

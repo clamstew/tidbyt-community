@@ -3,8 +3,37 @@
 # Year Clock Test Harness
 # Tests all configuration permutations to ensure everything works properly
 
+# Parse command line flags
+WRITE_ONLY=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -W|--write-only)
+            WRITE_ONLY=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [OPTIONS]"
+            echo ""
+            echo "Options:"
+            echo "  -W, --write-only    Skip sanity checks, only generate images"
+            echo "  -h, --help         Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Use -h or --help for usage information"
+            exit 1
+            ;;
+    esac
+done
+
 echo "🌈 Year Clock Test Harness"
 echo "=========================="
+if [ "$WRITE_ONLY" = true ]; then
+    echo "Mode: Write-only (skipping sanity checks)"
+else
+    echo "Mode: Full test suite (including sanity checks)"
+fi
 echo ""
 
 # Colors for output
@@ -47,8 +76,12 @@ run_test() {
 }
 
 echo "${BLUE}1. Running sanity checks...${NC}"
-run_test "pixlet check" "pixlet check year_clock.star"
-run_test "pixlet format check" "pixlet format --dry-run year_clock.star"
+if [ "$WRITE_ONLY" = true ]; then
+    echo "Skipping sanity checks (write-only mode)"
+else
+    run_test "pixlet check" "pixlet check year_clock.star"
+    run_test "pixlet format check" "pixlet format --dry-run year_clock.star"
+fi
 echo ""
 
 echo "${BLUE}2. Testing all color schemes...${NC}"

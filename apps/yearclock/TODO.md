@@ -46,6 +46,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - **Result: All 57 tests passing! 🎉**
 - **Benefit**: Visual cache of all configurations for design review and regression testing
 - **Note**: `.webp` files already ignored in main `.gitignore` - no additional gitignore entries needed
+- **Enhanced**: Added CLI flags: `-W/--write-only` skips sanity checks for fast image generation, `-h/--help` shows usage
 
 ### 1.9. Create Visual Showcase Page ✅
 

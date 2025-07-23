@@ -101,6 +101,21 @@ PURPLE_PALETTE = [
     "#2D0033",  # Very Dark Purple (back to start)
 ]
 
+THERMAL_PALETTE = [
+    "#0D1B2A",  # Deep winter blue (coldest)
+    "#1B263B",  # Dark blue
+    "#415A77",  # Steel blue
+    "#778DA9",  # Light blue
+    "#A2C4E0",  # Pale blue (cool spring)
+    "#7209B7",  # Cool purple (transition)
+    "#F72585",  # Hot pink (warming)
+    "#FF8500",  # Hot orange (peak heat)
+    "#FF0000",  # Pure red (maximum heat)
+    "#8B0000",  # Dark red (late summer)
+    "#2E1A47",  # Deep purple (cooling)
+    "#0D1B2A",  # Deep winter blue (back to coldest)
+]
+
 DEFAULT_LOCATION = """
 {
 	"lat": "40.6781784",
@@ -229,6 +244,8 @@ def get_date_color(color_scheme, hemisphere):
             return "#000000"  # Black text for better contrast on summer yellows/oranges
         else:
             return "#FFFFFF"  # White text works well on southern summer (darker colors)
+    elif color_scheme == "thermal":
+        return "#FFFFFF"  # White text for contrast on thermal colors (mostly reds/blues)
     elif color_scheme == "grayscale":
         return "#000000"  # Black text for contrast on gray gradients
     elif color_scheme == "red":
@@ -253,6 +270,8 @@ def get_color_palette(color_scheme):
     """Get the color palette for a given color scheme"""
     if color_scheme == "rainbow":
         return RAINBOW_PALETTE
+    elif color_scheme == "thermal":
+        return THERMAL_PALETTE
     elif color_scheme == "grayscale":
         return GRAYSCALE_PALETTE
     elif color_scheme == "red":
@@ -359,6 +378,10 @@ def get_schema():
         schema.Option(
             display = "Rainbow",
             value = "rainbow",
+        ),
+        schema.Option(
+            display = "Thermal",
+            value = "thermal",
         ),
         schema.Option(
             display = "Grayscale",

@@ -85,7 +85,7 @@ fi
 echo ""
 
 echo "${BLUE}2. Testing all color schemes...${NC}"
-COLOR_SCHEMES=("rainbow" "grayscale" "red" "blue" "green" "purple")
+COLOR_SCHEMES=("rainbow" "thermal" "grayscale" "red" "blue" "green" "purple")
 for scheme in "${COLOR_SCHEMES[@]}"; do
     run_test "Color scheme: $scheme" "pixlet render year_clock.star color_scheme=$scheme" "01_colorscheme_${scheme}.webp"
 done

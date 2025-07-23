@@ -87,7 +87,7 @@
 - [ ] **St. Patrick's Day (Mar 17)** - Override to all-green spectrum
 - [ ] **Halloween (Oct 31)** - Override to orange/black gradient
 - [ ] **Christmas (Dec 25)** - Override to red/green alternating or gradient
-- [ ] **New Year's Eve/Day (Dec 31/Jan 1)** - Gold/silver gradient or sparkle effect
+- [ ] **New Year's Eve/Day (Dec 31/Jan 1)** - Gold/silver gradient or sparkle effect (love)
 
 ### Advanced Fun Features
 

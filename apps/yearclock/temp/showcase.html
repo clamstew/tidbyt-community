@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Year Clock - Visual Showcase</title>
+    <title>Year Clock - Test Showcase</title>
     <style>
       * {
         margin: 0;
@@ -12,1411 +12,645 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-          sans-serif;
-        background: #1a1a1a;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, sans-serif;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         color: #ffffff;
         line-height: 1.6;
-        padding: 20px;
+        min-height: 100vh;
       }
 
       .container {
-        max-width: 1400px;
+        max-width: 1200px;
         margin: 0 auto;
+        padding: 20px;
       }
 
       .header {
         text-align: center;
         margin-bottom: 40px;
-        padding: 20px;
-        background: linear-gradient(135deg, #4169e1, #ff8c00);
-        border-radius: 15px;
-        color: white;
+        background: linear-gradient(
+          135deg,
+          #4f46e5 0%,
+          #7c3aed 50%,
+          #ec4899 100%
+        );
+        padding: 40px 20px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       }
 
       .header h1 {
-        font-size: 2.5em;
+        font-size: 3.5em;
+        font-weight: 700;
         margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(45deg, #ffffff, #f8fafc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .header p {
-        font-size: 1.2em;
+        font-size: 1.3em;
         opacity: 0.9;
-      }
-
-      .section {
-        margin-bottom: 50px;
-        background: #2a2a2a;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      }
-
-      .section-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 30px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #444;
-      }
-
-      .section-header h2 {
-        font-size: 1.8em;
-        margin-left: 15px;
-        color: #ffffff;
-      }
-
-      .section-header .emoji {
-        font-size: 2em;
-      }
-
-      .section-description {
-        margin-bottom: 25px;
-        color: #cccccc;
-        font-size: 1.1em;
-      }
-
-      .image-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        gap: 25px;
-        justify-items: stretch;
-        align-items: stretch;
-      }
-
-      .image-grid .tidbyt-device {
-        min-height: 320px;
-        width: 100%;
-      }
-
-      .compact-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 20px;
-        justify-items: stretch;
-        align-items: stretch;
-      }
-
-      .compact-grid .tidbyt-device {
-        padding: 20px;
-        min-height: 280px;
-        width: 100%;
-      }
-
-      .compact-grid .device-screen {
-        padding: 15px;
-      }
-
-      .compact-grid .device-params {
-        min-height: 2em;
-        font-size: 0.8em;
-      }
-
-      .tidbyt-device {
-        background: #1a1a1a;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 0 0 3px #333, 0 0 0 6px #555,
-          0 10px 30px rgba(0, 0, 0, 0.5),
-          inset 0 0 20px rgba(255, 255, 255, 0.1);
-        position: relative;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-      }
-
-      .tidbyt-device:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 0 3px #444, 0 0 0 6px #666,
-          0 15px 40px rgba(0, 0, 0, 0.6),
-          inset 0 0 20px rgba(255, 255, 255, 0.15);
-      }
-
-      .device-screen {
-        background: transparent;
-        border-radius: 8px;
-        padding: 20px;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .device-screen::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          45deg,
-          transparent 45%,
-          rgba(255, 255, 255, 0.03) 50%,
-          transparent 55%
-        );
-        pointer-events: none;
-      }
-
-      .device-image {
-        width: 100%;
-        max-width: 320px;
-        height: auto;
-        aspect-ratio: 2/1;
-        image-rendering: pixelated;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: crisp-edges;
-        display: block;
-        border-radius: 4px;
-        object-fit: contain;
-      }
-
-      .device-info {
-        margin-top: 15px;
-        text-align: center;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .device-title {
-        font-weight: 600;
-        color: #ffffff;
-        font-size: 1em;
-        margin-bottom: 8px;
-      }
-
-      .device-params {
-        font-family: "Monaco", "Menlo", monospace;
-        font-size: 0.85em;
-        color: #888;
-        background: #1a1a1a;
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: 1px solid #333;
-        word-break: break-all;
-        min-height: 2.5em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .comparison-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-bottom: 20px;
-        justify-items: stretch;
-        align-items: stretch;
+        max-width: 600px;
+        margin: 0 auto;
       }
 
       .stats {
-        background: #333;
-        padding: 20px;
-        border-radius: 10px;
+        margin: 40px 0;
         text-align: center;
-        margin-bottom: 30px;
       }
 
       .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 20px;
+        max-width: 800px;
+        margin: 0 auto;
       }
 
       .stat-item {
-        background: #444;
-        padding: 15px;
-        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
       }
 
       .stat-number {
-        font-size: 2em;
-        font-weight: bold;
-        color: #4169e1;
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #60a5fa;
+        margin-bottom: 5px;
       }
 
       .stat-label {
-        color: #ccc;
-        font-size: 0.9em;
+        font-size: 1.1em;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
-      @media (max-width: 768px) {
-        .image-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .compact-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .comparison-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .device-image {
-          max-width: 280px;
-        }
-
-        .device-screen {
-          padding: 15px;
-        }
-      }
-
-      .toc {
-        background: #2a2a2a;
-        border-radius: 10px;
+      .regeneration-info {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        border-radius: 12px;
         padding: 20px;
+        margin: 30px 0;
+        text-align: center;
+      }
+
+      .regeneration-info h3 {
+        color: #22c55e;
+        margin-bottom: 10px;
+      }
+
+      .section {
+        margin: 60px 0;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 40px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .section h2 {
+        font-size: 2.2em;
         margin-bottom: 30px;
+        text-align: center;
+        background: linear-gradient(45deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
-      .toc h3 {
+      .section h3 {
+        font-size: 1.5em;
+        margin: 30px 0 20px 0;
+        color: #fbbf24;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+
+      .device-container {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 25px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .device-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
+
+      .tidbyt-device {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+        border-radius: 8px;
         margin-bottom: 15px;
-        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
       }
 
-      .toc ul {
-        list-style: none;
-        columns: 2;
-        gap: 20px;
+      .device-label {
+        font-weight: 600;
+        font-size: 1.1em;
+        color: #e2e8f0;
+        margin-bottom: 5px;
       }
 
-      .toc a {
-        color: #4169e1;
-        text-decoration: none;
-        display: block;
-        padding: 5px 0;
-        transition: color 0.3s ease;
+      .device-description {
+        font-size: 0.9em;
+        opacity: 0.7;
+        color: #cbd5e1;
       }
 
-      .toc a:hover {
-        color: #ff8c00;
+      code {
+        background: #1a1a1a;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "SF Mono", Monaco, "Consolas", monospace;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px;
+        font-size: 1.2em;
+        color: #60a5fa;
+      }
+
+      .error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        color: #fca5a5;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>🌈 Year Clock Visual Showcase</h1>
+        <h1>🌈 Year Clock Showcase</h1>
         <p>
-          Comprehensive visual test results for all configuration combinations
+          Comprehensive visual testing gallery for all color schemes,
+          hemispheres, and configurations
         </p>
       </div>
 
       <div class="stats">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-number">60</div>
-            <div class="stat-label">Test Cases</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">87</div>
-            <div class="stat-label">Images Generated</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">7</div>
-            <div class="stat-label">Color Schemes</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">2</div>
-            <div class="stat-label">Hemispheres</div>
-          </div>
+        <div class="stats-grid" id="stats-grid">
+          <div class="loading">Loading statistics...</div>
         </div>
       </div>
 
-      <div class="toc">
-        <h3>📋 Table of Contents</h3>
-        <ul>
-          <li><a href="#colorschemes">🎨 Color Schemes</a></li>
-          <li><a href="#hemispheres">🌍 Hemisphere Combinations</a></li>
-          <li><a href="#dates">📅 Date Display Tests</a></li>
-          <li><a href="#seasonal">🗓️ Seasonal Positioning</a></li>
-          <li><a href="#edge">⚠️ Edge Cases</a></li>
-          <li><a href="#comprehensive">🔧 Comprehensive Tests</a></li>
-        </ul>
-      </div>
-
-      <!-- Color Schemes Section -->
-      <div class="section" id="colorschemes">
-        <div class="section-header">
-          <span class="emoji">🎨</span>
-          <h2>Color Schemes (7 variations)</h2>
-        </div>
-        <div class="section-description">
-          Basic color palette tests showing each gradient with default settings
-          (Northern hemisphere, no date display).
-        </div>
-        <div class="compact-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_rainbow.webp"
-                alt="Rainbow"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Rainbow (Default)</div>
-              <div class="device-params">color_scheme=rainbow</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_thermal.webp"
-                alt="Thermal"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Thermal Rainbow</div>
-              <div class="device-params">color_scheme=thermal</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_grayscale.webp"
-                alt="Grayscale"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Grayscale</div>
-              <div class="device-params">color_scheme=grayscale</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_red.webp"
-                alt="Red"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red Gradient</div>
-              <div class="device-params">color_scheme=red</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_blue.webp"
-                alt="Blue"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Blue Gradient</div>
-              <div class="device-params">color_scheme=blue</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_green.webp"
-                alt="Green"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Green Gradient</div>
-              <div class="device-params">color_scheme=green</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="01_colorscheme_purple.webp"
-                alt="Purple"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Purple Gradient</div>
-              <div class="device-params">color_scheme=purple</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hemisphere Comparisons Section -->
-      <div class="section" id="hemispheres">
-        <div class="section-header">
-          <span class="emoji">🌍</span>
-          <h2>Hemisphere Combinations (14 variations)</h2>
-        </div>
-        <div class="section-description">
-          Comparing Northern vs Southern hemisphere seasonal positioning for
-          each color scheme. Southern hemisphere shifts colors by 6 months.
-        </div>
-
-        <!-- Rainbow Comparison -->
-        <h3 style="color: #fff; margin: 30px 0 20px 0">Rainbow Comparison</h3>
-        <div class="comparison-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_rainbow_northern.webp"
-                alt="Rainbow Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Northern Hemisphere</div>
-              <div class="device-params">
-                color_scheme=rainbow hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_rainbow_southern.webp"
-                alt="Rainbow Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Southern Hemisphere</div>
-              <div class="device-params">
-                color_scheme=rainbow hemisphere=southern
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Thermal Comparison -->
-        <h3 style="color: #fff; margin: 30px 0 20px 0">Thermal Comparison</h3>
-        <div class="comparison-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_thermal_northern.webp"
-                alt="Thermal Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Northern Hemisphere</div>
-              <div class="device-params">
-                color_scheme=thermal hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_thermal_southern.webp"
-                alt="Thermal Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Southern Hemisphere</div>
-              <div class="device-params">
-                color_scheme=thermal hemisphere=southern
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Grayscale Comparison -->
-        <h3 style="color: #fff; margin: 30px 0 20px 0">Grayscale Comparison</h3>
-        <div class="comparison-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_grayscale_northern.webp"
-                alt="Grayscale Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Northern Hemisphere</div>
-              <div class="device-params">
-                color_scheme=grayscale hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_grayscale_southern.webp"
-                alt="Grayscale Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Southern Hemisphere</div>
-              <div class="device-params">
-                color_scheme=grayscale hemisphere=southern
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- All Other Hemispheres in Grid -->
-        <h3 style="color: #fff; margin: 30px 0 20px 0">
-          All Other Hemisphere Combinations
-        </h3>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_thermal_northern.webp"
-                alt="Thermal Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Thermal Northern</div>
-              <div class="device-params">
-                color_scheme=thermal hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_thermal_southern.webp"
-                alt="Thermal Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Thermal Southern</div>
-              <div class="device-params">
-                color_scheme=thermal hemisphere=southern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_red_northern.webp"
-                alt="Red Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red Northern</div>
-              <div class="device-params">
-                color_scheme=red hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_red_southern.webp"
-                alt="Red Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red Southern</div>
-              <div class="device-params">
-                color_scheme=red hemisphere=southern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_blue_northern.webp"
-                alt="Blue Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Blue Northern</div>
-              <div class="device-params">
-                color_scheme=blue hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_blue_southern.webp"
-                alt="Blue Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Blue Southern</div>
-              <div class="device-params">
-                color_scheme=blue hemisphere=southern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_green_northern.webp"
-                alt="Green Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Green Northern</div>
-              <div class="device-params">
-                color_scheme=green hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_green_southern.webp"
-                alt="Green Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Green Southern</div>
-              <div class="device-params">
-                color_scheme=green hemisphere=southern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_purple_northern.webp"
-                alt="Purple Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Purple Northern</div>
-              <div class="device-params">
-                color_scheme=purple hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="02_hemisphere_purple_southern.webp"
-                alt="Purple Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Purple Southern</div>
-              <div class="device-params">
-                color_scheme=purple hemisphere=southern
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Date Display Section -->
-      <div class="section" id="dates">
-        <div class="section-header">
-          <span class="emoji">📅</span>
-          <h2>Date Display Tests (14 variations)</h2>
-        </div>
-        <div class="section-description">
-          Testing text contrast with date display enabled. Validates that date
-          text color provides optimal readability against each color scheme
-          background.
-        </div>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_rainbow_northern.webp"
-                alt="Rainbow Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Rainbow Northern + Date</div>
-              <div class="device-params">
-                color_scheme=rainbow hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_rainbow_southern.webp"
-                alt="Rainbow Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Rainbow Southern + Date</div>
-              <div class="device-params">
-                color_scheme=rainbow hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_thermal_northern.webp"
-                alt="Thermal Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Thermal Northern + Date</div>
-              <div class="device-params">
-                color_scheme=thermal hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_thermal_southern.webp"
-                alt="Thermal Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Thermal Southern + Date</div>
-              <div class="device-params">
-                color_scheme=thermal hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_grayscale_northern.webp"
-                alt="Grayscale Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Grayscale Northern + Date</div>
-              <div class="device-params">
-                color_scheme=grayscale hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_grayscale_southern.webp"
-                alt="Grayscale Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Grayscale Southern + Date</div>
-              <div class="device-params">
-                color_scheme=grayscale hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_red_northern.webp"
-                alt="Red Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red Northern + Date</div>
-              <div class="device-params">
-                color_scheme=red hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_red_southern.webp"
-                alt="Red Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red Southern + Date</div>
-              <div class="device-params">
-                color_scheme=red hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_blue_northern.webp"
-                alt="Blue Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Blue Northern + Date</div>
-              <div class="device-params">
-                color_scheme=blue hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_blue_southern.webp"
-                alt="Blue Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Blue Southern + Date</div>
-              <div class="device-params">
-                color_scheme=blue hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_green_northern.webp"
-                alt="Green Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Green Northern + Date</div>
-              <div class="device-params">
-                color_scheme=green hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_green_southern.webp"
-                alt="Green Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Green Southern + Date</div>
-              <div class="device-params">
-                color_scheme=green hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_purple_northern.webp"
-                alt="Purple Northern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Purple Northern + Date</div>
-              <div class="device-params">
-                color_scheme=purple hemisphere=northern show_date=true
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_date_purple_southern.webp"
-                alt="Purple Southern Date"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Purple Southern + Date</div>
-              <div class="device-params">
-                color_scheme=purple hemisphere=southern show_date=true
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Date Overlap Tests -->
-        <h3 style="color: #fff; margin: 30px 0 20px 0">
-          Date Display Overlap Tests (February)
-        </h3>
-        <div
-          class="section-description"
-          style="margin-bottom: 25px; color: #aaa; font-size: 1em"
-        >
-          Testing scenarios where the dial marker could potentially overlap with
-          the date display text (early in year).
-        </div>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_rainbow_Feb1.webp"
-                alt="Rainbow Feb 1 Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Rainbow - Feb 1 Overlap Test</div>
-              <div class="device-params">
-                color_scheme=rainbow show_date=true
-                debug_date='2024-02-01T00:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_rainbow_ValentinesDay.webp"
-                alt="Rainbow Valentine's Day Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">
-                Rainbow - Valentine's Day Overlap Test
-              </div>
-              <div class="device-params">
-                color_scheme=rainbow show_date=true
-                debug_date='2024-02-14T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_rainbow_LeapDay.webp"
-                alt="Rainbow Leap Day Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Rainbow - Leap Day Overlap Test</div>
-              <div class="device-params">
-                color_scheme=rainbow show_date=true
-                debug_date='2024-02-29T23:59:59Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_grayscale_Feb1.webp"
-                alt="Grayscale Feb 1 Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Grayscale - Feb 1 Overlap Test</div>
-              <div class="device-params">
-                color_scheme=grayscale show_date=true
-                debug_date='2024-02-01T00:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_grayscale_ValentinesDay.webp"
-                alt="Grayscale Valentine's Day Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">
-                Grayscale - Valentine's Day Overlap Test
-              </div>
-              <div class="device-params">
-                color_scheme=grayscale show_date=true
-                debug_date='2024-02-14T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_grayscale_LeapDay.webp"
-                alt="Grayscale Leap Day Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Grayscale - Leap Day Overlap Test</div>
-              <div class="device-params">
-                color_scheme=grayscale show_date=true
-                debug_date='2024-02-29T23:59:59Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_red_Feb1.webp"
-                alt="Red Feb 1 Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red - Feb 1 Overlap Test</div>
-              <div class="device-params">
-                color_scheme=red show_date=true
-                debug_date='2024-02-01T00:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_red_ValentinesDay.webp"
-                alt="Red Valentine's Day Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red - Valentine's Day Overlap Test</div>
-              <div class="device-params">
-                color_scheme=red show_date=true
-                debug_date='2024-02-14T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="03_overlap_red_LeapDay.webp"
-                alt="Red Leap Day Overlap"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Red - Leap Day Overlap Test</div>
-              <div class="device-params">
-                color_scheme=red show_date=true
-                debug_date='2024-02-29T23:59:59Z'
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Seasonal Positioning Section -->
-      <div class="section" id="seasonal">
-        <div class="section-header">
-          <span class="emoji">🗓️</span>
-          <h2>Seasonal Positioning (10 variations)</h2>
-        </div>
-        <div class="section-description">
-          Testing dial marker position at key seasonal dates throughout the
-          year. Shows how the white dial moves across the gradient as seasons
-          change.
-        </div>
-
-        <h3 style="color: #fff; margin: 30px 0 20px 0">
-          Rainbow Seasonal Progression
-        </h3>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_rainbow_NewYear.webp"
-                alt="New Year"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">New Year (Jan 1)</div>
-              <div class="device-params">debug_date='2024-01-01T12:00:00Z'</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_rainbow_SpringEquinox.webp"
-                alt="Spring Equinox"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Spring Equinox (Mar 20)</div>
-              <div class="device-params">debug_date='2024-03-20T12:00:00Z'</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_rainbow_SummerSolstice.webp"
-                alt="Summer Solstice"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Summer Solstice (Jun 21)</div>
-              <div class="device-params">debug_date='2024-06-21T12:00:00Z'</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_rainbow_FallEquinox.webp"
-                alt="Fall Equinox"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Fall Equinox (Sep 22)</div>
-              <div class="device-params">debug_date='2024-09-22T12:00:00Z'</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_rainbow_WinterSolstice.webp"
-                alt="Winter Solstice"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Winter Solstice (Dec 21)</div>
-              <div class="device-params">debug_date='2024-12-21T12:00:00Z'</div>
-            </div>
-          </div>
-        </div>
-
-        <h3 style="color: #fff; margin: 30px 0 20px 0">
-          Grayscale Seasonal Progression
-        </h3>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_grayscale_NewYear.webp"
-                alt="New Year Grayscale"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">New Year (Jan 1)</div>
-              <div class="device-params">
-                color_scheme=grayscale debug_date='2024-01-01T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_grayscale_SpringEquinox.webp"
-                alt="Spring Equinox Grayscale"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Spring Equinox (Mar 20)</div>
-              <div class="device-params">
-                color_scheme=grayscale debug_date='2024-03-20T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_grayscale_SummerSolstice.webp"
-                alt="Summer Solstice Grayscale"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Summer Solstice (Jun 21)</div>
-              <div class="device-params">
-                color_scheme=grayscale debug_date='2024-06-21T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_grayscale_FallEquinox.webp"
-                alt="Fall Equinox Grayscale"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Fall Equinox (Sep 22)</div>
-              <div class="device-params">
-                color_scheme=grayscale debug_date='2024-09-22T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="04_seasonal_grayscale_WinterSolstice.webp"
-                alt="Winter Solstice Grayscale"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Winter Solstice (Dec 21)</div>
-              <div class="device-params">
-                color_scheme=grayscale debug_date='2024-12-21T12:00:00Z'
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Edge Cases Section -->
-      <div class="section" id="edge">
-        <div class="section-header">
-          <span class="emoji">⚠️</span>
-          <h2>Edge Cases (3 variations)</h2>
-        </div>
-        <div class="section-description">
-          Testing boundary conditions and special dates to ensure the app
-          handles edge cases correctly.
-        </div>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="05_edge_Dec31_northern.webp"
-                alt="Dec 31 Northern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Year End - Dec 31 Northern</div>
-              <div class="device-params">
-                debug_date='2024-12-31T18:00:00Z' hemisphere=northern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="05_edge_Jan1_southern.webp"
-                alt="Jan 1 Southern"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Year Start - Jan 1 Southern</div>
-              <div class="device-params">
-                debug_date='2024-01-01T12:00:00Z' hemisphere=southern
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="05_edge_LeapDay_blue.webp"
-                alt="Leap Day Blue"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Leap Day - Feb 29 Blue</div>
-              <div class="device-params">
-                debug_date='2024-02-29T12:00:00Z' color_scheme=blue
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Comprehensive Tests Section -->
-      <div class="section" id="comprehensive">
-        <div class="section-header">
-          <span class="emoji">🔧</span>
-          <h2>Comprehensive Tests (3 variations)</h2>
-        </div>
-        <div class="section-description">
-          Complex configuration combinations testing multiple features together
-          and extreme scenarios.
-        </div>
-        <div class="image-grid">
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="06_comprehensive_all_options.webp"
-                alt="All Options"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">All Options Enabled</div>
-              <div class="device-params">
-                color_scheme=purple hemisphere=southern show_date=true
-                debug_date='2024-07-04T12:00:00Z'
-              </div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="06_comprehensive_minimal.webp"
-                alt="Minimal Options"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Minimal Options (Defaults)</div>
-              <div class="device-params">(no parameters - all defaults)</div>
-            </div>
-          </div>
-          <div class="tidbyt-device">
-            <div class="device-screen">
-              <img
-                src="06_comprehensive_contrast.webp"
-                alt="Max Contrast"
-                class="device-image"
-              />
-            </div>
-            <div class="device-info">
-              <div class="device-title">Maximum Contrast Test</div>
-              <div class="device-params">
-                color_scheme=grayscale show_date=true
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        style="
-          text-align: center;
-          margin-top: 50px;
-          padding: 30px;
-          background: #2a2a2a;
-          border-radius: 15px;
-          color: #888;
-        "
-      >
+      <div class="regeneration-info">
+        <h3>🔄 Regenerating Images</h3>
         <p>
-          Generated by Year Clock Test Harness • Total: 55 images covering 57
-          test cases
+          Run <code>./test_harness.sh -W</code> to regenerate all images. (Use
+          <code>./test_harness.sh</code> to regenerate all images with sanity
+          checks.)
         </p>
-        <p style="margin-top: 10px">
-          Run
-          <code
-            style="background: #1a1a1a; padding: 2px 6px; border-radius: 4px"
-            >./test_harness.sh -W</code
-          >
-          to regenerate all images. (Use
-          <code
-            style="background: #1a1a1a; padding: 2px 6px; border-radius: 4px"
-            >./test_harness.sh</code
-          >
-          to regenerate all images with sanity checks.)
-        </p>
+      </div>
+
+      <div id="main-content">
+        <div class="loading">Loading showcase content...</div>
       </div>
     </div>
+
+    <script>
+      // Configuration data - easy to maintain!
+      const CONFIG = {
+        colorSchemes: [
+          {
+            value: "rainbow",
+            display: "Rainbow",
+            description: "Classic rainbow gradient with seasonal colors",
+          },
+          {
+            value: "thermal",
+            display: "Thermal",
+            description: "Temperature-accurate blue-to-red thermal mapping",
+          },
+          {
+            value: "grayscale",
+            display: "Grayscale",
+            description: "Monochrome gradient from black to white",
+          },
+          {
+            value: "red",
+            display: "Red",
+            description: "Warm red tones throughout the year",
+          },
+          {
+            value: "blue",
+            display: "Blue",
+            description: "Cool blue tones throughout the year",
+          },
+          {
+            value: "green",
+            display: "Green",
+            description: "Natural green tones throughout the year",
+          },
+          {
+            value: "purple",
+            display: "Purple",
+            description: "Rich purple tones throughout the year",
+          },
+        ],
+        hemispheres: ["northern", "southern"],
+        specialTests: [
+          {
+            key: "Feb1",
+            display: "February 1st",
+            description: "Early year positioning",
+          },
+          {
+            key: "ValentinesDay",
+            display: "Valentine's Day",
+            description: "Mid-February date display",
+          },
+          {
+            key: "LeapDay",
+            display: "Leap Day",
+            description: "February 29th special case",
+          },
+        ],
+        seasonalTests: [
+          {
+            key: "NewYear",
+            display: "New Year",
+            description: "January 1st - year beginning",
+          },
+          {
+            key: "SpringEquinox",
+            display: "Spring Equinox",
+            description: "March 20th - spring begins",
+          },
+          {
+            key: "SummerSolstice",
+            display: "Summer Solstice",
+            description: "June 21st - longest day",
+          },
+          {
+            key: "FallEquinox",
+            display: "Fall Equinox",
+            description: "September 22nd - autumn begins",
+          },
+          {
+            key: "WinterSolstice",
+            display: "Winter Solstice",
+            description: "December 21st - shortest day",
+          },
+        ],
+      };
+
+      // Image checking utility
+      async function imageExists(src) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = src;
+        });
+      }
+
+      // Statistics calculation
+      async function calculateStats() {
+        const stats = {
+          colorSchemes: CONFIG.colorSchemes.length,
+          hemispheres: CONFIG.hemispheres.length,
+          testCases: 0,
+          imagesGenerated: 0,
+        };
+
+        // Count different test categories
+        const categories = [
+          { pattern: "01_colorscheme_", count: CONFIG.colorSchemes.length },
+          {
+            pattern: "02_hemisphere_",
+            count: CONFIG.colorSchemes.length * CONFIG.hemispheres.length,
+          },
+          {
+            pattern: "03_date_",
+            count: CONFIG.colorSchemes.length * CONFIG.hemispheres.length,
+          },
+          { pattern: "03_overlap_", count: CONFIG.specialTests.length * 3 }, // rainbow, grayscale, red
+          { pattern: "04_seasonal_", count: CONFIG.seasonalTests.length * 2 }, // rainbow, grayscale
+          { pattern: "05_edge_", count: 3 }, // Dec31, Jan1, LeapDay
+          { pattern: "06_comprehensive_", count: 3 }, // all_options, minimal, contrast
+        ];
+
+        for (const category of categories) {
+          stats.testCases += category.count;
+        }
+
+        // Count actual images by checking a few key ones
+        let imageCount = 0;
+        for (const scheme of CONFIG.colorSchemes) {
+          if (await imageExists(`01_colorscheme_${scheme.value}.webp`)) {
+            imageCount++;
+          }
+        }
+
+        // Estimate total based on successful basic scheme check
+        if (imageCount === CONFIG.colorSchemes.length) {
+          stats.imagesGenerated = stats.testCases;
+        } else {
+          stats.imagesGenerated = imageCount; // Fallback to what we can confirm
+        }
+
+        return stats;
+      }
+
+      // Render statistics
+      function renderStats(stats) {
+        const statsGrid = document.getElementById("stats-grid");
+        statsGrid.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-number">${stats.testCases}</div>
+                    <div class="stat-label">Test Cases</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.imagesGenerated}</div>
+                    <div class="stat-label">Images Generated</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.colorSchemes}</div>
+                    <div class="stat-label">Color Schemes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.hemispheres}</div>
+                    <div class="stat-label">Hemispheres</div>
+                </div>
+            `;
+      }
+
+      // Generate device HTML
+      function createDevice(imagePath, label, description = "") {
+        return `
+                <div class="device-container">
+                    <img src="${imagePath}" alt="${label}" class="tidbyt-device" 
+                         onerror="this.style.opacity='0.3'; this.parentNode.style.border='1px solid #ef4444';">
+                    <div class="device-label">${label}</div>
+                    ${
+                      description
+                        ? `<div class="device-description">${description}</div>`
+                        : ""
+                    }
+                </div>
+            `;
+      }
+
+      // Generate main content
+      function renderContent() {
+        const content = document.getElementById("main-content");
+
+        let html = `
+                <!-- Color Schemes Overview -->
+                <div class="section">
+                    <h2>Color Schemes (${CONFIG.colorSchemes.length} variations)</h2>
+                    <div class="grid">
+            `;
+
+        CONFIG.colorSchemes.forEach((scheme) => {
+          html += createDevice(
+            `01_colorscheme_${scheme.value}.webp`,
+            scheme.display,
+            scheme.description
+          );
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Hemisphere Combinations -->
+                <div class="section">
+                    <h2>Hemisphere Combinations (${
+                      CONFIG.colorSchemes.length * CONFIG.hemispheres.length
+                    } variations)</h2>
+                    
+                    <h3>Featured Comparisons</h3>
+                    <div class="grid grid-2">
+                        <div>
+                            <h4 style="text-align: center; margin-bottom: 20px; color: #a78bfa;">Rainbow Comparison</h4>
+                            <div class="grid grid-2">
+                                ${createDevice(
+                                  "02_hemisphere_rainbow_northern.webp",
+                                  "Rainbow - Northern",
+                                  "Summer peak in June-July"
+                                )}
+                                ${createDevice(
+                                  "02_hemisphere_rainbow_southern.webp",
+                                  "Rainbow - Southern",
+                                  "Summer peak in December-January"
+                                )}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="text-align: center; margin-bottom: 20px; color: #f59e0b;">Thermal Comparison</h4>
+                            <div class="grid grid-2">
+                                ${createDevice(
+                                  "02_hemisphere_thermal_northern.webp",
+                                  "Thermal - Northern",
+                                  "Thermally accurate seasonal mapping"
+                                )}
+                                ${createDevice(
+                                  "02_hemisphere_thermal_southern.webp",
+                                  "Thermal - Southern",
+                                  "Inverted thermal seasons"
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>All Hemisphere Combinations</h3>
+                    <div class="grid">
+            `;
+
+        CONFIG.colorSchemes.forEach((scheme) => {
+          CONFIG.hemispheres.forEach((hemisphere) => {
+            html += createDevice(
+              `02_hemisphere_${scheme.value}_${hemisphere}.webp`,
+              `${scheme.display} - ${
+                hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
+              }`,
+              `${scheme.description} in ${hemisphere} hemisphere`
+            );
+          });
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Date Display Tests -->
+                <div class="section">
+                    <h2>Date Display Tests (${
+                      CONFIG.colorSchemes.length * CONFIG.hemispheres.length
+                    } variations)</h2>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Testing date text readability across all color schemes and hemispheres
+                    </p>
+                    <div class="grid">
+            `;
+
+        CONFIG.colorSchemes.forEach((scheme) => {
+          CONFIG.hemispheres.forEach((hemisphere) => {
+            html += createDevice(
+              `03_date_${scheme.value}_${hemisphere}.webp`,
+              `${scheme.display} + Date (${
+                hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
+              })`,
+              `Date text contrast testing`
+            );
+          });
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Overlap Tests -->
+                <div class="section">
+                    <h2>Date Overlap Analysis (${
+                      CONFIG.specialTests.length * 3
+                    } tests)</h2>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Testing potential dial marker and date text conflicts in February
+                    </p>
+                    <div class="grid">
+            `;
+
+        CONFIG.specialTests.forEach((test) => {
+          ["rainbow", "grayscale", "red"].forEach((scheme) => {
+            html += createDevice(
+              `03_overlap_${scheme}_${test.key}.webp`,
+              `${test.display} - ${
+                scheme.charAt(0).toUpperCase() + scheme.slice(1)
+              }`,
+              `${test.description} overlap test`
+            );
+          });
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Seasonal Positioning -->
+                <div class="section">
+                    <h2>Seasonal Positioning (${
+                      CONFIG.seasonalTests.length * 2
+                    } tests)</h2>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Verifying dial marker accuracy at key seasonal dates
+                    </p>
+                    <div class="grid">
+            `;
+
+        CONFIG.seasonalTests.forEach((test) => {
+          ["rainbow", "grayscale"].forEach((scheme) => {
+            html += createDevice(
+              `04_seasonal_${scheme}_${test.key}.webp`,
+              `${test.display} - ${
+                scheme.charAt(0).toUpperCase() + scheme.slice(1)
+              }`,
+              test.description
+            );
+          });
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Edge Cases -->
+                <div class="section">
+                    <h2>Edge Cases & Special Scenarios (3 tests)</h2>
+                    <div class="grid">
+                        ${createDevice(
+                          "05_edge_Dec31_northern.webp",
+                          "December 31st - Northern",
+                          "Year boundary positioning"
+                        )}
+                        ${createDevice(
+                          "05_edge_Jan1_southern.webp",
+                          "January 1st - Southern",
+                          "Year start in opposite season"
+                        )}
+                        ${createDevice(
+                          "05_edge_LeapDay_blue.webp",
+                          "Leap Day - Blue",
+                          "February 29th special case"
+                        )}
+                    </div>
+                </div>
+
+                <!-- Comprehensive Tests -->
+                <div class="section">
+                    <h2>Comprehensive Parameter Tests (3 tests)</h2>
+                    <div class="grid">
+                        ${createDevice(
+                          "06_comprehensive_all_options.webp",
+                          "All Options Enabled",
+                          "Maximum feature combination test"
+                        )}
+                        ${createDevice(
+                          "06_comprehensive_minimal.webp",
+                          "Minimal Configuration",
+                          "Basic setup with minimal options"
+                        )}
+                        ${createDevice(
+                          "06_comprehensive_contrast.webp",
+                          "Maximum Contrast",
+                          "Extreme contrast scenario testing"
+                        )}
+                    </div>
+                </div>
+            `;
+
+        content.innerHTML = html;
+      }
+
+      // Initialize the page
+      async function init() {
+        try {
+          const stats = await calculateStats();
+          renderStats(stats);
+          renderContent();
+        } catch (error) {
+          console.error("Error initializing showcase:", error);
+          document.getElementById("stats-grid").innerHTML = `
+                    <div class="error">
+                        Error loading statistics: ${error.message}
+                    </div>
+                `;
+          document.getElementById("main-content").innerHTML = `
+                    <div class="error">
+                        Error loading content. Please ensure images are generated by running <code>./test_harness.sh -W</code>
+                    </div>
+                `;
+        }
+      }
+
+      // Start the app
+      document.addEventListener("DOMContentLoaded", init);
+    </script>
   </body>
 </html>

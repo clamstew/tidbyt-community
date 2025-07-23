@@ -45,8 +45,59 @@
 - [ ] Include screenshots or examples of different states
 - [ ] Document expected behavior for each configuration
 
+### 5. Date Positioning & Overlap Detection
+
+- [ ] **Evaluate get_date_x_position function** - Currently just returns 1, needs proper logic or deletion
+- [ ] **Smart date positioning** - Detect when dial marker would overlap with date display
+- [ ] **Overlap resolution strategies**:
+  - [ ] Shorten date format when near dial marker (e.g., "Jan 2" → "1/2")
+  - [ ] Move date to opposite side when dial marker is close
+  - [ ] Dynamic Y positioning - move date up/down to avoid overlap
+  - [ ] Hide date temporarily when overlap would occur
+- [ ] **Simple fallback approach** - If dial marker is in last ~15 pixels, shorten date format
+- [ ] **Testing with debug date picker** - Use to test overlap scenarios across the year
+
+**Implementation Notes:**
+
+- Dial marker position changes throughout year - need to test edge cases
+- Date width varies by format ("Jan 2" vs "December 25")
+- Consider screen real estate (64x32 pixels) when positioning
+- Could be configurable: "Auto-adjust date position" toggle
+
 ## Notes
 
 - Debug slider should help with testing both color modes
 - Consider accessibility when implementing monochrome mode
 - Test both hemispheres thoroughly with any changes
+
+## Easter Eggs & Fun Ideas 🎉
+
+### Gradient Color Modes
+
+- [ ] **Single-Color Gradient Mode** - Instead of rainbow, use single color spectrum
+  - [ ] Red gradient: darker red in winter → brighter red in summer
+  - [ ] Blue gradient: navy in winter → sky blue in summer
+  - [ ] Green gradient: forest green in winter → lime in summer
+  - [ ] Purple gradient: deep purple in winter → lavender in summer
+- [ ] Add dropdown to select gradient color theme
+
+### Special Date Easter Eggs
+
+- [ ] **Valentine's Day (Feb 14)** - Override to all-red spectrum regardless of other settings
+- [ ] **St. Patrick's Day (Mar 17)** - Override to all-green spectrum
+- [ ] **Halloween (Oct 31)** - Override to orange/black gradient
+- [ ] **Christmas (Dec 25)** - Override to red/green alternating or gradient
+- [ ] **New Year's Eve/Day (Dec 31/Jan 1)** - Gold/silver gradient or sparkle effect
+
+### Advanced Fun Features
+
+- [ ] **Pride Month (June)** - Classic rainbow regardless of hemisphere setting
+- [ ] **Solstice/Equinox highlights** - Special marker or color emphasis on these dates
+- [ ] **Birthday mode** - User sets birthday, gets special colors on that day
+- [ ] **Team colors** - Sports team color gradients (configurable)
+
+### Implementation Notes
+
+- Easter eggs could be toggleable in settings ("Enable special date themes") - on by default - setting allows to turn off
+- Could detect current date automatically or work with debug date picker
+- Should override normal color logic when active

@@ -181,6 +181,25 @@
         color: #cbd5e1;
       }
 
+      .command-params {
+        margin-top: 10px;
+        font-size: 0.8em;
+        opacity: 0.6;
+      }
+
+      .command-params code {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: "SF Mono", Monaco, "Consolas", monospace;
+        font-size: 0.75em;
+        color: #94a3b8;
+        word-break: break-all;
+        line-height: 1.4;
+        display: block;
+        margin-top: 5px;
+      }
+
       code {
         background: #1a1a1a;
         padding: 2px 6px;
@@ -544,8 +563,13 @@
             `;
       }
 
-      // Generate device HTML
-      function createDevice(imagePath, label, description = "") {
+      // Generate device HTML with optional command parameters
+      function createDevice(
+        imagePath,
+        label,
+        description = "",
+        commandParams = ""
+      ) {
         const deviceId = `device_${Date.now()}_${Math.random()
           .toString(36)
           .substr(2, 9)}`;
@@ -561,6 +585,11 @@
                     ${
                       description
                         ? `<div class="device-description">${description}</div>`
+                        : ""
+                    }
+                    ${
+                      commandParams
+                        ? `<div class="command-params"><code>${commandParams}</code></div>`
                         : ""
                     }
                 </div>
@@ -607,7 +636,8 @@
           html += createDevice(
             `01_colorscheme_${scheme.value}.webp`,
             scheme.display,
-            scheme.description
+            scheme.description,
+            `color_scheme=${scheme.value} enable_special_dates=false`
           );
         });
 
@@ -629,12 +659,14 @@
                                 ${createDevice(
                                   "02_hemisphere_rainbow_northern.webp",
                                   "Rainbow - Northern",
-                                  "Summer peak in June-July"
+                                  "Summer peak in June-July",
+                                  "color_scheme=rainbow hemisphere=northern enable_special_dates=false"
                                 )}
                                 ${createDevice(
                                   "02_hemisphere_rainbow_southern.webp",
                                   "Rainbow - Southern",
-                                  "Summer peak in December-January"
+                                  "Summer peak in December-January",
+                                  "color_scheme=rainbow hemisphere=southern enable_special_dates=false"
                                 )}
                             </div>
                         </div>
@@ -644,12 +676,14 @@
                                 ${createDevice(
                                   "02_hemisphere_thermal_northern.webp",
                                   "Thermal - Northern",
-                                  "Thermally accurate seasonal mapping"
+                                  "Thermally accurate seasonal mapping",
+                                  "color_scheme=thermal hemisphere=northern enable_special_dates=false"
                                 )}
                                 ${createDevice(
                                   "02_hemisphere_thermal_southern.webp",
                                   "Thermal - Southern",
-                                  "Inverted thermal seasons"
+                                  "Inverted thermal seasons",
+                                  "color_scheme=thermal hemisphere=southern enable_special_dates=false"
                                 )}
                             </div>
                         </div>
@@ -666,7 +700,8 @@
               `${scheme.display} - ${
                 hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
               }`,
-              `${scheme.description} in ${hemisphere} hemisphere`
+              `${scheme.description} in ${hemisphere} hemisphere`,
+              `color_scheme=${scheme.value} hemisphere=${hemisphere} enable_special_dates=false`
             );
           });
         });
@@ -693,7 +728,8 @@
               `${scheme.display} + Date (${
                 hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
               })`,
-              `Date text contrast testing`
+              `Date text contrast testing`,
+              `color_scheme=${scheme.value} hemisphere=${hemisphere} show_date=true enable_special_dates=false`
             );
           });
         });
@@ -715,12 +751,19 @@
 
         CONFIG.specialTests.forEach((test) => {
           ["rainbow", "grayscale", "red"].forEach((scheme) => {
+            const debugDate =
+              test.key === "Feb1"
+                ? "2024-02-01T12:00:00Z"
+                : test.key === "ValentinesDay"
+                ? "2024-02-14T12:00:00Z"
+                : "2024-02-29T12:00:00Z"; // LeapDay
             html += createDevice(
               `03_overlap_${scheme}_${test.key}.webp`,
               `${test.display} - ${
                 scheme.charAt(0).toUpperCase() + scheme.slice(1)
               }`,
-              `${test.description} overlap test`
+              `${test.description} overlap test`,
+              `color_scheme=${scheme} show_date=true debug_date='${debugDate}' enable_special_dates=false`
             );
           });
         });
@@ -742,12 +785,23 @@
 
         CONFIG.seasonalTests.forEach((test) => {
           ["rainbow", "grayscale"].forEach((scheme) => {
+            const debugDate =
+              test.key === "NewYear"
+                ? "2024-01-01T12:00:00Z"
+                : test.key === "SpringEquinox"
+                ? "2024-03-20T12:00:00Z"
+                : test.key === "SummerSolstice"
+                ? "2024-06-21T12:00:00Z"
+                : test.key === "FallEquinox"
+                ? "2024-09-22T12:00:00Z"
+                : "2024-12-21T12:00:00Z"; // WinterSolstice
             html += createDevice(
               `04_seasonal_${scheme}_${test.key}.webp`,
               `${test.display} - ${
                 scheme.charAt(0).toUpperCase() + scheme.slice(1)
               }`,
-              test.description
+              test.description,
+              `color_scheme=${scheme} debug_date='${debugDate}' enable_special_dates=false`
             );
           });
         });
@@ -763,17 +817,20 @@
                         ${createDevice(
                           "05_edge_Dec31_northern.webp",
                           "December 31st - Northern",
-                          "Year boundary positioning"
+                          "Year boundary positioning",
+                          "debug_date='2024-12-31T18:00:00Z' hemisphere=northern enable_special_dates=false"
                         )}
                         ${createDevice(
                           "05_edge_Jan1_southern.webp",
                           "January 1st - Southern",
-                          "Year start in opposite season"
+                          "Year start in opposite season",
+                          "debug_date='2024-01-01T12:00:00Z' hemisphere=southern enable_special_dates=false"
                         )}
                         ${createDevice(
                           "05_edge_LeapDay_blue.webp",
                           "Leap Day - Blue",
-                          "February 29th special case"
+                          "February 29th special case",
+                          "debug_date='2024-02-29T12:00:00Z' color_scheme=blue enable_special_dates=false"
                         )}
                     </div>
                 </div>
@@ -790,10 +847,23 @@
             `;
 
         CONFIG.specialDates.forEach((special) => {
+          const debugDate =
+            special.key === "ValentinesDay"
+              ? "2024-02-14T12:00:00Z"
+              : special.key === "StPatricksDay"
+              ? "2024-03-17T12:00:00Z"
+              : special.key === "PrideMonth"
+              ? "2024-06-15T12:00:00Z"
+              : special.key === "Halloween"
+              ? "2024-10-31T12:00:00Z"
+              : special.key === "Christmas"
+              ? "2024-12-25T12:00:00Z"
+              : "2024-01-01T12:00:00Z"; // NewYearsDay
           html += createDevice(
             `06_special_${special.key}.webp`,
             special.display,
-            special.description
+            special.description,
+            `debug_date='${debugDate}' enable_special_dates=true show_date=true`
           );
         });
 
@@ -801,7 +871,8 @@
         html += createDevice(
           "06_special_disabled.webp",
           "Special Dates Disabled",
-          "Christmas with special date themes turned off (blue southern)"
+          "Christmas with special date themes turned off (blue southern)",
+          "debug_date='2024-12-25T12:00:00Z' enable_special_dates=false color_scheme=blue hemisphere=southern show_date=true"
         );
 
         html += `
@@ -815,17 +886,20 @@
                         ${createDevice(
                           "07_comprehensive_all_options.webp",
                           "All Options Enabled",
-                          "Maximum feature combination test"
+                          "Maximum feature combination test",
+                          "color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z' enable_special_dates=false"
                         )}
                         ${createDevice(
                           "07_comprehensive_minimal.webp",
                           "Minimal Configuration",
-                          "Basic setup with minimal options"
+                          "Basic setup with minimal options",
+                          "enable_special_dates=false"
                         )}
                         ${createDevice(
                           "07_comprehensive_contrast.webp",
                           "Maximum Contrast",
-                          "Extreme contrast scenario testing"
+                          "Extreme contrast scenario testing",
+                          "color_scheme=grayscale show_date=true enable_special_dates=false"
                         )}
                     </div>
                 </div>

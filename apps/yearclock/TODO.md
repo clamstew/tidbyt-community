@@ -259,7 +259,11 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 ### Advanced Fun Features
 
 - [x] **Pride Month (June)** - ✅ COMPLETED: Classic rainbow regardless of hemisphere setting
-- [ ] **Solstice/Equinox highlights** - Special marker or color emphasis on these dates
+- [x] **Solstice/Equinox highlights** - ✅ COMPLETED: Special color themes for astronomical events
+  - [x] **Spring Equinox (Mar 20)** - Fresh spring colors (pale blues, soft greens, yellows)
+  - [x] **Summer Solstice (Jun 21)** - Bright solar colors (golds, yellows, oranges)
+  - [x] **Fall Equinox (Sep 22)** - Rich autumn colors (browns, oranges, reds)
+  - [x] **Winter Solstice (Dec 21)** - Deep winter colors (blues, purples, whites)
 - [ ] **Birthday mode** - User sets birthday, gets special colors on that day PII
 - [ ] **Team colors** - Sports team color gradients (configurable)
 
@@ -272,11 +276,15 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 **Special Date Features Added:**
 
 - New color palettes: HALLOWEEN_PALETTE, CHRISTMAS_PALETTE, NEWYEAR_PALETTE
-- Smart date detection with month/day logic
+- **Astronomical Event Palettes**: SPRING_EQUINOX_PALETTE, SUMMER_SOLSTICE_PALETTE, FALL_EQUINOX_PALETTE, WINTER_SOLSTICE_PALETTE
+- Smart date detection with month/day logic for holidays and astronomical events
 - Toggle setting: "Enable Special Date Themes" (default: enabled)
 - Pride Month forces northern hemisphere rainbow positioning
+- **Astronomical Events**: Spring/Fall equinoxes and Summer/Winter solstices get unique seasonal color themes
 - All special dates work with debug date picker for testing
-- Appropriate text colors for each special palette
+- Appropriate text colors for each special palette (black/white based on background brightness)
+- **Enhanced Test Coverage**: Test harness includes all 10 special events (6 holidays + 4 astronomical)
+- **Enhanced Showcase**: Visual gallery organized into Special Date Easter Eggs and Astronomical Events sections
 
 ---
 

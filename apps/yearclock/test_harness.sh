@@ -202,11 +202,24 @@ SPECIAL_DATES=("2024-02-14T12:00:00Z" "2024-03-17T12:00:00Z" "2024-06-15T12:00:0
 SPECIAL_NAMES=("ValentinesDay" "StPatricksDay" "PrideMonth" "Halloween" "Christmas" "NewYearsDay")
 EXPECTED_SCHEMES=("red" "green" "rainbow" "halloween" "christmas" "newyear")
 
+# Add astronomical events to special dates testing
+ASTRONOMICAL_DATES=("2024-03-20T12:00:00Z" "2024-06-21T12:00:00Z" "2024-09-22T12:00:00Z" "2024-12-21T12:00:00Z")
+ASTRONOMICAL_NAMES=("SpringEquinox" "SummerSolstice" "FallEquinox" "WinterSolstice")
+ASTRONOMICAL_SCHEMES=("spring_equinox" "summer_solstice" "fall_equinox" "winter_solstice")
+
 for i in "${!SPECIAL_DATES[@]}"; do
     date="${SPECIAL_DATES[$i]}"
     name="${SPECIAL_NAMES[$i]}"
     expected="${EXPECTED_SCHEMES[$i]}"
     run_test "Special date: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "06_special_${name}.webp"
+done
+
+# Test astronomical events
+for i in "${!ASTRONOMICAL_DATES[@]}"; do
+    date="${ASTRONOMICAL_DATES[$i]}"
+    name="${ASTRONOMICAL_NAMES[$i]}"
+    expected="${ASTRONOMICAL_SCHEMES[$i]}"
+    run_test "Astronomical event: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "06_astronomical_${name}.webp"
 done
 
 # Test that special dates can be disabled

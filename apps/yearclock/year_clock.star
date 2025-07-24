@@ -161,6 +161,67 @@ NEWYEAR_PALETTE = [
     "#2F2F2F",  # Dark Gray (back to start)
 ]
 
+# Astronomical Event Color Palettes
+SPRING_EQUINOX_PALETTE = [
+    "#E6F3FF",  # Very Pale Blue (dawn)
+    "#B3E0FF",  # Light Sky Blue
+    "#80CCFF",  # Soft Blue
+    "#66FFB3",  # Mint Green
+    "#80FF80",  # Light Green
+    "#B3FF66",  # Fresh Green
+    "#E6FF4D",  # Spring Yellow
+    "#FFFF66",  # Bright Yellow
+    "#FFE066",  # Warm Yellow
+    "#D4EDDA",  # Very Light Green
+    "#C3F0CA",  # Pale Green
+    "#E6F3FF",  # Very Pale Blue (back to dawn)
+]
+
+SUMMER_SOLSTICE_PALETTE = [
+    "#FFD700",  # Gold
+    "#FFCC00",  # Bright Gold
+    "#FFB347",  # Peach
+    "#FFA500",  # Orange
+    "#FF8C00",  # Dark Orange
+    "#FF6600",  # Red Orange
+    "#FFFF00",  # Pure Yellow (peak brightness)
+    "#FFFF33",  # Bright Yellow
+    "#FFFF66",  # Light Yellow
+    "#FFE55C",  # Golden Yellow
+    "#FFD700",  # Gold
+    "#FFD700",  # Gold (back to start)
+]
+
+FALL_EQUINOX_PALETTE = [
+    "#8B4513",  # Saddle Brown
+    "#A0522D",  # Sienna
+    "#CD853F",  # Peru
+    "#D2691E",  # Chocolate
+    "#FF8C00",  # Dark Orange
+    "#FF7F50",  # Coral
+    "#FF6347",  # Tomato
+    "#DC143C",  # Crimson
+    "#B22222",  # Fire Brick
+    "#8B0000",  # Dark Red
+    "#654321",  # Dark Brown
+    "#8B4513",  # Saddle Brown (back to start)
+]
+
+WINTER_SOLSTICE_PALETTE = [
+    "#191970",  # Midnight Blue
+    "#000080",  # Navy Blue
+    "#0000CD",  # Medium Blue
+    "#4169E1",  # Royal Blue
+    "#6495ED",  # Cornflower Blue
+    "#87CEEB",  # Sky Blue
+    "#E6E6FA",  # Lavender (peak light)
+    "#F0F8FF",  # Alice Blue
+    "#FFFFFF",  # White
+    "#C0C0C0",  # Silver
+    "#708090",  # Slate Gray
+    "#191970",  # Midnight Blue (back to start)
+]
+
 def main(config):
     # Get current time in user's local timezone, or use debug time if provided
     debug_date = config.get("debug_date")
@@ -314,7 +375,22 @@ def get_special_date_override(now, enable_special_dates):
     if month == 6:
         return "pride"
     
-    # TODO: Add solstice/equinox highlights in the future
+    # Astronomical Events - Special color themes for seasonal markers
+    # Spring Equinox (Mar 20) - Fresh spring colors
+    if month == 3 and day == 20:
+        return "spring_equinox"
+    
+    # Summer Solstice (Jun 21) - Bright solar colors  
+    if month == 6 and day == 21:
+        return "summer_solstice"
+    
+    # Fall Equinox (Sep 22) - Rich autumn colors
+    if month == 9 and day == 22:
+        return "fall_equinox"
+    
+    # Winter Solstice (Dec 21) - Deep winter colors
+    if month == 12 and day == 21:
+        return "winter_solstice"
     
     return None
 
@@ -347,6 +423,14 @@ def get_date_color(color_scheme, hemisphere):
         return "#000000"  # Black text for contrast on green/red backgrounds
     elif color_scheme == "newyear":
         return "#000000"  # Black text for contrast on gold/silver backgrounds
+    elif color_scheme == "spring_equinox":
+        return "#000000"  # Black text for contrast on light spring colors
+    elif color_scheme == "summer_solstice":
+        return "#000000"  # Black text for contrast on bright solar colors
+    elif color_scheme == "fall_equinox":
+        return "#FFFFFF"  # White text for contrast on dark autumn colors
+    elif color_scheme == "winter_solstice":
+        return "#000000"  # Black text for contrast on light winter colors (includes whites)
     else:
         return "#000000"  # Default to black text
 
@@ -372,6 +456,14 @@ def get_color_palette(color_scheme):
         return CHRISTMAS_PALETTE
     elif color_scheme == "newyear":
         return NEWYEAR_PALETTE
+    elif color_scheme == "spring_equinox":
+        return SPRING_EQUINOX_PALETTE
+    elif color_scheme == "summer_solstice":
+        return SUMMER_SOLSTICE_PALETTE
+    elif color_scheme == "fall_equinox":
+        return FALL_EQUINOX_PALETTE
+    elif color_scheme == "winter_solstice":
+        return WINTER_SOLSTICE_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE

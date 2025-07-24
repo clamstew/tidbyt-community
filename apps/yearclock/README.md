@@ -47,6 +47,28 @@ Choose from multiple color palettes, each following the natural flow of seasons:
 - **Location**: Set your location for proper timezone handling
 - **[DEBUG] Test Date**: Pick any date to preview how colors look throughout the year
 
+## Special Date Themes 🎉
+
+Year Clock automatically detects special dates and applies unique themed color overrides:
+
+### Holiday Themes
+
+- **Valentine's Day (Feb 14)**: Red spectrum regardless of hemisphere
+- **St. Patrick's Day (Mar 17)**: Green spectrum
+- **Halloween (Oct 31)**: Custom orange/brown autumn gradient
+- **Christmas (Dec 25)**: Custom red/green holiday gradient
+- **New Year's (Dec 31/Jan 1)**: Gold/silver celebration gradient
+- **Pride Month (June)**: Classic rainbow with respect to hemisphere setting
+
+### Astronomical Event Themes
+
+- **Spring Equinox (Mar 20)**: Fresh spring colors with pale blues, soft greens, and bright yellows
+- **Summer Solstice (Jun 21)**: Bright solar colors with golds, yellows, and oranges
+- **Fall Equinox (Sep 22)**: Rich autumn colors with browns, oranges, and deep reds
+- **Winter Solstice (Dec 21)**: Deep winter colors with blues, purples, and silvery whites
+
+All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
+
 ## Inspiration
 
 This app captures the meditative quality of watching time pass slowly - like observing a shadow move across a sundial. It's perfect for:

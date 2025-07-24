@@ -146,6 +146,15 @@ Special Date Easter Eggs tests - validates holiday overrides:
 - `06_special_NewYearsDay.webp` - Jan 1: Custom gold/silver gradient
 - `06_special_disabled.webp` - Christmas with special dates disabled (blue southern)
 
+### 🌌 06*astronomical*\*.webp (4 files)
+
+Astronomical Event tests - validates solstice and equinox special themes:
+
+- `06_astronomical_SpringEquinox.webp` - Mar 20: Fresh spring colors (pale blues, soft greens, yellows)
+- `06_astronomical_SummerSolstice.webp` - Jun 21: Bright solar colors (golds, yellows, oranges)
+- `06_astronomical_FallEquinox.webp` - Sep 22: Rich autumn colors (browns, oranges, reds)
+- `06_astronomical_WinterSolstice.webp` - Dec 21: Deep winter colors (blues, purples, whites)
+
 ### 🔧 07*comprehensive*\*.webp (3 files)
 
 Complex configuration tests:

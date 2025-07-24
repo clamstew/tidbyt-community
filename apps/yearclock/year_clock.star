@@ -5,7 +5,6 @@ Description: Displays a rainbow gradient representing the year with a retro dial
 Author: Community
 """
 
-load("encoding/json.star", "json")
 load("render.star", "render")
 load("schema.star", "schema")
 load("time.star", "time")
@@ -116,37 +115,25 @@ THERMAL_PALETTE = [
     "#0D1B2A",  # Deep winter blue (back to coldest)
 ]
 
-DEFAULT_LOCATION = """
-{
-	"lat": "40.6781784",
-	"lng": "-73.9441579",
-	"description": "Brooklyn, NY, USA",
-	"locality": "Brooklyn",
-	"place_id": "ChIJCSF8lBZEwokRhngABHRcdoI",
-	"timezone": "America/New_York"
-}
-"""
-
 def main(config):
-    # Get timezone from location
-    location = json.decode(config.get("location", DEFAULT_LOCATION))
-    timezone = location["timezone"]
-
-    # Get current time in user's timezone, or use debug time if provided
+    # Get current time in user's local timezone, or use debug time if provided
     debug_date = config.get("debug_date")
     if debug_date:
         # Parse the debug date and use it instead of current time
-        now = time.parse_time(debug_date).in_location(timezone)
+        # For debug mode, we still use a default timezone for consistency
+        now = time.parse_time(debug_date).in_location("America/New_York")
     else:
-        now = time.now().in_location(timezone)
+        # Use system timezone - no need for user to configure this
+        now = time.now()
 
     # Get color scheme and hemisphere settings
     color_scheme = config.get("color_scheme", "rainbow")
     hemisphere = config.get("hemisphere", "northern")
 
     # Calculate year progress (0.0 to 1.0)
-    year_start = time.time(year = now.year, month = 1, day = 1, hour = 0, minute = 0, second = 0, location = timezone)
-    year_end = time.time(year = now.year + 1, month = 1, day = 1, hour = 0, minute = 0, second = 0, location = timezone)
+    # Use local time for year boundaries
+    year_start = time.time(year = now.year, month = 1, day = 1, hour = 0, minute = 0, second = 0)
+    year_end = time.time(year = now.year + 1, month = 1, day = 1, hour = 0, minute = 0, second = 0)
     year_duration = year_end - year_start
     elapsed = now - year_start
     year_fraction = elapsed.seconds / year_duration.seconds
@@ -225,7 +212,7 @@ def main(config):
                 ),
                 # Optional date display in bottom corner
                 render.Padding(
-                    pad = (get_date_x_position(), 26, 0, 0),
+                    pad = (1, 26, 0, 0),  # Hardcoded x=1 as planned
                     child = render.Text(
                         content = now.format("Jan 2"),
                         font = "tom-thumb",
@@ -261,13 +248,6 @@ def get_date_color(color_scheme, hemisphere):
         return "#000000"  # Black text for better contrast on light purple areas
     else:
         return "#000000"  # Default to black text
-
-def get_date_x_position():
-    """Get X position for date"""
-
-    # Default position - left side for now
-    # TODO: Add overlap detection later
-    return 1
 
 def get_color_palette(color_scheme):
     """Get the color palette for a given color scheme"""
@@ -444,12 +424,6 @@ def get_schema():
                 desc = "Display current date in corner",
                 icon = "calendar",
                 default = False,
-            ),
-            schema.Location(
-                id = "location",
-                name = "Location",
-                desc = "Location for timezone",
-                icon = "locationDot",
             ),
             schema.DateTime(
                 id = "debug_date",

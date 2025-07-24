@@ -189,14 +189,14 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 ### 6. Evaluate Timezone/Location Necessity
 
-- [ ] **Review location setting requirement** - Do we really need timezone for date-only display?
-- [ ] **Simplify configuration** - Most users probably never change location/timezone
-- [ ] **Consider alternatives**:
-  - [ ] Remove location requirement entirely (use system/browser timezone)
-  - [ ] Make location optional with sensible default
-  - [ ] Keep location but hide it in "Advanced" section
-- [ ] **Impact assessment** - What breaks if we remove location dependency?
-- [ ] **Remove get_date_x_position function** - Since overlap detection is WON'T DO, just hardcode x=1 in render code
+- [x] **Review location setting requirement** - ✅ COMPLETED: Timezone not needed for date-only display
+- [x] **Simplify configuration** - ✅ COMPLETED: Removed location requirement entirely
+- [x] **Consider alternatives** - ✅ COMPLETED: Using system timezone instead:
+  - [x] Remove location requirement entirely (use system/browser timezone) - ✅ DONE
+  - ~~[ ] Make location optional with sensible default~~ - Not needed, went with full removal
+  - ~~[ ] Keep location but hide it in "Advanced" section~~ - Not needed, went with full removal
+- [x] **Impact assessment** - ✅ COMPLETED: No breaking changes - "now" is always relative to user's local time
+- [x] **Remove get_date_x_position function** - ✅ COMPLETED: Hardcoded x=1 in render code
 
 **Implementation Notes:**
 

@@ -434,14 +434,14 @@
     </div>
 
     <!-- Modal for high-resolution image viewing -->
-    <div id="imageModal" class="modal">
-      <span class="close">&times;</span>
-      <div class="modal-content">
+    <div id="imageModal" class="modal" onclick="closeModal()">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="modal-content" onclick="event.stopPropagation()">
         <img id="modalImage" class="modal-image" src="" alt="" />
         <div id="modalTitle" class="modal-title"></div>
         <div id="modalDescription" class="modal-description">
-          Click outside or press ESC to close • High resolution view (768×384
-          pixels, 12x magnification)
+          Click outside or press ESC to close • Use ← → arrow keys to navigate •
+          High resolution view (768×384 pixels, 12x magnification)
         </div>
         <div id="modalParams" class="modal-params" style="display: none"></div>
       </div>
@@ -660,6 +660,15 @@
           .toString(36)
           .substr(2, 9)}`;
         const fullCommand = fullParams || commandParams;
+
+        // Store device data for navigation
+        allDeviceData.push({
+          imagePath,
+          title: label,
+          description,
+          fullParams: fullCommand,
+        });
+
         return `
                 <div class="device-container">
                     <img src="${imagePath}" alt="${label}" class="tidbyt-device" id="${deviceId}"
@@ -686,6 +695,10 @@
             `;
       }
 
+      // Global state for modal navigation
+      let currentModalIndex = -1;
+      let allDeviceData = [];
+
       // Modal functionality
       function openModal(imagePath, title, description, fullParams = "") {
         const modal = document.getElementById("imageModal");
@@ -693,6 +706,11 @@
         const modalTitle = document.getElementById("modalTitle");
         const modalDescription = document.getElementById("modalDescription");
         const modalParams = document.getElementById("modalParams");
+
+        // Find current index in device data
+        currentModalIndex = allDeviceData.findIndex(
+          (device) => device.imagePath === imagePath
+        );
 
         // Generate high-res version (12x magnification with _hires suffix)
         const highResPath = imagePath.replace(".webp", "_hires.webp");
@@ -740,6 +758,9 @@
           this.src = imagePath;
           this.onerror = null;
         };
+
+        // Enable keyboard navigation
+        document.addEventListener("keydown", handleModalKeyboard);
       }
 
       // Generate preview URL from parameters
@@ -791,11 +812,91 @@
 
       function closeModal() {
         document.getElementById("imageModal").style.display = "none";
+        // Disable keyboard navigation
+        document.removeEventListener("keydown", handleModalKeyboard);
+        currentModalIndex = -1;
+      }
+
+      // Handle keyboard navigation in modal
+      function handleModalKeyboard(event) {
+        if (event.key === "Escape") {
+          closeModal();
+          return;
+        }
+
+        if (event.key === "ArrowLeft") {
+          navigateModal(-1);
+          event.preventDefault();
+        } else if (event.key === "ArrowRight") {
+          navigateModal(1);
+          event.preventDefault();
+        }
+      }
+
+      // Navigate to previous/next image in modal
+      function navigateModal(direction) {
+        if (allDeviceData.length === 0) return;
+
+        const newIndex = currentModalIndex + direction;
+
+        // Wrap around if we reach the ends
+        let targetIndex;
+        if (newIndex < 0) {
+          targetIndex = allDeviceData.length - 1;
+        } else if (newIndex >= allDeviceData.length) {
+          targetIndex = 0;
+        } else {
+          targetIndex = newIndex;
+        }
+
+        const targetDevice = allDeviceData[targetIndex];
+        if (targetDevice) {
+          // Update modal content
+          openModal(
+            targetDevice.imagePath,
+            targetDevice.title,
+            targetDevice.description,
+            targetDevice.fullParams
+          );
+
+          // Scroll to corresponding card on the page
+          scrollToDevice(targetDevice.imagePath);
+        }
+      }
+
+      // Scroll page to center on the device card for the given image
+      function scrollToDevice(imagePath) {
+        // Find the corresponding device container
+        const deviceContainers = document.querySelectorAll(".device-container");
+
+        for (const container of deviceContainers) {
+          const img = container.querySelector(".tidbyt-device");
+          if (img && img.src.includes(imagePath)) {
+            // Scroll to center the device in viewport
+            container.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+
+            // Add temporary highlight effect
+            container.style.transition = "box-shadow 0.3s ease";
+            container.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.5)";
+
+            setTimeout(() => {
+              container.style.boxShadow = "";
+            }, 1000);
+
+            break;
+          }
+        }
       }
 
       // Generate main content
       function renderContent() {
         const content = document.getElementById("main-content");
+
+        // Clear device data for fresh render
+        allDeviceData = [];
 
         let html = `
                 <!-- Color Schemes Overview -->

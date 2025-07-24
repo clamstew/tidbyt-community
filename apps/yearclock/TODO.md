@@ -250,7 +250,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 - [x] **Pride Month (June)** - ✅ COMPLETED: Classic rainbow regardless of hemisphere setting
 - [ ] **Solstice/Equinox highlights** - Special marker or color emphasis on these dates
-- [ ] **Birthday mode** - User sets birthday, gets special colors on that day
+- [ ] **Birthday mode** - User sets birthday, gets special colors on that day PII
 - [ ] **Team colors** - Sports team color gradients (configurable)
 
 ### Implementation Notes
@@ -267,3 +267,22 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Pride Month forces northern hemisphere rainbow positioning
 - All special dates work with debug date picker for testing
 - Appropriate text colors for each special palette
+
+---
+
+## 💡 Ideas & Future Considerations
+
+### Incomplete Thought to Revisit:
+
+- **TODO: Finish this idea** - "what if we linked it to whether..."
+  - _[Note: This was an incomplete thought - please finish when you remember what you were thinking about linking to a conditional/boolean state]_
+
+### Independent Bar/Background Color Control:
+
+- **TODO: Grayscale + Colored Bar Option** - Option to do grayscale background with different colored progress bars
+- **TODO: Color-Changing Bar on Grayscale** - Just the progress bar changes color while background stays grayscale
+- **TODO: Evaluate Color-Changing Bars on Other Schemes** - Once grayscale bar coloring is implemented, evaluate if color-changing bars should be applied to other color schemes too
+- **TODO: Independent Bar vs Background Color Settings** - Consider if users should be able to independently control:
+  - Progress bar color scheme (e.g., rainbow, thermal, solid colors)
+  - Background color scheme (e.g., grayscale, thermal, rainbow)
+  - This would create combinations like: "rainbow bar on grayscale background" or "red bar on thermal background"

@@ -5,10 +5,15 @@
 
 # Parse command line flags
 WRITE_ONLY=false
+HIGH_RES=false
 while [[ $# -gt 0 ]]; do
     case $1 in
         -W|--write-only)
             WRITE_ONLY=true
+            shift
+            ;;
+        -H|--high-res)
+            HIGH_RES=true
             shift
             ;;
         -h|--help)
@@ -16,7 +21,13 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Options:"
             echo "  -W, --write-only    Skip sanity checks, only generate images"
+            echo "  -H, --high-res      Generate both gallery (6x) and modal (12x) versions"
             echo "  -h, --help         Show this help message"
+            echo ""
+            echo "Examples:"
+            echo "  $0 -W              Fast image generation (gallery only)"
+            echo "  $0 -W -H           Fast generation with high-res modal versions"
+            echo "  $0 -H              Full test suite with high-res images"
             exit 0
             ;;
         *)
@@ -30,9 +41,17 @@ done
 echo "🌈 Year Clock Test Harness"
 echo "=========================="
 if [ "$WRITE_ONLY" = true ]; then
-    echo "Mode: Write-only (skipping sanity checks)"
+    if [ "$HIGH_RES" = true ]; then
+        echo "Mode: Write-only with high-res (skipping sanity checks, generating 6x + 12x images)"
+    else
+        echo "Mode: Write-only (skipping sanity checks, generating 6x images only)"
+    fi
 else
-    echo "Mode: Full test suite (including sanity checks)"
+    if [ "$HIGH_RES" = true ]; then
+        echo "Mode: Full test suite with high-res (including sanity checks, generating 6x + 12x images)"
+    else
+        echo "Mode: Full test suite (including sanity checks, generating 6x images only)"
+    fi
 fi
 echo ""
 
@@ -60,26 +79,52 @@ run_test() {
     echo -n "Testing: $test_name... "
     TESTS_RUN=$((TESTS_RUN + 1))
     
-    # Add magnification for better image quality
-    if [[ "$command" == *"pixlet render"* ]]; then
-        command="$command --magnify $MAGNIFY_FACTOR"
+    # Generate gallery version (6x magnification)
+    local gallery_command="$command"
+    if [[ "$gallery_command" == *"pixlet render"* ]]; then
+        gallery_command="$gallery_command --magnify $MAGNIFY_FACTOR"
     fi
     
     # If output_file is provided, add it to the command
     if [ -n "$output_file" ]; then
-        command="$command --output temp/$output_file"
+        gallery_command="$gallery_command --output temp/$output_file"
     fi
     
-    if eval "$command" > /dev/null 2>&1; then
-        echo -e "${GREEN}✓${NC}"
-        TESTS_PASSED=$((TESTS_PASSED + 1))
-        if [ -n "$output_file" ]; then
-            echo "    → Saved: temp/$output_file"
+    # Execute gallery version
+    if eval "$gallery_command" > /dev/null 2>&1; then
+        local success=true
+        local files_generated="temp/$output_file"
+        
+        # Generate high-res version if flag is enabled
+        if [ "$HIGH_RES" = true ] && [ -n "$output_file" ]; then
+            local hires_file="${output_file%.*}_hires.${output_file##*.}"
+            local hires_command="$command"
+            if [[ "$hires_command" == *"pixlet render"* ]]; then
+                hires_command="$hires_command --magnify 12"
+            fi
+            hires_command="$hires_command --output temp/$hires_file"
+            
+            if eval "$hires_command" > /dev/null 2>&1; then
+                files_generated="$files_generated + temp/$hires_file"
+            else
+                success=false
+                echo -e "${YELLOW}⚠${NC}"
+                echo "  Gallery: ✓  High-res: ✗"
+                echo "  High-res command failed: $hires_command"
+            fi
+        fi
+        
+        if [ "$success" = true ]; then
+            echo -e "${GREEN}✓${NC}"
+            TESTS_PASSED=$((TESTS_PASSED + 1))
+            if [ -n "$output_file" ]; then
+                echo "    → Saved: $files_generated"
+            fi
         fi
     else
         echo -e "${RED}✗${NC}"
         TESTS_FAILED=$((TESTS_FAILED + 1))
-        echo "  Command: $command"
+        echo "  Command: $gallery_command"
     fi
 }
 

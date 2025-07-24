@@ -1,6 +1,6 @@
 # Year Clock Test Images
 
-This directory contains automatically generated test images from the Year Clock app test harness. All images are rendered at **6x magnification (384×192 pixels)** for crisp display on laptop screens, and show different configuration combinations.
+This directory contains automatically generated test images from the Year Clock app test harness. Gallery images are rendered at **6x magnification (384×192 pixels)** for fast loading, with optional **12x magnification (768×384 pixels)** high-resolution versions for click-to-zoom modals.
 
 ## 🚀 Generating Images
 
@@ -14,7 +14,17 @@ Run the test harness from the parent directory to regenerate all images:
 ../test_harness.sh --write-only
 ```
 
-**Benefits**: Fast execution, skips code validation checks, focuses only on image generation (55 tests).
+**Benefits**: Fast execution, skips code validation checks, focuses only on gallery images (60 tests).
+
+### High-Resolution Gallery + Modal Images
+
+```bash
+../test_harness.sh -W -H
+# or
+../test_harness.sh --write-only --high-res
+```
+
+**Benefits**: Generates both gallery (6x) and modal (12x) versions for click-to-zoom functionality (120 images total).
 
 ### Full Test Suite
 
@@ -34,12 +44,33 @@ Run the test harness from the parent directory to regenerate all images:
 
 ### 🔍 High Resolution Images
 
-All showcase images are generated at **6x magnification** for crisp viewing on laptop/desktop screens:
+The test harness supports two image quality modes:
+
+**Gallery Mode (Default)**:
+
+- **Gallery Images**: 384×192 pixels (6x magnification) - fast loading for showcase browsing
+- **File naming**: Standard filenames (e.g., `01_colorscheme_rainbow.webp`)
+
+**High-Resolution Mode (`-H` flag)**:
+
+- **Gallery Images**: 384×192 pixels (6x magnification) - for fast showcase browsing
+- **Modal Images**: 768×384 pixels (12x magnification) - for click-to-zoom detail viewing
+- **File naming**: High-res versions include `_hires` suffix (e.g., `01_colorscheme_rainbow_hires.webp`)
+
+**Image Quality Comparison**:
 
 - **Default Tidbyt**: 64×32 pixels (tiny, pixelated on screens)
-- **Showcase Images**: 384×192 pixels (6x magnified, crisp and clear)
+- **Gallery Images**: 384×192 pixels (6x magnified, crisp for galleries)
+- **Modal Images**: 768×384 pixels (12x magnified, crystal clear for detailed inspection)
 
-To adjust magnification, edit the `MAGNIFY_FACTOR` variable in `test_harness.sh`. Higher values produce larger, crisper images but increase file sizes.
+### 🖱️ Interactive Showcase Features
+
+When high-resolution mode is enabled (`-H` flag), the `showcase.html` page includes:
+
+- **Click-to-Zoom**: Click any image to open a high-resolution modal view
+- **Smart Loading**: Gallery loads fast with 6x images, modal shows crystal-clear 12x versions on demand
+- **Graceful Fallback**: If high-res image doesn't exist, modal shows the gallery version
+- **Easy Navigation**: Close modal with X button, ESC key, or clicking outside the image
 
 ## File Naming Convention
 

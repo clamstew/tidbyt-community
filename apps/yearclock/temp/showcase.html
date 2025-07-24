@@ -337,8 +337,8 @@
         <img id="modalImage" class="modal-image" src="" alt="" />
         <div id="modalTitle" class="modal-title"></div>
         <div id="modalDescription" class="modal-description">
-          Click outside or press ESC to close • High resolution view (12x
-          magnification)
+          Click outside or press ESC to close • High resolution view (768×384
+          pixels, 12x magnification)
         </div>
       </div>
     </div>
@@ -540,8 +540,8 @@
         const modalImg = document.getElementById("modalImage");
         const modalTitle = document.getElementById("modalTitle");
 
-        // Generate high-res version (12x magnification)
-        const highResPath = imagePath.replace(".webp", "_12x.webp");
+        // Generate high-res version (12x magnification with _hires suffix)
+        const highResPath = imagePath.replace(".webp", "_hires.webp");
 
         modal.style.display = "block";
         modalImg.src = highResPath;

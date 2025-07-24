@@ -273,8 +273,10 @@ def main(config):
             ),
         )
 
-    # Calculate marker position
-    marker_x = int(year_fraction * 63)
+    # Calculate marker position with proper edge handling
+    # Map year progress [0.0, 1.0) to marker positions [1, 62]
+    # Jan 1st 00:00 → x=1 (left buffer), Dec 31st 23:59 → x=62 (right highlight at x=63)
+    marker_x = min(62, int(year_fraction * 62) + 1)
 
     # Create the year progress display
     return render.Root(

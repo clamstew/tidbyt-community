@@ -243,9 +243,9 @@ def get_date_color(color_scheme, hemisphere):
         if hemisphere == "northern":
             return "#000000"  # Black text for better contrast on summer yellows/oranges
         else:
-            return "#FFFFFF"  # White text works well on southern summer (darker colors)
+            return "#000000"  # Black text for better contrast on bright rainbow colors
     elif color_scheme == "thermal":
-        return "#FFFFFF"  # White text for contrast on thermal colors (mostly reds/blues)
+        return "#000000"  # Black text for better contrast on thermal colors (includes light blues/pinks)
     elif color_scheme == "grayscale":
         return "#000000"  # Black text for contrast on gray gradients
     elif color_scheme == "red":
@@ -255,7 +255,7 @@ def get_date_color(color_scheme, hemisphere):
     elif color_scheme == "green":
         return "#000000"  # Black text for contrast on green backgrounds
     elif color_scheme == "purple":
-        return "#FFFFFF"  # White text for contrast on purple backgrounds
+        return "#000000"  # Black text for better contrast on light purple areas
     else:
         return "#000000"  # Default to black text
 

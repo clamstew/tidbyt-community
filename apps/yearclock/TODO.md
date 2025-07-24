@@ -112,12 +112,12 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 #### 3.3. Date Display Contrast Review
 
-- [ ] **Rainbow + Date**: Verify date text is readable across all background colors (both hemispheres)
-- [ ] **Grayscale + Date**: Confirm black text shows clearly on gray gradients
-- [ ] **Red + Date**: Check white text contrast on red backgrounds
-- [ ] **Blue + Date**: Verify white text readability on blue backgrounds
-- [ ] **Green + Date**: Validate black text contrast on green backgrounds
-- [ ] **Purple + Date**: Check white text readability on purple backgrounds
+- [x] **Rainbow + Date**: Verify date text is readable across all background colors (both hemispheres)
+- [x] **Grayscale + Date**: Confirm black text shows clearly on gray gradients
+- [x] **Red + Date**: Check white text contrast on red backgrounds
+- [x] **Blue + Date**: Verify white text readability on blue backgrounds
+- [x] **Green + Date**: Validate black text contrast on green backgrounds
+- [x] **Purple + Date**: Check white text readability on purple backgrounds
 
 #### 3.4. Date Display Overlap Analysis
 

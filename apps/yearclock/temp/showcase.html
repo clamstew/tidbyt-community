@@ -624,6 +624,10 @@
           { pattern: "04_seasonal_", count: CONFIG.seasonalTests.length * 2 }, // rainbow, grayscale
           { pattern: "05_edge_", count: 3 }, // Dec31, Jan1, LeapDay
           { pattern: "06_special_", count: CONFIG.specialDates.length + 1 }, // special dates + disabled test
+          {
+            pattern: "06_astronomical_",
+            count: CONFIG.astronomicalEvents.length,
+          }, // astronomical events
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
         ];
 

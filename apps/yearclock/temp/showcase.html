@@ -283,6 +283,74 @@
         opacity: 0.8;
       }
 
+      .modal-params {
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .modal-params-section h4 {
+        margin: 0 0 10px 0;
+        color: #93c5fd;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .modal-command {
+        display: block;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-family: "SF Mono", Monaco, "Consolas", monospace;
+        font-size: 0.8em;
+        color: #94a3b8;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        word-break: break-all;
+        line-height: 1.4;
+        margin-bottom: 15px;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .copy-btn,
+      .preview-btn {
+        background: rgba(59, 130, 246, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #93c5fd;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85em;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .copy-btn:hover,
+      .preview-btn:hover {
+        background: rgba(59, 130, 246, 0.3);
+        border-color: rgba(59, 130, 246, 0.5);
+        transform: translateY(-1px);
+      }
+
+      .preview-btn {
+        background: rgba(34, 197, 94, 0.2);
+        border-color: rgba(34, 197, 94, 0.3);
+        color: #86efac;
+      }
+
+      .preview-btn:hover {
+        background: rgba(34, 197, 94, 0.3);
+        border-color: rgba(34, 197, 94, 0.5);
+      }
+
       .close {
         position: absolute;
         top: 20px;
@@ -375,6 +443,7 @@
           Click outside or press ESC to close • High resolution view (768×384
           pixels, 12x magnification)
         </div>
+        <div id="modalParams" class="modal-params" style="display: none"></div>
       </div>
     </div>
 
@@ -584,18 +653,23 @@
         imagePath,
         label,
         description = "",
-        commandParams = ""
+        commandParams = "",
+        fullParams = ""
       ) {
         const deviceId = `device_${Date.now()}_${Math.random()
           .toString(36)
           .substr(2, 9)}`;
+        const fullCommand = fullParams || commandParams;
         return `
                 <div class="device-container">
                     <img src="${imagePath}" alt="${label}" class="tidbyt-device" id="${deviceId}"
                          onclick="openModal('${imagePath}', '${label.replace(
           /'/g,
           "\\'"
-        )}', '${description.replace(/'/g, "\\'")}')"
+        )}', '${description.replace(/'/g, "\\'")}', '${fullCommand.replace(
+          /'/g,
+          "\\'"
+        )}')"
                          onerror="this.style.opacity='0.3'; this.parentNode.style.border='1px solid #ef4444';">
                     <div class="device-label">${label}</div>
                     ${
@@ -613,10 +687,12 @@
       }
 
       // Modal functionality
-      function openModal(imagePath, title, description) {
+      function openModal(imagePath, title, description, fullParams = "") {
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("modalImage");
         const modalTitle = document.getElementById("modalTitle");
+        const modalDescription = document.getElementById("modalDescription");
+        const modalParams = document.getElementById("modalParams");
 
         // Generate high-res version (12x magnification with _hires suffix)
         const highResPath = imagePath.replace(".webp", "_hires.webp");
@@ -626,11 +702,91 @@
         modalImg.alt = title;
         modalTitle.textContent = title;
 
+        // Set description if provided
+        if (modalDescription) {
+          modalDescription.textContent = description;
+          modalDescription.style.display = description ? "block" : "none";
+        }
+
+        // Set parameters if provided
+        if (modalParams && fullParams) {
+          const previewUrl = generatePreviewUrl(fullParams);
+          modalParams.innerHTML = `
+            <div class="modal-params-section">
+              <h4>Full Command:</h4>
+              <code class="modal-command">pixlet render year_clock.star ${fullParams}</code>
+              <div class="modal-actions">
+                <button onclick="copyToClipboard('pixlet render year_clock.star ${fullParams.replace(
+                  /'/g,
+                  "\\'"
+                )}')" class="copy-btn">
+                  📋 Copy Command
+                </button>
+                ${
+                  previewUrl
+                    ? `<a href="${previewUrl}" target="_blank" class="preview-btn">🔗 Preview in Browser</a>`
+                    : ""
+                }
+              </div>
+            </div>
+          `;
+          modalParams.style.display = "block";
+        } else if (modalParams) {
+          modalParams.style.display = "none";
+        }
+
         // Fallback to original image if high-res doesn't exist
         modalImg.onerror = function () {
           this.src = imagePath;
           this.onerror = null;
         };
+      }
+
+      // Generate preview URL from parameters
+      function generatePreviewUrl(params) {
+        if (!params) return null;
+
+        // Parse parameters into URL format
+        const urlParams = new URLSearchParams();
+        const paramPairs = params.split(" ");
+
+        for (const pair of paramPairs) {
+          const [key, value] = pair.split("=");
+          if (key && value) {
+            // Remove quotes from value if present
+            const cleanValue = value.replace(/['"]/g, "");
+            urlParams.set(key, cleanValue);
+          }
+        }
+
+        return `http://127.0.0.1:8080/?${urlParams.toString()}`;
+      }
+
+      // Copy to clipboard functionality
+      function copyToClipboard(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            // Visual feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = "✅ Copied!";
+            btn.style.background = "rgba(34, 197, 94, 0.2)";
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.style.background = "";
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Failed to copy: ", err);
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+          });
       }
 
       function closeModal() {
@@ -653,7 +809,8 @@
             `01_colorscheme_${scheme.value}.webp`,
             scheme.display,
             scheme.description,
-            `color_scheme=${scheme.value}`
+            `color_scheme=${scheme.value}`,
+            `color_scheme=${scheme.value} enable_special_dates=false`
           );
         });
 
@@ -676,12 +833,14 @@
                                   "02_hemisphere_rainbow_northern.webp",
                                   "Rainbow - Northern",
                                   "Summer peak in June-July",
+                                  "color_scheme=rainbow hemisphere=northern",
                                   "color_scheme=rainbow hemisphere=northern enable_special_dates=false"
                                 )}
                                 ${createDevice(
                                   "02_hemisphere_rainbow_southern.webp",
                                   "Rainbow - Southern",
                                   "Summer peak in December-January",
+                                  "color_scheme=rainbow hemisphere=southern",
                                   "color_scheme=rainbow hemisphere=southern enable_special_dates=false"
                                 )}
                             </div>
@@ -693,12 +852,14 @@
                                   "02_hemisphere_thermal_northern.webp",
                                   "Thermal - Northern",
                                   "Thermally accurate seasonal mapping",
+                                  "color_scheme=thermal hemisphere=northern",
                                   "color_scheme=thermal hemisphere=northern enable_special_dates=false"
                                 )}
                                 ${createDevice(
                                   "02_hemisphere_thermal_southern.webp",
                                   "Thermal - Southern",
                                   "Inverted thermal seasons",
+                                  "color_scheme=thermal hemisphere=southern",
                                   "color_scheme=thermal hemisphere=southern enable_special_dates=false"
                                 )}
                             </div>
@@ -717,7 +878,8 @@
                 hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
               }`,
               `${scheme.description} in ${hemisphere} hemisphere`,
-              `color_scheme=${scheme.value} hemisphere=${hemisphere}`
+              `color_scheme=${scheme.value} hemisphere=${hemisphere}`,
+              `color_scheme=${scheme.value} hemisphere=${hemisphere} enable_special_dates=false`
             );
           });
         });
@@ -745,7 +907,8 @@
                 hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
               })`,
               `Date text contrast testing`,
-              `color_scheme=${scheme.value} hemisphere=${hemisphere}`
+              `color_scheme=${scheme.value} hemisphere=${hemisphere}`,
+              `color_scheme=${scheme.value} hemisphere=${hemisphere} show_date=true enable_special_dates=false`
             );
           });
         });
@@ -780,7 +943,8 @@
                 scheme.charAt(0).toUpperCase() + scheme.slice(1)
               }`,
               `${test.description} overlap test`,
-              `color_scheme=${scheme} debug_date='${debugDate}'`
+              `color_scheme=${scheme} debug_date='${debugDate}'`,
+              `color_scheme=${scheme} show_date=true debug_date='${debugDate}' enable_special_dates=false`
             );
           });
         });
@@ -818,7 +982,8 @@
                 scheme.charAt(0).toUpperCase() + scheme.slice(1)
               }`,
               test.description,
-              `color_scheme=${scheme} debug_date='${debugDate}'`
+              `color_scheme=${scheme} debug_date='${debugDate}'`,
+              `color_scheme=${scheme} debug_date='${debugDate}' enable_special_dates=false`
             );
           });
         });
@@ -835,19 +1000,22 @@
                           "05_edge_Dec31_northern.webp",
                           "December 31st - Northern",
                           "Year boundary positioning",
-                          "debug_date='2024-12-31T18:00:00Z' hemisphere=northern"
+                          "debug_date='2024-12-31T18:00:00Z' hemisphere=northern",
+                          "debug_date='2024-12-31T18:00:00Z' hemisphere=northern enable_special_dates=false"
                         )}
                         ${createDevice(
                           "05_edge_Jan1_southern.webp",
                           "January 1st - Southern",
                           "Year start in opposite season",
-                          "debug_date='2024-01-01T12:00:00Z' hemisphere=southern"
+                          "debug_date='2024-01-01T12:00:00Z' hemisphere=southern",
+                          "debug_date='2024-01-01T12:00:00Z' hemisphere=southern enable_special_dates=false"
                         )}
                         ${createDevice(
                           "05_edge_LeapDay_blue.webp",
                           "Leap Day - Blue",
                           "February 29th special case",
-                          "debug_date='2024-02-29T12:00:00Z' color_scheme=blue"
+                          "debug_date='2024-02-29T12:00:00Z' color_scheme=blue",
+                          "debug_date='2024-02-29T12:00:00Z' color_scheme=blue enable_special_dates=false"
                         )}
                     </div>
                 </div>
@@ -881,7 +1049,8 @@
             `06_special_${special.key}.webp`,
             special.display,
             special.description,
-            `debug_date='${debugDate}'`
+            `debug_date='${debugDate}'`,
+            `debug_date='${debugDate}' enable_special_dates=true show_date=true`
           );
         });
 
@@ -890,7 +1059,8 @@
           "06_special_disabled.webp",
           "Special Dates Disabled",
           "Christmas with special date themes turned off (blue southern)",
-          "enable_special_dates=false color_scheme=blue hemisphere=southern debug_date='2024-12-25T12:00:00Z'"
+          "enable_special_dates=false color_scheme=blue hemisphere=southern debug_date='2024-12-25T12:00:00Z'",
+          "enable_special_dates=false color_scheme=blue hemisphere=southern show_date=true debug_date='2024-12-25T12:00:00Z'"
         );
 
         html += `
@@ -905,19 +1075,22 @@
                           "07_comprehensive_all_options.webp",
                           "All Options Enabled",
                           "Maximum feature combination test",
-                          "color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z'"
+                          "color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z'",
+                          "color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z' enable_special_dates=false"
                         )}
                         ${createDevice(
                           "07_comprehensive_minimal.webp",
                           "Minimal Configuration",
                           "Basic setup with minimal options",
-                          "(defaults only)"
+                          "(defaults only)",
+                          "enable_special_dates=false"
                         )}
                         ${createDevice(
                           "07_comprehensive_contrast.webp",
                           "Maximum Contrast",
                           "Extreme contrast scenario testing",
-                          "color_scheme=grayscale show_date=true"
+                          "color_scheme=grayscale show_date=true",
+                          "color_scheme=grayscale show_date=true enable_special_dates=false"
                         )}
                     </div>
                 </div>

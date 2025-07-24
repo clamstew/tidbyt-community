@@ -281,8 +281,8 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
   - [x] **Summer Solstice (Jun 21)** - Bright solar colors (golds, yellows, oranges)
   - [x] **Fall Equinox (Sep 22)** - Rich autumn colors (browns, oranges, reds)
   - [x] **Winter Solstice (Dec 21)** - Deep winter colors (blues, purples, whites)
-- [ ] **Birthday mode** - User sets birthday, gets special colors on that day PII
-- [ ] **Team colors** - Sports team color gradients (configurable)
+- [-] **Birthday mode** - User sets birthday, gets special colors on that day PII (won't do - don't want to enter as part of ux)
+- [-] **Team colors** - Sports team color gradients (configurable)
 
 ### Implementation Notes
 

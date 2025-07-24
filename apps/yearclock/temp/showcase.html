@@ -204,6 +204,75 @@
         color: #fca5a5;
       }
 
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(10px);
+      }
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        max-height: 90%;
+        text-align: center;
+      }
+
+      .modal-image {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-title {
+        color: #ffffff;
+        font-size: 1.5em;
+        margin-top: 20px;
+        font-weight: 600;
+      }
+
+      .modal-description {
+        color: #cbd5e1;
+        font-size: 1em;
+        margin-top: 10px;
+        opacity: 0.8;
+      }
+
+      .close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #ffffff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .close:hover {
+        color: #60a5fa;
+      }
+
+      .tidbyt-device {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .tidbyt-device:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 25px rgba(96, 165, 250, 0.3);
+      }
+
       /* Responsive stats grid for very small screens */
       @media (max-width: 600px) {
         .stats-grid {
@@ -216,6 +285,14 @@
         }
         .stat-number {
           font-size: 2em;
+        }
+        .modal-title {
+          font-size: 1.2em;
+        }
+        .close {
+          font-size: 30px;
+          top: 15px;
+          right: 25px;
         }
       }
     </style>
@@ -250,6 +327,19 @@
 
       <div id="main-content">
         <div class="loading">Loading showcase content...</div>
+      </div>
+    </div>
+
+    <!-- Modal for high-resolution image viewing -->
+    <div id="imageModal" class="modal">
+      <span class="close">&times;</span>
+      <div class="modal-content">
+        <img id="modalImage" class="modal-image" src="" alt="" />
+        <div id="modalTitle" class="modal-title"></div>
+        <div id="modalDescription" class="modal-description">
+          Click outside or press ESC to close • High resolution view (12x
+          magnification)
+        </div>
       </div>
     </div>
 
@@ -423,9 +513,16 @@
 
       // Generate device HTML
       function createDevice(imagePath, label, description = "") {
+        const deviceId = `device_${Date.now()}_${Math.random()
+          .toString(36)
+          .substr(2, 9)}`;
         return `
                 <div class="device-container">
-                    <img src="${imagePath}" alt="${label}" class="tidbyt-device" 
+                    <img src="${imagePath}" alt="${label}" class="tidbyt-device" id="${deviceId}"
+                         onclick="openModal('${imagePath}', '${label.replace(
+          /'/g,
+          "\\'"
+        )}', '${description.replace(/'/g, "\\'")}')"
                          onerror="this.style.opacity='0.3'; this.parentNode.style.border='1px solid #ef4444';">
                     <div class="device-label">${label}</div>
                     ${
@@ -435,6 +532,31 @@
                     }
                 </div>
             `;
+      }
+
+      // Modal functionality
+      function openModal(imagePath, title, description) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const modalTitle = document.getElementById("modalTitle");
+
+        // Generate high-res version (12x magnification)
+        const highResPath = imagePath.replace(".webp", "_12x.webp");
+
+        modal.style.display = "block";
+        modalImg.src = highResPath;
+        modalImg.alt = title;
+        modalTitle.textContent = title;
+
+        // Fallback to original image if high-res doesn't exist
+        modalImg.onerror = function () {
+          this.src = imagePath;
+          this.onerror = null;
+        };
+      }
+
+      function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
       }
 
       // Generate main content
@@ -655,6 +777,7 @@
           const stats = await calculateStats();
           renderStats(stats);
           renderContent();
+          setupModalEventListeners();
         } catch (error) {
           console.error("Error initializing showcase:", error);
           document.getElementById("stats-grid").innerHTML = `
@@ -668,6 +791,29 @@
                     </div>
                 `;
         }
+      }
+
+      // Setup modal event listeners
+      function setupModalEventListeners() {
+        const modal = document.getElementById("imageModal");
+        const closeBtn = document.querySelector(".close");
+
+        // Close modal when clicking X
+        closeBtn.onclick = closeModal;
+
+        // Close modal when clicking outside the image
+        modal.onclick = function (event) {
+          if (event.target === modal) {
+            closeModal();
+          }
+        };
+
+        // Close modal with ESC key
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && modal.style.display === "block") {
+            closeModal();
+          }
+        });
       }
 
       // Start the app

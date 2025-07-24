@@ -251,7 +251,10 @@ def get_date_color(color_scheme, hemisphere):
     elif color_scheme == "red":
         return "#FFFFFF"  # White text for contrast on red backgrounds
     elif color_scheme == "blue":
-        return "#FFFFFF"  # White text for contrast on blue backgrounds
+        if hemisphere == "northern":
+            return "#FFFFFF"  # White text for contrast on darker blue backgrounds
+        else:
+            return "#000000"  # Black text for better contrast on lighter blue areas (southern)
     elif color_scheme == "green":
         return "#000000"  # Black text for contrast on green backgrounds
     elif color_scheme == "purple":

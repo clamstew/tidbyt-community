@@ -121,11 +121,11 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 #### 3.4. Date Display Overlap Analysis
 
-- [ ] **February Positioning**: Review dial marker placement during February dates (early year)
-- [ ] **Overlap Scenarios**: Check Feb 1, Valentine's Day, Leap Day for dial/date conflicts
-- [ ] **Rainbow Overlap**: Verify dial marker visibility against rainbow background in February
-- [ ] **Grayscale Overlap**: Check dial marker contrast against grayscale in February
-- [ ] **Red Overlap**: Validate dial marker stands out on red background in February
+- [x] **February Positioning**: Review dial marker placement during February dates (early year)
+- [x] **Overlap Scenarios**: Check Feb 1, Valentine's Day, Leap Day for dial/date conflicts
+- [x] **Rainbow Overlap**: Verify dial marker visibility against rainbow background in February
+- [x] **Grayscale Overlap**: Check dial marker contrast against grayscale in February
+- [x] **Red Overlap**: Validate dial marker stands out on red background in February
 
 #### 3.5. Seasonal Positioning Accuracy
 

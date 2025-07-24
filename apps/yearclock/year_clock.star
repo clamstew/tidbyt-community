@@ -115,6 +115,52 @@ THERMAL_PALETTE = [
     "#0D1B2A",  # Deep winter blue (back to coldest)
 ]
 
+# Special Date Color Palettes
+HALLOWEEN_PALETTE = [
+    "#1A0A00",  # Very Dark Brown
+    "#330F00",  # Dark Brown
+    "#4D1500",  # Medium Brown
+    "#662000",  # Orange Brown
+    "#B8860B",  # Dark Golden Rod
+    "#FF8C00",  # Dark Orange
+    "#FF6600",  # Orange
+    "#FF4500",  # Orange Red
+    "#FF0000",  # Red
+    "#8B0000",  # Dark Red
+    "#2F1B14",  # Very Dark Brown
+    "#1A0A00",  # Very Dark Brown (back to start)
+]
+
+CHRISTMAS_PALETTE = [
+    "#006400",  # Dark Green
+    "#228B22",  # Forest Green
+    "#32CD32",  # Lime Green
+    "#00FF00",  # Bright Green
+    "#90EE90",  # Light Green
+    "#F5F5DC",  # Beige (neutral)
+    "#FFB6C1",  # Light Pink
+    "#FF69B4",  # Hot Pink
+    "#FF0000",  # Red
+    "#DC143C",  # Crimson
+    "#8B0000",  # Dark Red
+    "#006400",  # Dark Green (back to start)
+]
+
+NEWYEAR_PALETTE = [
+    "#2F2F2F",  # Dark Gray
+    "#4A4A4A",  # Medium Gray
+    "#B8860B",  # Dark Golden Rod
+    "#DAA520",  # Golden Rod
+    "#FFD700",  # Gold
+    "#FFFF99",  # Light Yellow
+    "#FFFFFF",  # White (peak)
+    "#E6E6FA",  # Lavender
+    "#C0C0C0",  # Silver
+    "#A9A9A9",  # Dark Gray
+    "#696969",  # Dim Gray
+    "#2F2F2F",  # Dark Gray (back to start)
+]
+
 def main(config):
     # Get current time in user's local timezone, or use debug time if provided
     debug_date = config.get("debug_date")
@@ -129,6 +175,16 @@ def main(config):
     # Get color scheme and hemisphere settings
     color_scheme = config.get("color_scheme", "rainbow")
     hemisphere = config.get("hemisphere", "northern")
+    
+    # Check for special date overrides
+    enable_special_dates = config.bool("enable_special_dates", True)
+    special_override = get_special_date_override(now, enable_special_dates)
+    if special_override:
+        color_scheme = special_override
+        # For Pride Month, always use northern hemisphere rainbow
+        if special_override == "pride":
+            color_scheme = "rainbow"
+            hemisphere = "northern"
 
     # Calculate year progress (0.0 to 1.0)
     # Use local time for year boundaries
@@ -223,6 +279,45 @@ def main(config):
         ),
     )
 
+def get_special_date_override(now, enable_special_dates):
+    """
+    Detect if current date falls on a special date and return override color scheme.
+    Returns None if no special date applies or if special dates are disabled.
+    """
+    if not enable_special_dates:
+        return None
+    
+    month = now.month
+    day = now.day
+    
+    # Valentine's Day (Feb 14) - Override to red spectrum
+    if month == 2 and day == 14:
+        return "red"
+    
+    # St. Patrick's Day (Mar 17) - Override to green spectrum  
+    if month == 3 and day == 17:
+        return "green"
+    
+    # Halloween (Oct 31) - Override to orange/black gradient
+    if month == 10 and day == 31:
+        return "halloween"
+    
+    # Christmas (Dec 25) - Override to red/green gradient
+    if month == 12 and day == 25:
+        return "christmas"
+    
+    # New Year's (Dec 31 or Jan 1) - Override to gold/silver gradient
+    if (month == 12 and day == 31) or (month == 1 and day == 1):
+        return "newyear"
+    
+    # Pride Month (June) - Override to rainbow regardless of hemisphere
+    if month == 6:
+        return "pride"
+    
+    # TODO: Add solstice/equinox highlights in the future
+    
+    return None
+
 def get_date_color(color_scheme, hemisphere):
     """Get appropriate date text color based on color scheme and hemisphere"""
 
@@ -246,6 +341,12 @@ def get_date_color(color_scheme, hemisphere):
         return "#000000"  # Black text for contrast on green backgrounds
     elif color_scheme == "purple":
         return "#000000"  # Black text for better contrast on light purple areas
+    elif color_scheme == "halloween":
+        return "#FFFFFF"  # White text for contrast on dark orange/brown backgrounds
+    elif color_scheme == "christmas":
+        return "#000000"  # Black text for contrast on green/red backgrounds
+    elif color_scheme == "newyear":
+        return "#000000"  # Black text for contrast on gold/silver backgrounds
     else:
         return "#000000"  # Default to black text
 
@@ -265,6 +366,12 @@ def get_color_palette(color_scheme):
         return GREEN_PALETTE
     elif color_scheme == "purple":
         return PURPLE_PALETTE
+    elif color_scheme == "halloween":
+        return HALLOWEEN_PALETTE
+    elif color_scheme == "christmas":
+        return CHRISTMAS_PALETTE
+    elif color_scheme == "newyear":
+        return NEWYEAR_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE
@@ -424,6 +531,13 @@ def get_schema():
                 desc = "Display current date in corner",
                 icon = "calendar",
                 default = False,
+            ),
+            schema.Toggle(
+                id = "enable_special_dates",
+                name = "Enable Special Date Themes",
+                desc = "Override colors on holidays (Valentine's, St. Patrick's, Halloween, Christmas, New Year's, Pride Month)",
+                icon = "star",
+                default = True,
             ),
             schema.DateTime(
                 id = "debug_date",

@@ -225,21 +225,30 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 ### Special Date Easter Eggs
 
-- [ ] **Valentine's Day (Feb 14)** - Override to all-red spectrum regardless of other settings
-- [ ] **St. Patrick's Day (Mar 17)** - Override to all-green spectrum
-- [ ] **Halloween (Oct 31)** - Override to orange/black gradient
-- [ ] **Christmas (Dec 25)** - Override to red/green alternating or gradient
-- [ ] **New Year's Eve/Day (Dec 31/Jan 1)** - Gold/silver gradient or sparkle effect (love)
+- [x] **Valentine's Day (Feb 14)** - ✅ COMPLETED: Override to all-red spectrum regardless of other settings
+- [x] **St. Patrick's Day (Mar 17)** - ✅ COMPLETED: Override to all-green spectrum
+- [x] **Halloween (Oct 31)** - ✅ COMPLETED: Override to orange/brown gradient (new HALLOWEEN_PALETTE)
+- [x] **Christmas (Dec 25)** - ✅ COMPLETED: Override to red/green gradient (new CHRISTMAS_PALETTE)
+- [x] **New Year's Eve/Day (Dec 31/Jan 1)** - ✅ COMPLETED: Gold/silver gradient (new NEWYEAR_PALETTE)
 
 ### Advanced Fun Features
 
-- [ ] **Pride Month (June)** - Classic rainbow regardless of hemisphere setting
+- [x] **Pride Month (June)** - ✅ COMPLETED: Classic rainbow regardless of hemisphere setting
 - [ ] **Solstice/Equinox highlights** - Special marker or color emphasis on these dates
 - [ ] **Birthday mode** - User sets birthday, gets special colors on that day
 - [ ] **Team colors** - Sports team color gradients (configurable)
 
 ### Implementation Notes
 
-- Easter eggs could be toggleable in settings ("Enable special date themes") - on by default - setting allows to turn off
-- Could detect current date automatically or work with debug date picker
-- Should override normal color logic when active
+- [x] ✅ COMPLETED: Easter eggs are toggleable in settings ("Enable Special Date Themes") - on by default - setting allows to turn off
+- [x] ✅ COMPLETED: Detects current date automatically and works with debug date picker
+- [x] ✅ COMPLETED: Overrides normal color logic when active
+
+**Special Date Features Added:**
+
+- New color palettes: HALLOWEEN_PALETTE, CHRISTMAS_PALETTE, NEWYEAR_PALETTE
+- Smart date detection with month/day logic
+- Toggle setting: "Enable Special Date Themes" (default: enabled)
+- Pride Month forces northern hemisphere rainbow positioning
+- All special dates work with debug date picker for testing
+- Appropriate text colors for each special palette

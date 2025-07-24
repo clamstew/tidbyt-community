@@ -181,10 +181,10 @@ def main(config):
     special_override = get_special_date_override(now, enable_special_dates)
     if special_override:
         color_scheme = special_override
-        # For Pride Month, always use northern hemisphere rainbow
+        # For Pride Month, use rainbow but respect hemisphere choice
         if special_override == "pride":
             color_scheme = "rainbow"
-            hemisphere = "northern"
+            # Keep the user's hemisphere setting - don't override it
 
     # Calculate year progress (0.0 to 1.0)
     # Use local time for year boundaries
@@ -310,7 +310,7 @@ def get_special_date_override(now, enable_special_dates):
     if (month == 12 and day == 31) or (month == 1 and day == 1):
         return "newyear"
     
-    # Pride Month (June) - Override to rainbow regardless of hemisphere
+    # Pride Month (June) - Override to rainbow but respect hemisphere setting
     if month == 6:
         return "pride"
     

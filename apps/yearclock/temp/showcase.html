@@ -181,6 +181,22 @@
         color: #cbd5e1;
       }
 
+      .common-params {
+        margin: 10px 0 20px 0;
+        text-align: center;
+      }
+
+      .common-params code {
+        background: rgba(59, 130, 246, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-family: "SF Mono", Monaco, "Consolas", monospace;
+        font-size: 0.85em;
+        color: #93c5fd;
+        font-weight: 500;
+      }
+
       .command-params {
         margin-top: 10px;
         font-size: 0.8em;
@@ -637,7 +653,7 @@
             `01_colorscheme_${scheme.value}.webp`,
             scheme.display,
             scheme.description,
-            `color_scheme=${scheme.value} enable_special_dates=false`
+            `color_scheme=${scheme.value}`
           );
         });
 
@@ -701,7 +717,7 @@
                 hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
               }`,
               `${scheme.description} in ${hemisphere} hemisphere`,
-              `color_scheme=${scheme.value} hemisphere=${hemisphere} enable_special_dates=false`
+              `color_scheme=${scheme.value} hemisphere=${hemisphere}`
             );
           });
         });
@@ -729,7 +745,7 @@
                 hemisphere.charAt(0).toUpperCase() + hemisphere.slice(1)
               })`,
               `Date text contrast testing`,
-              `color_scheme=${scheme.value} hemisphere=${hemisphere} show_date=true enable_special_dates=false`
+              `color_scheme=${scheme.value} hemisphere=${hemisphere}`
             );
           });
         });
@@ -743,6 +759,7 @@
                     <h2>Date Overlap Analysis (${
                       CONFIG.specialTests.length * 3
                     } tests)</h2>
+                    <div class="common-params"><code>Common: show_date=true enable_special_dates=false</code></div>
                     <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
                         Testing potential dial marker and date text conflicts in February
                     </p>
@@ -763,7 +780,7 @@
                 scheme.charAt(0).toUpperCase() + scheme.slice(1)
               }`,
               `${test.description} overlap test`,
-              `color_scheme=${scheme} show_date=true debug_date='${debugDate}' enable_special_dates=false`
+              `color_scheme=${scheme} debug_date='${debugDate}'`
             );
           });
         });
@@ -801,7 +818,7 @@
                 scheme.charAt(0).toUpperCase() + scheme.slice(1)
               }`,
               test.description,
-              `color_scheme=${scheme} debug_date='${debugDate}' enable_special_dates=false`
+              `color_scheme=${scheme} debug_date='${debugDate}'`
             );
           });
         });
@@ -818,19 +835,19 @@
                           "05_edge_Dec31_northern.webp",
                           "December 31st - Northern",
                           "Year boundary positioning",
-                          "debug_date='2024-12-31T18:00:00Z' hemisphere=northern enable_special_dates=false"
+                          "debug_date='2024-12-31T18:00:00Z' hemisphere=northern"
                         )}
                         ${createDevice(
                           "05_edge_Jan1_southern.webp",
                           "January 1st - Southern",
                           "Year start in opposite season",
-                          "debug_date='2024-01-01T12:00:00Z' hemisphere=southern enable_special_dates=false"
+                          "debug_date='2024-01-01T12:00:00Z' hemisphere=southern"
                         )}
                         ${createDevice(
                           "05_edge_LeapDay_blue.webp",
                           "Leap Day - Blue",
                           "February 29th special case",
-                          "debug_date='2024-02-29T12:00:00Z' color_scheme=blue enable_special_dates=false"
+                          "debug_date='2024-02-29T12:00:00Z' color_scheme=blue"
                         )}
                     </div>
                 </div>
@@ -840,6 +857,7 @@
                     <h2>🎉 Special Date Easter Eggs (${
                       CONFIG.specialDates.length + 1
                     } tests)</h2>
+                    <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
                     <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
                         Holiday and special occasion themes that automatically override color schemes
                     </p>
@@ -863,7 +881,7 @@
             `06_special_${special.key}.webp`,
             special.display,
             special.description,
-            `debug_date='${debugDate}' enable_special_dates=true show_date=true`
+            `debug_date='${debugDate}'`
           );
         });
 
@@ -872,7 +890,7 @@
           "06_special_disabled.webp",
           "Special Dates Disabled",
           "Christmas with special date themes turned off (blue southern)",
-          "debug_date='2024-12-25T12:00:00Z' enable_special_dates=false color_scheme=blue hemisphere=southern show_date=true"
+          "enable_special_dates=false color_scheme=blue hemisphere=southern debug_date='2024-12-25T12:00:00Z'"
         );
 
         html += `
@@ -887,19 +905,19 @@
                           "07_comprehensive_all_options.webp",
                           "All Options Enabled",
                           "Maximum feature combination test",
-                          "color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z' enable_special_dates=false"
+                          "color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z'"
                         )}
                         ${createDevice(
                           "07_comprehensive_minimal.webp",
                           "Minimal Configuration",
                           "Basic setup with minimal options",
-                          "enable_special_dates=false"
+                          "(defaults only)"
                         )}
                         ${createDevice(
                           "07_comprehensive_contrast.webp",
                           "Maximum Contrast",
                           "Extreme contrast scenario testing",
-                          "color_scheme=grayscale show_date=true enable_special_dates=false"
+                          "color_scheme=grayscale show_date=true"
                         )}
                     </div>
                 </div>

@@ -216,12 +216,12 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 ### Gradient Color Modes
 
-- [ ] **Single-Color Gradient Mode** - Instead of rainbow, use single color spectrum
-  - [ ] Red gradient: darker red in winter → brighter red in summer
-  - [ ] Blue gradient: navy in winter → sky blue in summer
-  - [ ] Green gradient: forest green in winter → lime in summer
-  - [ ] Purple gradient: deep purple in winter → lavender in summer
-- [ ] Add dropdown to select gradient color theme
+- [x] **Single-Color Gradient Mode** - Instead of rainbow, use single color spectrum
+  - [x] Red gradient: darker red in winter → brighter red in summer
+  - [x] Blue gradient: navy in winter → sky blue in summer
+  - [x] Green gradient: forest green in winter → lime in summer
+  - [x] Purple gradient: deep purple in winter → lavender in summer
+- [x] Add dropdown to select gradient color theme
 
 ### Special Date Easter Eggs
 

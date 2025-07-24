@@ -230,6 +230,21 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - [x] **Halloween (Oct 31)** - ✅ COMPLETED: Override to orange/brown gradient (new HALLOWEEN_PALETTE)
 - [x] **Christmas (Dec 25)** - ✅ COMPLETED: Override to red/green gradient (new CHRISTMAS_PALETTE)
 - [x] **New Year's Eve/Day (Dec 31/Jan 1)** - ✅ COMPLETED: Gold/silver gradient (new NEWYEAR_PALETTE)
+- [ ] **New Year's Animation** - Special animation effect for Dec 31/Jan 1 transition
+  - [ ] Firework-like pixel burst animation at midnight
+  - [ ] Sparkle effect overlay on gradient
+  - [ ] Countdown animation in final hour of year
+  - [ ] Smooth transition between NEWYEAR_PALETTE variations
+  - [ ] Consider performance impact of animation frames
+  - [ ] Test across timezones for proper triggering
+
+**Implementation Notes:**
+
+- Would need to check time more frequently near midnight
+- Animation frames would need careful optimization
+- Could use existing palette but add dynamic sparkle pixels
+- May want configurable animation intensity
+- Consider battery/performance impact of frequent updates
 
 ### Advanced Fun Features
 

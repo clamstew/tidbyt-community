@@ -4,21 +4,25 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 ## Priority Items
 
-### 1. Debug Time Slider ✅
+### 1. Debug Time Slider ✅ (REMOVED FOR PRODUCTION)
 
 - [x] ~~Replace current debug text field with a proper slider/range input~~ **COMPLETED: Added DateTime picker**
 - [x] ~~Allow sliding through different times of year for testing~~ **COMPLETED: Date picker allows selection of any date**
 - [x] ~~Auto-refresh on slider change if possible~~ **COMPLETED: Tidbyt auto-refreshes on config change**
 - [x] ~~Range should cover full year (0-365 days or 0.0-1.0 fraction)~~ **COMPLETED: Date picker covers full year, year doesn't matter for display**
 - [x] ~~Clean up old debug_date_x positioning logic~~ **COMPLETED: Removed unused debug_date_x text field and related code**
+- [x] **Remove debug UI for production** **COMPLETED: Removed schema.DateTime from UI but kept config.get("debug_date") for testing**
 
 **Implementation Notes:**
 
-- Used `schema.DateTime` instead of slider - much better UX for date selection
-- Year value from picker is ignored, only month/day used for seasonal positioning
+- ✅ **PRODUCTION READY**: Debug UI removed but testing capability preserved
+- Used `schema.DateTime` during development - provided excellent UX for date selection testing
+- Year value from picker was ignored, only month/day used for seasonal positioning
 - Labeled as "[DEBUG] Test Date" to indicate development/testing purpose
-- Auto-refresh works out of the box with Tidbyt's config system
+- Auto-refresh worked seamlessly with Tidbyt's config system during development
 - Cleaned up legacy debug_date_x functionality which was replaced by the date picker
+- **Smart cleanup**: Removed schema entry (no UI clutter) but kept config.get("debug_date") for testing
+- **Developer-friendly**: Still works via `pixlet render year_clock.star debug_date='2024-12-25T12:00:00Z'`
 
 ### 1.8. Build Test Harness ✅
 
@@ -538,9 +542,9 @@ def format_date_localized(date, timezone_name, user_override=None):
 
 ### ✅ Files to Include in PR
 
-**Core App Files:**
+**Core App Files (Production Ready):**
 
-- `year_clock.star` - Main application logic with all features
+- `year_clock.star` - Main application logic with all features (debug UI removed, testing capability preserved)
 - `manifest.yaml` - App metadata and configuration
 - `README.md` - User documentation with feature overview
 

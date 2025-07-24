@@ -224,10 +224,11 @@ WINTER_SOLSTICE_PALETTE = [
 
 def main(config):
     # Get current time in user's local timezone, or use debug time if provided
+    # Note: debug_date has no schema entry (hidden from UI) but works via URL/command line
     debug_date = config.get("debug_date")
     if debug_date:
         # Parse the debug date and use it instead of current time
-        # For debug mode, we still use a default timezone for consistency
+        # For debug mode, we use a consistent timezone for testing
         now = time.parse_time(debug_date).in_location("America/New_York")
     else:
         # Use system timezone - no need for user to configure this
@@ -236,12 +237,13 @@ def main(config):
     # Get color scheme and hemisphere settings
     color_scheme = config.get("color_scheme", "rainbow")
     hemisphere = config.get("hemisphere", "northern")
-    
+
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
     special_override = get_special_date_override(now, enable_special_dates)
     if special_override:
         color_scheme = special_override
+
         # For Pride Month, use rainbow but respect hemisphere choice
         if special_override == "pride":
             color_scheme = "rainbow"
@@ -349,51 +351,51 @@ def get_special_date_override(now, enable_special_dates):
     """
     if not enable_special_dates:
         return None
-    
+
     month = now.month
     day = now.day
-    
+
     # Valentine's Day (Feb 14) - Override to red spectrum
     if month == 2 and day == 14:
         return "red"
-    
-    # St. Patrick's Day (Mar 17) - Override to green spectrum  
+
+    # St. Patrick's Day (Mar 17) - Override to green spectrum
     if month == 3 and day == 17:
         return "green"
-    
+
     # Halloween (Oct 31) - Override to orange/black gradient
     if month == 10 and day == 31:
         return "halloween"
-    
+
     # Christmas (Dec 25) - Override to red/green gradient
     if month == 12 and day == 25:
         return "christmas"
-    
+
     # New Year's (Dec 31 or Jan 1) - Override to gold/silver gradient
     if (month == 12 and day == 31) or (month == 1 and day == 1):
         return "newyear"
-    
+
     # Pride Month (June) - Override to rainbow but respect hemisphere setting
     if month == 6:
         return "pride"
-    
+
     # Astronomical Events - Special color themes for seasonal markers
     # Spring Equinox (Mar 20) - Fresh spring colors
     if month == 3 and day == 20:
         return "spring_equinox"
-    
-    # Summer Solstice (Jun 21) - Bright solar colors  
+
+    # Summer Solstice (Jun 21) - Bright solar colors
     if month == 6 and day == 21:
         return "summer_solstice"
-    
+
     # Fall Equinox (Sep 22) - Rich autumn colors
     if month == 9 and day == 22:
         return "fall_equinox"
-    
+
     # Winter Solstice (Dec 21) - Deep winter colors
     if month == 12 and day == 21:
         return "winter_solstice"
-    
+
     return None
 
 def get_date_color(color_scheme, hemisphere):
@@ -499,12 +501,14 @@ def get_gradient_color(position, color_scheme, hemisphere):
     # Position 0.0 = Jan 1, 0.65 = late August peak, 1.0 = Dec 31
     # Shift the center from summer solstice (0.5) to late summer (0.65)
     peak_position = 0.65  # Late August/early September
-    
+
     # Calculate distance from peak, handling year wrap-around
-    distance_from_peak = min(abs(position - peak_position), 
-                            abs(position - peak_position + 1.0),
-                            abs(position - peak_position - 1.0))
-    
+    distance_from_peak = min(
+        abs(position - peak_position),
+        abs(position - peak_position + 1.0),
+        abs(position - peak_position - 1.0),
+    )
+
     # Scale to 0.0-1.0 range (0.0 = at peak, 1.0 = furthest from peak)
     max_distance = 0.5  # Maximum possible distance in circular year
     distance_from_center = min(distance_from_peak / max_distance, 1.0)
@@ -517,7 +521,7 @@ def get_gradient_color(position, color_scheme, hemisphere):
     num_segments = len(bright_colors) - 1
     if num_segments == 0:
         return bright_colors[0]
-    
+
     segment_size = 1.0 / num_segments
     segment = int(bright_position / segment_size)
     segment = min(segment, num_segments - 1)
@@ -632,12 +636,6 @@ def get_schema():
                 desc = "Override colors on holidays (Valentine's, St. Patrick's, Halloween, Christmas, New Year's, Pride Month)",
                 icon = "star",
                 default = True,
-            ),
-            schema.DateTime(
-                id = "debug_date",
-                name = "[DEBUG] Test Date",
-                desc = "Pick a date to preview colors (year doesn't matter)",
-                icon = "calendar",
             ),
         ],
     )

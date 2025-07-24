@@ -140,7 +140,7 @@ echo ""
 echo "${BLUE}2. Testing all color schemes...${NC}"
 COLOR_SCHEMES=("rainbow" "thermal" "grayscale" "red" "blue" "green" "purple")
 for scheme in "${COLOR_SCHEMES[@]}"; do
-    run_test "Color scheme: $scheme" "pixlet render year_clock.star color_scheme=$scheme" "01_colorscheme_${scheme}.webp"
+    run_test "Color scheme: $scheme" "pixlet render year_clock.star color_scheme=$scheme enable_special_dates=false" "01_colorscheme_${scheme}.webp"
 done
 echo ""
 
@@ -148,7 +148,7 @@ echo "${BLUE}3. Testing hemisphere combinations...${NC}"
 HEMISPHERES=("northern" "southern")
 for scheme in "${COLOR_SCHEMES[@]}"; do
     for hemisphere in "${HEMISPHERES[@]}"; do
-        run_test "$scheme + $hemisphere" "pixlet render year_clock.star color_scheme=$scheme hemisphere=$hemisphere" "02_hemisphere_${scheme}_${hemisphere}.webp"
+        run_test "$scheme + $hemisphere" "pixlet render year_clock.star color_scheme=$scheme hemisphere=$hemisphere enable_special_dates=false" "02_hemisphere_${scheme}_${hemisphere}.webp"
     done
 done
 echo ""
@@ -156,7 +156,7 @@ echo ""
 echo "${BLUE}4. Testing with date display...${NC}"
 for scheme in "${COLOR_SCHEMES[@]}"; do
     for hemisphere in "${HEMISPHERES[@]}"; do
-        run_test "$scheme + $hemisphere + date" "pixlet render year_clock.star color_scheme=$scheme hemisphere=$hemisphere show_date=true" "03_date_${scheme}_${hemisphere}.webp"
+        run_test "$scheme + $hemisphere + date" "pixlet render year_clock.star color_scheme=$scheme hemisphere=$hemisphere show_date=true enable_special_dates=false" "03_date_${scheme}_${hemisphere}.webp"
     done
 done
 echo ""
@@ -171,7 +171,7 @@ for i in "${!FEBRUARY_DATES[@]}"; do
     date="${FEBRUARY_DATES[$i]}"
     name="${FEBRUARY_NAMES[$i]}"
     for scheme in "${OVERLAP_SCHEMES[@]}"; do
-        run_test "Date overlap test: $scheme @ $name" "pixlet render year_clock.star color_scheme=$scheme show_date=true debug_date='$date'" "03_overlap_${scheme}_${name}.webp"
+        run_test "Date overlap test: $scheme @ $name" "pixlet render year_clock.star color_scheme=$scheme show_date=true debug_date='$date' enable_special_dates=false" "03_overlap_${scheme}_${name}.webp"
     done
 done
 echo ""
@@ -184,23 +184,40 @@ DATE_NAMES=("NewYear" "SpringEquinox" "SummerSolstice" "FallEquinox" "WinterSols
 for i in "${!TEST_DATES[@]}"; do
     date="${TEST_DATES[$i]}"
     name="${DATE_NAMES[$i]}"
-    run_test "Rainbow @ $name" "pixlet render year_clock.star color_scheme=rainbow debug_date='$date'" "04_seasonal_rainbow_${name}.webp"
-    run_test "Grayscale @ $name" "pixlet render year_clock.star color_scheme=grayscale debug_date='$date'" "04_seasonal_grayscale_${name}.webp"
+    run_test "Rainbow @ $name" "pixlet render year_clock.star color_scheme=rainbow debug_date='$date' enable_special_dates=false" "04_seasonal_rainbow_${name}.webp"
+    run_test "Grayscale @ $name" "pixlet render year_clock.star color_scheme=grayscale debug_date='$date' enable_special_dates=false" "04_seasonal_grayscale_${name}.webp"
 done
 echo ""
 
 echo "${BLUE}6. Testing edge cases...${NC}"
 # Test year boundary dates (using timezone-safe UTC times)
-run_test "Dec 31 Northern" "pixlet render year_clock.star debug_date='2024-12-31T18:00:00Z' hemisphere=northern" "05_edge_Dec31_northern.webp"
-run_test "Jan 1 Southern" "pixlet render year_clock.star debug_date='2024-01-01T12:00:00Z' hemisphere=southern" "05_edge_Jan1_southern.webp"
-run_test "Leap day" "pixlet render year_clock.star debug_date='2024-02-29T12:00:00Z' color_scheme=blue" "05_edge_LeapDay_blue.webp"
+run_test "Dec 31 Northern" "pixlet render year_clock.star debug_date='2024-12-31T18:00:00Z' hemisphere=northern enable_special_dates=false" "05_edge_Dec31_northern.webp"
+run_test "Jan 1 Southern" "pixlet render year_clock.star debug_date='2024-01-01T12:00:00Z' hemisphere=southern enable_special_dates=false" "05_edge_Jan1_southern.webp"
+run_test "Leap day" "pixlet render year_clock.star debug_date='2024-02-29T12:00:00Z' color_scheme=blue enable_special_dates=false" "05_edge_LeapDay_blue.webp"
+echo ""
+
+echo "${BLUE}6.5. Testing special date easter eggs...${NC}"
+# Test special date overrides with enable_special_dates=true
+SPECIAL_DATES=("2024-02-14T12:00:00Z" "2024-03-17T12:00:00Z" "2024-06-15T12:00:00Z" "2024-10-31T12:00:00Z" "2024-12-25T12:00:00Z" "2024-01-01T12:00:00Z")
+SPECIAL_NAMES=("ValentinesDay" "StPatricksDay" "PrideMonth" "Halloween" "Christmas" "NewYearsDay")
+EXPECTED_SCHEMES=("red" "green" "rainbow" "halloween" "christmas" "newyear")
+
+for i in "${!SPECIAL_DATES[@]}"; do
+    date="${SPECIAL_DATES[$i]}"
+    name="${SPECIAL_NAMES[$i]}"
+    expected="${EXPECTED_SCHEMES[$i]}"
+    run_test "Special date: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "06_special_${name}.webp"
+done
+
+# Test that special dates can be disabled
+run_test "Special dates disabled" "pixlet render year_clock.star debug_date='2024-12-25T12:00:00Z' enable_special_dates=false color_scheme=blue hemisphere=southern show_date=true" "06_special_disabled.webp"
 echo ""
 
 # Test comprehensive combinations (sample)
 echo "${BLUE}7. Testing comprehensive parameter combinations...${NC}"
-run_test "All options enabled" "pixlet render year_clock.star color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z'" "06_comprehensive_all_options.webp"
-run_test "Minimal options" "pixlet render year_clock.star" "06_comprehensive_minimal.webp"
-run_test "Max contrast test" "pixlet render year_clock.star color_scheme=grayscale show_date=true" "06_comprehensive_contrast.webp"
+run_test "All options enabled" "pixlet render year_clock.star color_scheme=purple hemisphere=southern show_date=true debug_date='2024-07-04T12:00:00Z' enable_special_dates=false" "07_comprehensive_all_options.webp"
+run_test "Minimal options" "pixlet render year_clock.star enable_special_dates=false" "07_comprehensive_minimal.webp"
+run_test "Max contrast test" "pixlet render year_clock.star color_scheme=grayscale show_date=true enable_special_dates=false" "07_comprehensive_contrast.webp"
 echo ""
 
 # Output final results

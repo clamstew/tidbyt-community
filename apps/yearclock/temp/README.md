@@ -134,13 +134,25 @@ Edge case tests - validates boundary conditions:
 - `05_edge_Jan1_southern.webp` - Year start (Southern hemisphere)
 - `05_edge_LeapDay_blue.webp` - Feb 29 leap day (Blue scheme)
 
-### 🔧 06*comprehensive*\*.webp (3 files)
+### 🎉 06*special*\*.webp (7 files)
+
+Special Date Easter Eggs tests - validates holiday overrides:
+
+- `06_special_ValentinesDay.webp` - Feb 14: Override to red spectrum
+- `06_special_StPatricksDay.webp` - Mar 17: Override to green spectrum
+- `06_special_PrideMonth.webp` - June: Rainbow regardless of hemisphere
+- `06_special_Halloween.webp` - Oct 31: Custom orange/brown gradient
+- `06_special_Christmas.webp` - Dec 25: Custom red/green gradient
+- `06_special_NewYearsDay.webp` - Jan 1: Custom gold/silver gradient
+- `06_special_disabled.webp` - Christmas with special dates disabled (blue southern)
+
+### 🔧 07*comprehensive*\*.webp (3 files)
 
 Complex configuration tests:
 
-- `06_comprehensive_all_options.webp` - All features enabled (Purple + Southern + Date + July 4th)
-- `06_comprehensive_minimal.webp` - Default settings only
-- `06_comprehensive_contrast.webp` - Maximum contrast scenario (Grayscale + Date)
+- `07_comprehensive_all_options.webp` - All features enabled (Purple + Southern + Date + July 4th)
+- `07_comprehensive_minimal.webp` - Default settings only
+- `07_comprehensive_contrast.webp` - Maximum contrast scenario (Grayscale + Date)
 
 ## How Images Are Generated
 

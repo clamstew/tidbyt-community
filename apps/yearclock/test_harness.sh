@@ -48,6 +48,9 @@ TESTS_RUN=0
 TESTS_PASSED=0
 TESTS_FAILED=0
 
+# Image quality settings
+MAGNIFY_FACTOR=6  # 6x magnification for crisp showcase images (384x192)
+
 # Function to run a test and track results
 run_test() {
     local test_name="$1"
@@ -56,6 +59,11 @@ run_test() {
     
     echo -n "Testing: $test_name... "
     TESTS_RUN=$((TESTS_RUN + 1))
+    
+    # Add magnification for better image quality
+    if [[ "$command" == *"pixlet render"* ]]; then
+        command="$command --magnify $MAGNIFY_FACTOR"
+    fi
     
     # If output_file is provided, add it to the command
     if [ -n "$output_file" ]; then

@@ -1,6 +1,6 @@
 # Year Clock Test Images
 
-This directory contains automatically generated test images from the Year Clock app test harness. All images are 64x32 pixels and show different configuration combinations.
+This directory contains automatically generated test images from the Year Clock app test harness. All images are rendered at **6x magnification (384×192 pixels)** for crisp display on laptop screens, and show different configuration combinations.
 
 ## 🚀 Generating Images
 
@@ -31,6 +31,15 @@ Run the test harness from the parent directory to regenerate all images:
 ```
 
 **Note**: Use `-W` flag when iterating on visual changes to avoid lint/format failures that don't affect image output.
+
+### 🔍 High Resolution Images
+
+All showcase images are generated at **6x magnification** for crisp viewing on laptop/desktop screens:
+
+- **Default Tidbyt**: 64×32 pixels (tiny, pixelated on screens)
+- **Showcase Images**: 384×192 pixels (6x magnified, crisp and clear)
+
+To adjust magnification, edit the `MAGNIFY_FACTOR` variable in `test_harness.sh`. Higher values produce larger, crisper images but increase file sizes.
 
 ## File Naming Convention
 

@@ -195,7 +195,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 
 **Ready for Submission**: All documentation complete, script tested, file organization optimized
 
-### 5. Date Positioning & Overlap Detection (WON'T DO)
+### 6. Date Positioning & Overlap Detection (WON'T DO)
 
 - [-] **Evaluate get_date_x_position function** - Currently just returns 1, needs proper logic or deletion
 - [-] **Smart date positioning** - Detect when dial marker would overlap with date display
@@ -214,7 +214,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Consider screen real estate (64x32 pixels) when positioning
 - Could be configurable: "Auto-adjust date position" toggle
 
-### 6. Evaluate Timezone/Location Necessity
+### 7. Evaluate Timezone/Location Necessity
 
 - [x] **Review location setting requirement** - ✅ COMPLETED: Timezone not needed for date-only display
 - [x] **Simplify configuration** - ✅ COMPLETED: Removed location requirement entirely
@@ -302,6 +302,216 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Appropriate text colors for each special palette (black/white based on background brightness)
 - **Enhanced Test Coverage**: Test harness includes all 10 special events (6 holidays + 4 astronomical)
 - **Enhanced Showcase**: Visual gallery organized into Special Date Easter Eggs and Astronomical Events sections
+
+---
+
+## 🌍 Internationalization & Localization
+
+### 5.1. Date Format Localization
+
+- [ ] **Regional Date Formats**: Support different date display formats
+  - [ ] US Format: "Jan 2" (current default)
+  - [ ] European Format: "2 Jan"
+  - [ ] ISO Format: "01-02"
+  - [ ] Numeric Format: "1/2" or "2/1"
+- [ ] **Timezone-based Auto-detection**: Intelligent format inference from timezone
+  - [ ] US timezones (America/New_York, US/Pacific, etc.) → "Jan 2" format
+  - [ ] European timezones (Europe/London, Europe/Paris, etc.) → "2 Jan" format
+  - [ ] Canadian timezones → Region-specific logic (Eastern=US style, others=European)
+  - [ ] Asia/Pacific timezones → ISO or local format preferences
+  - [ ] Fallback mapping for uncommon timezones
+- [ ] **Manual Override**: Allow users to choose format regardless of timezone inference
+- [ ] **Compact Modes**: Shorter formats for space-constrained displays
+
+### 5.2. Language Support
+
+- [ ] **Multi-language Month Names**: Support major languages
+  - [ ] Spanish: "Ene 2", "Feb 14", etc.
+  - [ ] French: "Jan 2", "Fév 14", etc.
+  - [ ] German: "Jan 2", "Feb 14", etc.
+  - [ ] Portuguese: "Jan 2", "Fev 14", etc.
+  - [ ] Italian: "Gen 2", "Feb 14", etc.
+- [ ] **Language Detection**: Infer from timezone-based regional mapping
+- [ ] **Fallback Strategy**: Default to English if language unavailable
+- [ ] **Schema Integration**: Language dropdown in configuration
+- [ ] **Timezone-Language Correlation**: Use timezone to suggest appropriate language
+  - [ ] America/\* timezones → English (with Spanish option for Mexico/South America)
+  - [ ] Europe/\* timezones → Local language based on country code
+  - [ ] Asia/\* timezones → English with local language options
+
+### 5.3. Regional Holiday Themes
+
+- [ ] **Regional Holiday Detection**: Expand special date themes by region
+  - [ ] **North America**: Thanksgiving (4th Thu Nov), Independence Day (Jul 4)
+  - [ ] **Europe**: Boxing Day (Dec 26), May Day (May 1)
+  - [ ] **Asia-Pacific**: Lunar New Year (variable), Golden Week (Japan)
+  - [ ] **Latin America**: Día de los Muertos (Nov 1-2), Carnival (variable)
+  - [ ] **Middle East**: Ramadan/Eid (lunar calendar, variable dates)
+- [ ] **Cultural Sensitivity**: Research appropriate color schemes for each holiday
+- [ ] **Configuration Option**: "Enable Regional Holidays" with region selector
+- [ ] **Smart Defaults**: Auto-enable holidays based on user's location
+
+### 5.4. Calendar System Support
+
+- [ ] **Alternative Calendars**: Support non-Gregorian calendar systems
+  - [ ] Lunar Calendar: Islamic/Chinese calendar integration
+  - [ ] Hebrew Calendar: Jewish holidays and year progression
+  - [ ] Thai Calendar: Buddhist Era year system
+  - [ ] Persian Calendar: Jalali calendar support
+- [ ] **Hybrid Display**: Show both Gregorian and alternative calendar dates
+- [ ] **Year Progress Mapping**: Adapt gradient to different calendar year lengths
+- [ ] **Research Required**: Understand cultural significance and proper implementation
+
+### 5.5. Cultural Considerations
+
+- [ ] **Color Symbolism**: Research color meanings across cultures
+  - [ ] Red meanings: Luck (China) vs. danger (Western)
+  - [ ] White meanings: Purity (Western) vs. mourning (Eastern)
+  - [ ] Green meanings: Nature (Universal) vs. specific cultural associations
+- [ ] **Seasonal Mapping**: Account for different seasonal experiences
+  - [ ] Monsoon seasons (South Asia)
+  - [ ] Dry/wet seasons (Tropical regions)
+  - [ ] Different seasonal timing (various latitudes)
+- [ ] **Religious Considerations**: Respectful handling of religious holidays
+  - [ ] Research appropriate color schemes
+  - [ ] Ensure accurate date calculations
+  - [ ] Provide opt-out mechanisms
+
+### 5.6. Technical Implementation
+
+- [ ] **Timezone-Based Inference Engine**: Smart locale detection from timezone
+  - [ ] Create timezone → locale mapping dictionary
+  - [ ] Handle common timezone patterns (America/_, Europe/_, Asia/\*, etc.)
+  - [ ] Implement fallback logic for unmapped timezones
+  - [ ] Support both long timezone names (America/New_York) and abbreviations (EST)
+- [ ] **Localization Framework**: Design extensible translation system
+  - [ ] JSON-based translation files
+  - [ ] Fallback chain: User Selection → Timezone Inference → English
+  - [ ] Dynamic loading based on configuration
+- [ ] **Date Library Integration**: Use robust date/calendar libraries
+  - [ ] Research Starlark date manipulation capabilities
+  - [ ] Handle timezone complexities
+  - [ ] Support leap years and calendar edge cases
+- [ ] **Configuration Schema**: Extend schema for i18n options
+  - [ ] Language selector dropdown (with "Auto-detect" option)
+  - [ ] Date format selector (with "Auto-detect from timezone" option)
+  - [ ] Regional holidays toggle
+  - [ ] Calendar system selector (advanced)
+
+### 5.6.1. Timezone Mapping Implementation
+
+- [ ] **US Timezone Patterns**: Map to US date format preferences
+  ```
+  America/New_York, America/Chicago, America/Denver, America/Los_Angeles
+  US/Eastern, US/Central, US/Mountain, US/Pacific
+  → Format: "Jan 2", Language: English, 12-hour time
+  ```
+- [ ] **European Timezone Patterns**: Map to European date format preferences
+  ```
+  Europe/London, Europe/Paris, Europe/Berlin, Europe/Rome, Europe/Madrid
+  → Format: "2 Jan", Language: Local/English, 24-hour time
+  ```
+- [ ] **Special Cases**: Handle regional variations
+  ```
+  Canada/Eastern → US format (proximity influence)
+  Canada/Pacific → European format (Commonwealth influence)
+  Mexico/* → Spanish language, US date format
+  ```
+- [ ] **Fallback Strategy**: Default mappings for edge cases
+  ```
+     Unknown timezone → English, "Jan 2" format
+   Generic UTC/GMT → User choice or English default
+  ```
+
+### 5.6.2. Practical Implementation Example
+
+**Starlark Pseudocode:**
+
+```python
+def get_date_format_from_timezone(timezone_name):
+    # US timezone patterns
+    us_timezones = [
+        "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+        "US/Eastern", "US/Central", "US/Mountain", "US/Pacific"
+    ]
+
+    # European timezone patterns
+    european_timezones = [
+        "Europe/London", "Europe/Paris", "Europe/Berlin", "Europe/Rome",
+        "Europe/Madrid", "Europe/Amsterdam", "Europe/Stockholm"
+    ]
+
+    if timezone_name in us_timezones or timezone_name.startswith("America/"):
+        return "us_format"  # "Jan 2"
+    elif timezone_name in european_timezones or timezone_name.startswith("Europe/"):
+        return "european_format"  # "2 Jan"
+    else:
+        return "us_format"  # Default fallback
+
+def format_date_localized(date, timezone_name, user_override=None):
+    if user_override:
+        format_type = user_override
+    else:
+        format_type = get_date_format_from_timezone(timezone_name)
+
+    if format_type == "us_format":
+        return date.format("Jan 2")
+    elif format_type == "european_format":
+        return date.format("2 Jan")
+    else:
+        return date.format("01-02")  # ISO fallback
+```
+
+**Benefits of This Approach:**
+
+- ✅ **Zero User Configuration**: Works automatically for 90%+ of users
+- ✅ **Smart Defaults**: Uses existing timezone info for intelligent inference
+- ✅ **Override Available**: Users can still manually choose if they prefer different format
+- ✅ **Gradual Rollout**: Can start with just US/European distinction, expand later
+- ✅ **Maintainable**: Simple mapping logic, easy to extend with new regions
+
+### 5.7. Testing Strategy
+
+- [ ] **Multi-language Testing**: Test all supported languages
+  - [ ] Date format rendering
+  - [ ] Text length variations (German vs. English)
+  - [ ] Character encoding (accented characters)
+- [ ] **Regional Holiday Testing**: Verify holiday detection across regions
+  - [ ] Correct date calculations
+  - [ ] Appropriate color schemes
+  - [ ] Cultural accuracy
+- [ ] **Calendar System Testing**: Alternative calendar accuracy
+  - [ ] Year boundary handling
+  - [ ] Leap year/month calculations
+  - [ ] Seasonal progression mapping
+
+### 5.8. Gradual Implementation Plan
+
+**Phase 1: Timezone-Based Date Formats**
+
+- [ ] Implement timezone → date format mapping
+- [ ] Add 3-4 major date formats with auto-detection
+- [ ] Add format selector to schema with "Auto-detect" option
+- [ ] Test with existing special dates across timezones
+
+**Phase 2: Basic Language Support**
+
+- [ ] Add Spanish, French, German month names
+- [ ] Implement timezone-based language detection
+- [ ] Create timezone → language suggestion mapping
+- [ ] Test text length handling and character encoding
+
+**Phase 3: Regional Holidays**
+
+- [ ] Research and implement 5-10 major regional holidays
+- [ ] Add region selector
+- [ ] Test cultural appropriateness
+
+**Phase 4: Advanced Features**
+
+- [ ] Alternative calendar systems (if feasible)
+- [ ] Complex cultural considerations
+- [ ] Advanced seasonal mapping
 
 ---
 

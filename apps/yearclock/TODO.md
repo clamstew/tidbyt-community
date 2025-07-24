@@ -167,6 +167,16 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
   - [ ] Different timezones and edge cases
 - [ ] Include screenshots or examples of different states
 - [ ] Document expected behavior for each configuration
+- [ ] Structure PR documentation to mirror showcase.html site organization:
+  - [ ] Use GitHub details/accordion sections to organize content
+  - [ ] Create markdown tables for configuration options
+  - [ ] Add image galleries with before/after comparisons
+  - [ ] Include example configurations and their outputs
+- [ ] Handle image hosting for PR:
+  - [ ] Upload test images to personal fork
+  - [ ] Use raw GitHub URLs in PR markdown
+  - [ ] Organize images into logical sections matching debug site
+  - [ ] Ensure images are properly sized/optimized for GitHub
 
 ### 5. Date Positioning & Overlap Detection (WON'T DO)
 

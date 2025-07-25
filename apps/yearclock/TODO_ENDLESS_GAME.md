@@ -6,9 +6,9 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 
 ### Endless Cultural Expansion
 
-- [ ] **More Regional Holidays**: Diwali (India), Bastille Day (France), Carnival (Brazil), Oktoberfest (Germany)
+- [ ] **More Regional Holidays**: Diwali (India), ~~Bastille Day (France)~~, Carnival (Brazil), Oktoberfest (Germany)
 - [ ] **More Languages**: Hindi, Arabic, Japanese, Korean, Russian, Dutch, Swedish, etc.
-- [ ] **Religious Calendar Integration**: Hebrew, Buddhist, Hindu lunar calendars
+- [ ] **Religious Calendar Integration**: Hebrew, ~~Buddhist~~, Hindu lunar calendars
 - [ ] **Cultural Color Research**: Color symbolism across all world cultures
 - [ ] **Regional Season Mapping**: Monsoons, dry seasons, tropical variations
 - [ ] **Indigenous Celebrations**: Traditional holidays by indigenous cultures
@@ -20,6 +20,7 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 ### Examples of Infinite Expansion
 
 #### Religious & Cultural Holidays
+
 - [ ] **Hindu Holidays**: Diwali, Holi, Navratri with regional variations
 - [ ] **Buddhist Holidays**: Vesak, Songkran, Losar across different traditions
 - [ ] **Islamic Holidays**: Eid al-Fitr, Eid al-Adha, Mawlid with lunar calculations
@@ -28,31 +29,36 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 - [ ] **Indigenous Celebrations**: Pow wows, solstice ceremonies, harvest festivals
 
 #### National & Regional Holidays
-- [ ] **European Nations**: Bastille Day (France), King's Day (Netherlands), Midsummer (Nordic)
-- [ ] **Asian Nations**: Golden Week (Japan), Chinese New Year, Deepavali (Singapore)
-- [ ] **Latin America**: Día de los Muertos (Mexico), Carnival (Brazil), Cinco de Mayo
+
+- [ ] **European Nations**: ~~Bastille Day (France)~~, King's Day (Netherlands), Midsummer (Nordic)
+- [ ] **Asian Nations**: ~~Golden Week (Japan)~~, Chinese New Year, Deepavali (Singapore)
+- [ ] **Latin America**: ~~Día de los Muertos (Mexico)~~, Carnival (Brazil), Cinco de Mayo
 - [ ] **African Nations**: Heritage Day (South Africa), Revolution Day (Egypt)
 - [ ] **Oceania**: ANZAC Day (Australia/NZ), Waitangi Day (New Zealand)
 
 #### Language & Script Expansion
-- [ ] **Major World Languages**: Mandarin, Hindi, Arabic, Bengali, Portuguese, Russian
+
+- [ ] **Major World Languages**: Mandarin, Hindi, Arabic, Bengali, ~~Portuguese~~, Russian
 - [ ] **Regional Languages**: Catalan, Welsh, Gaelic, Basque, Flemish
 - [ ] **Script Systems**: Arabic, Devanagari, Chinese characters, Cyrillic
 - [ ] **Right-to-Left Support**: Arabic, Hebrew text direction handling
 
 #### Calendar System Deep Dive
-- [ ] **Lunar Calendars**: Chinese, Islamic, Hebrew with complex calculations
-- [ ] **Lunisolar Systems**: Hindu, Buddhist, Vietnamese calendars
+
+- [ ] **Lunar Calendars**: Chinese, ~~Islamic~~, Hebrew with complex calculations
+- [ ] **Lunisolar Systems**: Hindu, ~~Buddhist~~, Vietnamese calendars
 - [ ] **Historical Systems**: Roman, Mayan, Aztec, Egyptian calendar conversions
 - [ ] **Specialized Calendars**: Academic years, fiscal years, liturgical calendars
 
 #### Cultural Color Psychology
+
 - [ ] **Eastern Color Meanings**: Red=luck (China) vs danger (West)
 - [ ] **Religious Color Significance**: Saffron (Buddhism), Green (Islam), Blue (Judaism)
 - [ ] **Regional Preferences**: Color associations by geographic region
 - [ ] **Historical Context**: Color meanings through different eras
 
 #### Micro-Regionalization
+
 - [ ] **US State Holidays**: Patriots' Day (Massachusetts), Cesar Chavez Day (California)
 - [ ] **Canadian Provincial**: Family Day variations, Civic holidays
 - [ ] **German Federal States**: Regional variations of holidays
@@ -62,8 +68,9 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 ### The Endless Nature
 
 This expansion could theoretically include:
+
 - **7,000+ languages** worldwide
-- **195+ countries** with unique holiday calendars  
+- **195+ countries** with unique holiday calendars
 - **Thousands of ethnic groups** with distinct traditions
 - **Hundreds of religions** with specialized observances
 - **Countless regional variations** within countries
@@ -87,8 +94,8 @@ _Note: This section acknowledges potential infinite expansion but is not activel
 The "Infinite Game" concept recognizes that cultural representation could expand indefinitely. Rather than pursuing endless features, we focus on:
 
 - **Quality over Quantity**: Deep implementation of major cultures
-- **Universal Appeal**: Features that serve broad user bases  
+- **Universal Appeal**: Features that serve broad user bases
 - **Sustainable Scope**: Maintainable within development resources
 - **Cultural Respect**: Accurate representation over comprehensive coverage
 
-The current implementation provides rich cultural support while remaining focused and maintainable. 
+The current implementation provides rich cultural support while remaining focused and maintainable.

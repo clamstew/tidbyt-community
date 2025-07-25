@@ -834,7 +834,7 @@ def get_schema():
                 id = "date_format",
                 name = "Date Format",
                 desc = "Choose date format (auto-detects from timezone)",
-                icon = "calendar-days",
+                icon = "calendarDays",
                 default = "auto",
                 options = [
                     schema.Option(

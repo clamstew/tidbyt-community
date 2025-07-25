@@ -134,9 +134,9 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 #### 3.5. Seasonal Positioning Accuracy
 
 - [x] **New Year (Jan 1)**: ✅ FIXED: Dial marker no longer clipped at left edge - added 1-pixel buffer
-- [ ] **Spring Equinox (Mar 20)**: Verify dial at ~25% position, colors match spring feeling
-- [ ] **Summer Solstice (Jun 21)**: Check dial at ~50% position, brightest colors visible
-- [ ] **Fall Equinox (Sep 22)**: Validate dial at ~75% position, autumn color transition
+- [x] **Spring Equinox (Mar 20)**: Verify dial at ~25% position, colors match spring feeling
+- [x] **Summer Solstice (Jun 21)**: Check dial at ~50% position, brightest colors visible
+- [x] **Fall Equinox (Sep 22)**: Validate dial at ~75% position, autumn color transition
 - [x] **Winter Solstice (Dec 21)**: ✅ FIXED: Dial positioned near year end with proper edge contact
 
 #### 3.6. Edge Cases & Special Scenarios

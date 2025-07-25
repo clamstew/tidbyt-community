@@ -332,9 +332,9 @@ echo ""
 
 echo "  Testing timezone-based automatic language detection..."
 # Test timezone-based language auto-detection with culturally appropriate timezones
-LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome" "Africa/Ouagadougou" "Africa/Bamako" "Africa/Dakar" "Africa/Conakry" "Africa/Abidjan" "America/Guatemala" "America/El_Salvador" "America/Tegucigalpa" "America/Managua" "America/Costa_Rica")
-LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy" "French_BurkinaFaso" "French_Mali" "French_Senegal" "French_Guinea" "French_IvoryCoast" "Spanish_Guatemala" "Spanish_ElSalvador" "Spanish_Honduras" "Spanish_Nicaragua" "Spanish_CostaRica")
-EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it" "fr" "fr" "fr" "fr" "fr" "es" "es" "es" "es" "es")
+LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome" "Africa/Ouagadougou" "Africa/Bamako" "Africa/Dakar" "Africa/Conakry" "Africa/Abidjan" "America/Guatemala" "America/El_Salvador" "America/Tegucigalpa" "America/Managua" "America/Costa_Rica" "Africa/Luanda" "Africa/Maputo" "Africa/Bissau" "Africa/Sao_Tome" "America/Fortaleza")
+LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy" "French_BurkinaFaso" "French_Mali" "French_Senegal" "French_Guinea" "French_IvoryCoast" "Spanish_Guatemala" "Spanish_ElSalvador" "Spanish_Honduras" "Spanish_Nicaragua" "Spanish_CostaRica" "Portuguese_Angola" "Portuguese_Mozambique" "Portuguese_GuineaBissau" "Portuguese_SaoTome" "Portuguese_BrazilFortaleza")
+EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it" "fr" "fr" "fr" "fr" "fr" "es" "es" "es" "es" "es" "pt" "pt" "pt" "pt" "pt")
 
 for i in "${!LANGUAGE_AUTO_TIMEZONES[@]}"; do
     tz="${LANGUAGE_AUTO_TIMEZONES[$i]}"

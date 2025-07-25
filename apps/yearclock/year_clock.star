@@ -1030,10 +1030,20 @@ def get_language_from_timezone(timezone_name):
          timezone_name.startswith("America/Tegucigalpa") or \
          timezone_name.startswith("America/Managua") or \
          timezone_name.startswith("America/Costa_Rica") or \
+         timezone_name.startswith("America/Caracas") or \
+         timezone_name.startswith("America/Guayaquil") or \
+         timezone_name.startswith("America/La_Paz") or \
+         timezone_name.startswith("America/Asuncion") or \
+         timezone_name.startswith("America/Montevideo") or \
          "Spanish" in timezone_name:
         return "es"
     elif timezone_name.startswith("America/Sao_Paulo") or \
          timezone_name.startswith("Europe/Lisbon") or \
+         timezone_name.startswith("Africa/Luanda") or \
+         timezone_name.startswith("Africa/Maputo") or \
+         timezone_name.startswith("Africa/Bissau") or \
+         timezone_name.startswith("Africa/Sao_Tome") or \
+         timezone_name.startswith("America/Fortaleza") or \
          "Portuguese" in timezone_name:
         return "pt"
     elif timezone_name.startswith("Europe/Rome") or \

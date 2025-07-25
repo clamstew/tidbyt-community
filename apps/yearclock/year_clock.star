@@ -682,6 +682,16 @@ def calculate_thanksgiving(year):
         2028: 23,  # November 23, 2028
         2029: 22,  # November 22, 2029
         2030: 28,  # November 28, 2030
+        2031: 27,  # November 27, 2031
+        2032: 25,  # November 25, 2032
+        2033: 24,  # November 24, 2033
+        2034: 23,  # November 23, 2034
+        2035: 22,  # November 22, 2035
+        2036: 27,  # November 27, 2036
+        2037: 26,  # November 26, 2037
+        2038: 25,  # November 25, 2038
+        2039: 24,  # November 24, 2039
+        2040: 22,  # November 22, 2040
     }
 
     # Return the date if we have it, otherwise default to 4th Thursday estimate

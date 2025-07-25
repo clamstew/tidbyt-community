@@ -591,7 +591,7 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 
 **Phase 4: Advanced Features**
 
-- [ ] Alternative calendar systems (if feasible)
+- [x] Alternative calendar systems (if feasible)
 - [ ] Complex cultural considerations
 - [ ] Advanced seasonal mapping
 

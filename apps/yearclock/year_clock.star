@@ -680,8 +680,8 @@ def get_date_format_from_timezone(timezone_name):
         return "us_format"  # "Jan 2"
     elif timezone_name in european_timezones:
         return "european_format"  # "2 Jan"
-
         # Check for timezone patterns
+
     elif timezone_name.startswith("America/"):
         # Most American timezones use US format
         return "us_format"
@@ -691,8 +691,8 @@ def get_date_format_from_timezone(timezone_name):
     elif timezone_name.startswith("Asia/"):
         # Default to ISO format for Asia
         return "iso_format"  # "01-02"
-
         # Special cases
+
     elif timezone_name.startswith("Canada/"):
         # Canadian timezones - mixed based on region
         if "Eastern" in timezone_name:

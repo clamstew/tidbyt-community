@@ -407,7 +407,10 @@ def get_date_color(color_scheme, hemisphere):
         else:
             return "#000000"  # Black text for better contrast on bright rainbow colors
     elif color_scheme == "thermal":
-        return "#000000"  # Black text for better contrast on thermal colors (includes light blues/pinks)
+        if hemisphere == "northern":
+            return "#000000"  # Black text for better contrast on thermal colors (includes light blues/pinks)
+        else:
+            return "#FFFFFF"  # White text for better contrast on thermal colors (includes light blues/pinks)
     elif color_scheme == "grayscale":
         return "#000000"  # Black text for contrast on gray gradients
     elif color_scheme == "red":

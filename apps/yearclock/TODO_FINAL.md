@@ -49,6 +49,12 @@ This TODO has been broken into focused documents:
 - [ ] **Performance Optimization**: Frame optimization for battery/performance impact
 - [ ] **Configurable Intensity**: User control over animation intensity levels
 - [ ] **Dynamic Sparkle Pixels**: More varied sparkle patterns and behaviors
+- [ ] **Animation Time Windows**: Smart timing for holiday animations based on local time
+  - [ ] **Christmas Snow**: Only show during evening/night hours (7pm-6am)
+  - [ ] **Halloween Flicker**: Activate during prime trick-or-treat time (6pm-10pm)
+  - [ ] **New Year's Sparkle**: Intensify closer to midnight countdown
+  - [ ] **Valentine's Hearts**: Romantic evening timing (sunset onwards)
+  - [ ] **Smart Defaults**: Research culturally appropriate timing windows
 
 ### Technical Improvements
 

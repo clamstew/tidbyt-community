@@ -559,6 +559,7 @@
         <a href="#astronomical" class="nav-link">🌌 Astronomical <span class="nav-count">4</span></a>
         <a href="#regional" class="nav-link">🌍 Regional <span class="nav-count">8</span></a>
         <a href="#variable" class="nav-link">🗓️ Variable Date <span class="nav-count">6</span></a>
+        <a href="#animations" class="nav-link">✨ Animations <span class="nav-count">5</span></a>
       </div>
 
       <div class="nav-section">
@@ -935,6 +936,7 @@
             pattern: "06_variable_",
             count: CONFIG.variableHolidays.length * 2,
           }, // variable holidays (enabled + filtered)
+          { pattern: "11_animation_", count: 5 }, // New Year's animation tests
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
           { pattern: "08_accent_", count: 7 * 4 + 2 }, // adaptive, compare, fixed, none
           {
@@ -1727,6 +1729,52 @@
         });
 
         html += `
+                    </div>
+                </div>
+
+                <!-- New Year's Animation -->
+                <div class="section" id="animations">
+                    <h2>✨ New Year's Sparkle Animation (5 tests)</h2>
+                    <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Magical twinkling sparkle effect for Dec 31st and Jan 1st dates
+                    </p>
+                    <div class="grid">
+                        ${createDevice(
+                          "11_animation_NewYearsEve.webp",
+                          "New Year's Eve ✨",
+                          "Dec 31st sparkle animation over gold/silver gradient",
+                          "debug_date='2024-12-31T23:30:00Z'",
+                          "debug_date='2024-12-31T23:30:00Z' enable_special_dates=true show_date=true"
+                        )}
+                        ${createDevice(
+                          "11_animation_NewYearsMidnight.webp", 
+                          "New Year's Midnight ✨",
+                          "Jan 1st midnight sparkle animation",
+                          "debug_date='2024-01-01T00:30:00Z'",
+                          "debug_date='2024-01-01T00:30:00Z' enable_special_dates=true show_date=true"
+                        )}
+                        ${createDevice(
+                          "11_animation_NewYearsDay.webp",
+                          "New Year's Day ✨", 
+                          "Jan 1st daytime sparkle animation",
+                          "debug_date='2024-01-01T12:00:00Z'",
+                          "debug_date='2024-01-01T12:00:00Z' enable_special_dates=true show_date=true"
+                        )}
+                        ${createDevice(
+                          "11_animation_NewYears_Disabled.webp",
+                          "Animation Disabled",
+                          "Jan 1st with special dates disabled - no animation",
+                          "debug_date='2024-01-01T00:00:00Z' enable_special_dates=false",
+                          "debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true"
+                        )}
+                        ${createDevice(
+                          "11_animation_NewYears_RedOverride.webp",
+                          "Color Override Test",
+                          "New Year's animation overrides color scheme setting",
+                          "debug_date='2024-01-01T00:00:00Z' color_scheme=red",
+                          "debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true show_date=true"
+                        )}
                     </div>
                 </div>
 

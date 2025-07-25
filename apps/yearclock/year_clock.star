@@ -656,6 +656,8 @@ def main(config):
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
     special_override = get_special_date_override(now, enable_special_dates, timezone)
+    is_new_years = special_override == "newyear"
+
     if special_override:
         color_scheme = special_override
 
@@ -666,6 +668,15 @@ def main(config):
 
     # Calculate year progress (0.0 to 1.0) for selected calendar system
     year_fraction = calculate_year_progress_for_calendar(now, calendar_system)
+
+    # Check if we should show New Year's animation
+    if is_new_years and enable_special_dates:
+        return create_new_years_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    else:
+        return create_static_year_clock(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+
+def create_static_year_clock(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create the standard static year clock display"""
 
     # Create the gradient background
     gradient_children = []
@@ -767,6 +778,179 @@ def main(config):
             ],
         ),
     )
+
+def create_new_years_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated New Year's display with twinkling sparkles"""
+
+    # Number of animation frames for sparkle effect
+    num_frames = 8
+    frame_delay = 50  # milliseconds between frames
+
+    # Create list of animation frames
+    frames = []
+
+    for frame_idx in range(num_frames):
+        # Create the gradient background (same for all frames)
+        gradient_children = []
+        for x in range(64):
+            # Calculate position in gradient (0.0 to 1.0)
+            pos = x / 63.0
+
+            # Get color for this position (with calendar-specific thermal peak)
+            color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
+
+            # Create a vertical line for this x position
+            gradient_children.append(
+                render.Box(
+                    width = 1,
+                    height = 32,
+                    color = color,
+                ),
+            )
+
+        # Calculate marker position with proper edge handling
+        marker_x = min(62, int(year_fraction * 62) + 1)
+
+        # Get accent dot color based on style and color scheme
+        accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+
+        # Generate sparkles for this frame
+        sparkle_children = generate_sparkles_for_frame(frame_idx)
+
+        # Create the frame
+        frame = render.Stack(
+            children = [
+                # Rainbow gradient background
+                render.Row(
+                    children = gradient_children,
+                ),
+                # Sparkle overlay
+                render.Stack(
+                    children = sparkle_children,
+                ),
+                # Dial marker
+                render.Stack(
+                    children = [
+                        # Main dial line (white)
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#FFFFFF",
+                            ),
+                        ),
+                        # Left shadow (darker)
+                        render.Padding(
+                            pad = (max(0, marker_x - 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#999999",
+                            ),
+                        ) if marker_x > 0 else render.Box(width = 0, height = 0),
+                        # Right highlight (lighter)
+                        render.Padding(
+                            pad = (min(63, marker_x + 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#CCCCCC",
+                            ),
+                        ) if marker_x < 63 else render.Box(width = 0, height = 0),
+                        # Top and bottom accent dots
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Column(
+                                children = [
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                    render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                ],
+                            ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
+                    ],
+                ),
+                # Optional date display
+                render.Padding(
+                    pad = (1, 26, 0, 0),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
+                    ),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
+            ],
+        )
+
+        frames.append(frame)
+
+    # Return animated root with all frames
+    return render.Root(
+        delay = frame_delay,
+        child = render.Animation(
+            children = frames,
+        ),
+    )
+
+def generate_sparkles_for_frame(frame_idx):
+    """Generate sparkle pixels for a specific animation frame"""
+    sparkles = []
+
+    # Different sparkle patterns for each frame to create twinkling effect
+    # Using frame index as a pseudo-random seed for consistent but varied patterns
+    sparkle_patterns = [
+        # Frame 0: scattered sparkles
+        [(10, 5), (25, 12), (45, 8), (58, 20), (32, 25)],
+        # Frame 1: different positions
+        [(15, 15), (38, 7), (52, 18), (8, 28), (60, 10)],
+        # Frame 2: more sparkles
+        [(20, 22), (42, 4), (55, 15), (12, 8), (35, 30), (48, 25)],
+        # Frame 3: fewer sparkles
+        [(28, 18), (50, 11), (18, 25), (40, 6)],
+        # Frame 4: shift pattern
+        [(22, 10), (45, 20), (62, 14), (5, 18), (35, 5)],
+        # Frame 5: bright moment
+        [(30, 16), (46, 9), (58, 25), (15, 12), (38, 28), (52, 5)],
+        # Frame 6: fade
+        [(25, 20), (50, 15), (10, 30), (40, 8)],
+        # Frame 7: minimal
+        [(35, 12), (55, 22), (20, 6)],
+    ]
+
+    # Get sparkle positions for this frame
+    frame_sparkles = sparkle_patterns[frame_idx % len(sparkle_patterns)]
+
+    # Create sparkle pixels with different intensities
+    sparkle_colors = ["#FFFFFF", "#FFFF99", "#FFD700", "#FFFFFF"]  # White, light yellow, gold, white
+
+    for i, (x, y) in enumerate(frame_sparkles):
+        # Vary sparkle intensity based on position in sequence
+        color = sparkle_colors[i % len(sparkle_colors)]
+
+        sparkles.append(
+            render.Padding(
+                pad = (x, y, 0, 0),
+                child = render.Box(
+                    width = 1,
+                    height = 1,
+                    color = color,
+                ),
+            ),
+        )
+
+    return sparkles
 
 def get_special_date_override(now, enable_special_dates, timezone_name):
     """

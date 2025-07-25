@@ -419,6 +419,25 @@ for i in "${!SPECIAL_LANG_DATES[@]}"; do
 done
 echo ""
 
+echo "${BLUE}11. Testing New Year's sparkle animation...${NC}"
+# Test New Year's animation on both Dec 31 and Jan 1
+echo "  Testing sparkle animation for New Year's dates..."
+NEWYEAR_DATES=("2024-12-31T23:30:00Z" "2024-01-01T00:30:00Z" "2024-01-01T12:00:00Z")
+NEWYEAR_NAMES=("NewYearsEve" "NewYearsMidnight" "NewYearsDay")
+
+for i in "${!NEWYEAR_DATES[@]}"; do
+    date="${NEWYEAR_DATES[$i]}"
+    name="${NEWYEAR_NAMES[$i]}"
+    run_test "New Year's animation: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "11_animation_${name}.webp"
+done
+
+# Test that animation is disabled when special dates are disabled
+run_test "New Year's no animation (disabled)" "pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true" "11_animation_NewYears_Disabled.webp"
+
+# Test animation with different color schemes (should still show newyear animation)
+run_test "New Year's animation (red scheme override)" "pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true show_date=true" "11_animation_NewYears_RedOverride.webp"
+echo ""
+
 # Output final results
 echo "=========================="
 echo "${BLUE}Test Results Summary:${NC}"

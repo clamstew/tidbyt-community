@@ -715,3 +715,100 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 - [x] **Code Simplification**: Eliminated 21 hardcoded year entries for cleaner, maintainable code ✅ COMPLETED
 
 **Total Special Date Themes: 17** (6 original + 4 astronomical + 4 fixed regional + 3 variable regional) = Complete cultural coverage! 🌍
+
+### New Year's Animation Implementation ✅
+
+- [x] **Sparkle Animation Effect**: 8-frame twinkling animation for Dec 31/Jan 1 ✅ COMPLETED
+- [x] **Performance Optimized**: 50ms frame delay, minimal pixel count ✅ COMPLETED
+- [x] **Smart Integration**: Works seamlessly with all existing features ✅ COMPLETED
+- [x] **Festive Colors**: White, gold, and light yellow sparkles over NEWYEAR_PALETTE ✅ COMPLETED
+- [-] **Font Reverted**: Accidentally changed to CG-pixel-4x5-mono, reverted to tom-thumb ✅ FIXED
+
+---
+
+## 🆕 New Ideas & Improvements Queue
+
+### Holiday Categorization Review
+
+- [ ] **Global vs Regional Holiday Analysis**: Review current "global" holidays for regional appropriateness
+  - [ ] **Christmas (Dec 25)**: Currently global - should it be filtered to Christian-majority countries/timezones?
+  - [ ] **Halloween (Oct 31)**: Currently global - should it be filtered to US/Canada/Ireland/UK timezones?
+  - [ ] **Valentine's Day (Feb 14)**: Currently global - appropriate as widely celebrated?
+  - [ ] **St. Patrick's Day (Mar 17)**: Currently global - should it be filtered to Ireland/Irish diaspora regions?
+- [ ] **Implementation Strategy**: Create holiday categories (Global, Regional, Religious, Secular)
+- [ ] **Timezone Mapping**: Research which holidays are celebrated in which regions
+- [ ] **Configuration Option**: "Show only regional holidays" vs "Show all holidays"
+
+### Multi-Calendar New Year's Support
+
+- [ ] **Chinese New Year**: Lunar calendar integration for proper date calculation
+  - [ ] Research lunar calendar algorithms for Chinese New Year dates
+  - [ ] Create CHINESE_NEWYEAR_PALETTE with red/gold traditional colors
+  - [ ] Add timezone filtering (Asia/Shanghai, Asia/Hong_Kong, etc.)
+- [ ] **Persian New Year (Nowruz)**: Spring equinox-based celebration
+  - [ ] Already have Persian calendar support - extend for Nowruz detection
+  - [ ] Create NOWRUZ_PALETTE with spring colors
+  - [ ] Add timezone filtering (Asia/Tehran, etc.)
+- [ ] **Thai New Year (Songkran)**: April 13-15 celebration
+- [ ] **Islamic New Year**: Hijri calendar integration
+- [ ] **Jewish New Year (Rosh Hashanah)**: Hebrew calendar integration
+- [ ] **Configuration**: "New Year Style" dropdown (Gregorian, Chinese, Persian, etc.)
+
+### Test Harness & Showcase Updates
+
+- [ ] **New Year's Animation Testing**: Add animated GIF generation to test harness
+  - [ ] Render multiple frames for Dec 31/Jan 1 dates
+  - [ ] Generate animated GIF output for showcase
+  - [ ] Test animation across different timezones
+- [ ] **Showcase Page Animation**: Update showcase.html to display animated GIFs
+  - [ ] Add animation section with New Year's sparkle effect
+  - [ ] Include frame-by-frame breakdown for debugging
+  - [ ] Performance metrics (frame count, file size, etc.)
+- [ ] **Test Coverage**: Expand test cases for new animation features
+
+### Font Considerations
+
+- [ ] **Font Strategy Review**: Evaluate when different fonts might be needed
+  - [ ] Keep tom-thumb as default for consistency
+  - [ ] Consider special fonts only for specific features if necessary
+  - [ ] Research font readability across different color schemes
+- [ ] **New Year's Special Font**: Potentially use different font only for New Year's animation?
+  - [ ] Evaluate if sparkle animation needs different font for readability
+  - [ ] Test tom-thumb vs CG-pixel-4x5-mono on animated backgrounds
+  - [ ] Make font choice contextual (animation vs static)
+
+### Animation System Expansion
+
+- [ ] **Other Holiday Animations**: Extend animation system to other holidays
+  - [ ] Halloween: Flickering/spooky effects
+  - [ ] Christmas: Snow/twinkle effects
+  - [ ] Valentine's Day: Heart pulse effects
+  - [ ] St. Patrick's Day: Shamrock sparkles
+- [ ] **Performance Framework**: Animation performance testing and optimization
+- [ ] **Configuration**: "Enable animations" toggle for users who prefer static displays
+
+### Cultural Sensitivity Improvements
+
+- [ ] **Regional Research**: Deep-dive research on holiday appropriateness by region
+- [ ] **Color Symbolism**: Review color choices for cultural appropriateness
+- [ ] **Religious Considerations**: Ensure respectful handling of religious holidays
+- [ ] **Accessibility**: Consider animation accessibility for users with sensitivities
+
+---
+
+## 💡 Ideas & Future Considerations
+
+### Incomplete Thought to Revisit:
+
+- **TODO: Finish this idea** - "what if we linked it to whether..."
+  - _[Note: This was an incomplete thought - please finish when you remember what you were thinking about linking to a conditional/boolean state]_
+
+### Independent Bar/Background Color Control:
+
+- **TODO: Grayscale + Colored Bar Option** - Option to do grayscale background with different colored progress bars
+- **TODO: Color-Changing Bar on Grayscale** - Just the progress bar changes color while background stays grayscale
+- **TODO: Evaluate Color-Changing Bars on Other Schemes** - Once grayscale bar coloring is implemented, evaluate if color-changing bars should be applied to other color schemes too
+- **TODO: Independent Bar vs Background Color Settings** - Consider if users should be able to independently control:
+  - Progress bar color scheme (e.g., rainbow, thermal, solid colors)
+  - Background color scheme (e.g., grayscale, thermal, rainbow)
+  - This would create combinations like: "rainbow bar on grayscale background" or "red bar on thermal background"

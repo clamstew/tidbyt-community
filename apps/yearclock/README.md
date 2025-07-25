@@ -121,7 +121,7 @@ Year Clock automatically detects special dates and applies unique themed color o
 - **St. Patrick's Day (Mar 17)**: Green spectrum
 - **Halloween (Oct 31)**: Custom orange/brown autumn gradient
 - **Christmas (Dec 25)**: Custom red/green holiday gradient
-- **New Year's (Dec 31/Jan 1)**: Gold/silver celebration gradient
+- **New Year's (Dec 31/Jan 1)**: Gold/silver celebration gradient with magical sparkle animation ✨
 - **Pride Month (June)**: Classic rainbow with respect to hemisphere setting
 
 ### Astronomical Event Themes
@@ -161,6 +161,22 @@ Smart calculation of holidays with changing dates each year:
 - 🇯🇵 Golden Week: `Asia/Tokyo` and related Japanese timezones
 
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
+
+## ✨ New Year's Sparkle Animation
+
+When special date themes are enabled, Dec 31st and Jan 1st feature a magical sparkle animation that creates a festive twinkling effect over the gold/silver New Year's gradient.
+
+### Animation Features
+
+- **8-Frame Animation**: Smooth twinkling effect with strategically placed sparkle pixels
+- **Festive Colors**: White, light yellow, and gold sparkles that complement the NEWYEAR_PALETTE
+- **Performance Optimized**: 50ms frame delays with minimal pixel count for smooth rendering
+- **Smart Integration**: Works seamlessly with all existing features (hemisphere settings, date display, accent dots, etc.)
+- **Automatic Detection**: Activates only on New Year's dates when special date themes are enabled
+
+### Technical Details
+
+The animation uses `render.Animation` with multiple frames, each containing 3-6 sparkle pixels positioned to create a natural twinkling effect. The sparkles appear in the layer between the gradient background and the dial marker, ensuring proper visual hierarchy while maintaining the functionality of all other features.
 
 ## 🌍 Timezone-Based Date Format Detection
 

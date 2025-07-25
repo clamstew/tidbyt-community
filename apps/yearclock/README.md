@@ -155,7 +155,7 @@ The app automatically detects the appropriate language based on your device's ti
 ### Auto-Detection Logic
 
 - **🇺🇸 English Regions**: `America/*` (except Mexico), `Canada/*`, `Australia/*` → English month names
-- **🇪🇸 Spanish Regions**: `Europe/Madrid`, `America/Mexico*`, `America/Argentina*`, `America/Colombia*`, `America/Guatemala`, `America/El_Salvador`, `America/Tegucigalpa`, `America/Managua`, `America/Costa_Rica` → Spanish month names
+- **🇪🇸 Spanish Regions**: `Europe/Madrid`, `America/Mexico*`, `America/Argentina*`, `America/Colombia*`, `America/Guatemala`, `America/El_Salvador`, `America/Tegucigalpa`, `America/Managua`, `America/Costa_Rica`, `America/Caracas`, `America/Guayaquil`, `America/La_Paz`, `America/Asuncion`, `America/Montevideo` → Spanish month names
 - **🇫🇷 French Regions**: `Europe/Paris`, `Europe/Luxembourg`, `America/Montreal`, `Africa/Ouagadougou`, `Africa/Bamako`, `Africa/Dakar`, `Africa/Conakry`, `Africa/Abidjan` → French month names
 - **🇩🇪 German Regions**: `Europe/Berlin`, `Europe/Vienna`, `Europe/Zurich` → German month names
 - **🇧🇷 Portuguese Regions**: `America/Sao_Paulo`, `Europe/Lisbon`, `Africa/Luanda`, `Africa/Maputo`, `Africa/Bissau`, `Africa/Sao_Tome`, `America/Fortaleza` → Portuguese month names
@@ -183,6 +183,7 @@ The app automatically detects the appropriate language based on your device's ti
 - **🌍 Francophone Africa Coverage**: Expanded French language detection for Burkina Faso, Mali, Senegal, Guinea, and Ivory Coast (~300M people)
 - **🌎 Central America Coverage**: Expanded Spanish language detection for Guatemala, El Salvador, Honduras, Nicaragua, and Costa Rica (~50M people)
 - **🇵🇹 Lusophone Africa Coverage**: Expanded Portuguese language detection for Angola, Mozambique, Guinea-Bissau, São Tomé and Príncipe, plus major Brazilian cities (~70M people)
+- **🌎 South America Coverage**: Expanded Spanish language detection for Venezuela, Ecuador, Bolivia, Paraguay, and Uruguay (~80M people)
 
 ### Combined Intelligence
 

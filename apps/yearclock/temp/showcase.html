@@ -954,7 +954,7 @@
             pattern: "06_variable_",
             count: CONFIG.variableHolidays.length * 2,
           }, // variable holidays (enabled + filtered)
-          { pattern: "11_animation_", count: 5 }, // New Year's animation tests
+          { pattern: "11_animation_", count: 11 }, // Holiday animation tests (New Year's, Halloween, Christmas, Valentine's + toggles)
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
           { pattern: "08_accent_", count: 7 * 4 + 2 }, // adaptive, compare, fixed, none
           {
@@ -1757,11 +1757,24 @@
                     </div>
                 </div>
 
-                <!-- New Year's Animation -->
+                <!-- Holiday Animations -->
                 <div class="section" id="animations">
-                    <h2>✨ New Year's Experience (5 tests)</h2>
-                    <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
+                    <h2>✨ Holiday Animations (11 tests)</h2>
+                    <div class="common-params"><code>Common: enable_special_dates=true enable_animations=true show_date=true</code></div>
                     <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        🎊 New Year's sparkles | 🎃 Halloween flicker | ❄️ Christmas snow | 💖 Valentine's hearts
+                    </p>
+                    
+                    <div style="background: rgba(34, 197, 94, 0.1); border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 800px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                        <h4 style="color: #22c55e; margin-bottom: 10px; text-align: center;">🚀 NEW: Expanded Holiday Animation System!</h4>
+                        <p style="text-align: center; margin: 0; opacity: 0.9; font-size: 0.9em;">
+                            <strong>Four unique holiday animations:</strong> New Year's sparkles, Halloween flicker, Christmas snow, and Valentine's hearts.
+                            <br><strong>User control:</strong> Animation toggle allows users to disable animations while keeping special date colors.
+                        </p>
+                    </div>
+                    
+                    <h3>🎊 New Year's Sparkle Animation</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
                         Dec 31st: Party sparkle animation | Jan 1st: Chill gold/silver recovery
                     </p>
                     <div class="grid">
@@ -1770,36 +1783,126 @@
                           "New Year's Eve ✨🎉",
                           "Dec 31st: Party time! Sparkle animation over gold/silver gradient",
                           "debug_date='2024-12-31T23:30:00Z'",
-                          "debug_date='2024-12-31T23:30:00Z' enable_special_dates=true show_date=true"
+                          "debug_date='2024-12-31T23:30:00Z' enable_special_dates=true enable_animations=true show_date=true"
                         )}
                         ${createDevice(
                           "11_animation_NewYearsMidnight.webp", 
                           "New Year's Midnight 🌅",
                           "Jan 1st midnight: Chill recovery mode with gold/silver (no animation)",
                           "debug_date='2024-01-01T00:30:00Z'",
-                          "debug_date='2024-01-01T00:30:00Z' enable_special_dates=true show_date=true"
+                          "debug_date='2024-01-01T00:30:00Z' enable_special_dates=true enable_animations=true show_date=true"
                         )}
                         ${createDevice(
                           "11_animation_NewYearsDay.webp",
                           "New Year's Day ☀️", 
                           "Jan 1st daytime: Calm gold/silver theme for recovery day",
                           "debug_date='2024-01-01T12:00:00Z'",
-                          "debug_date='2024-01-01T12:00:00Z' enable_special_dates=true show_date=true"
+                          "debug_date='2024-01-01T12:00:00Z' enable_special_dates=true enable_animations=true show_date=true"
+                        )}
+                    </div>
+                    
+                    <h3>🎃 Halloween Flicker Animation</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Spooky orange/black flicker effect with variable intensity
+                    </p>
+                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                        ${createDevice(
+                          "11_animation_Halloween.webp",
+                          "Halloween Flicker 🎃",
+                          "Oct 31st: Spooky orange/black flickering animation (US/Canada/Ireland/UK only)",
+                          "debug_date='2024-10-31T20:00:00Z' \$tz=America/New_York",
+                          "debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=true show_date=true \$tz=America/New_York"
+                        )}
+                    </div>
+                    
+                    <h3>❄️ Christmas Snow Animation</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Gentle falling snow effect over Christmas red/green gradient
+                    </p>
+                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                        ${createDevice(
+                          "11_animation_Christmas.webp",
+                          "Christmas Snow ❄️",
+                          "Dec 25th: Peaceful falling snow animation over Christmas gradient",
+                          "debug_date='2024-12-25T14:00:00Z'",
+                          "debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=true show_date=true"
+                        )}
+                    </div>
+                    
+                    <h3>💖 Valentine's Hearts Animation</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Romantic pulsing hearts over red/pink gradient
+                    </p>
+                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                        ${createDevice(
+                          "11_animation_Valentine.webp",
+                          "Valentine's Hearts 💖",
+                          "Feb 14th: Gentle pulsing heart animation over red spectrum",
+                          "debug_date='2024-02-14T18:00:00Z'",
+                          "debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=true show_date=true"
+                        )}
+                    </div>
+                    
+                    <h3>🔧 Animation Controls</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        User-configurable animation toggle and behavior testing
+                    </p>
+                    <div class="grid">
+                        ${createDevice(
+                          "11_animation_Halloween_Disabled.webp",
+                          "Animation Toggle OFF",
+                          "Halloween with animations disabled - keeps orange/black colors but no flicker",
+                          "enable_animations=false debug_date='2024-10-31T20:00:00Z' \$tz=America/New_York",
+                          "debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=false show_date=true \$tz=America/New_York"
                         )}
                         ${createDevice(
-                          "11_animation_NewYears_Disabled.webp",
-                          "Animation Disabled",
-                          "Jan 1st with special dates disabled - no animation",
-                          "debug_date='2024-01-01T00:00:00Z' enable_special_dates=false",
-                          "debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true"
+                          "11_animation_Christmas_Disabled.webp",
+                          "Snow Toggle OFF",
+                          "Christmas with animations disabled - keeps red/green colors but no snow",
+                          "enable_animations=false debug_date='2024-12-25T14:00:00Z'",
+                          "debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=false show_date=true"
                         )}
                         ${createDevice(
                           "11_animation_NewYears_RedOverride.webp",
                           "Color Override Test",
                           "New Year's animation overrides color scheme setting",
                           "debug_date='2024-01-01T00:00:00Z' color_scheme=red",
-                          "debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true show_date=true"
+                          "debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true enable_animations=true show_date=true"
                         )}
+                        ${createDevice(
+                          "11_animation_NewYears_Disabled.webp",
+                          "Special Dates OFF",
+                          "Jan 1st with special dates disabled - no animation or special colors",
+                          "debug_date='2024-01-01T00:00:00Z' enable_special_dates=false",
+                          "debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true"
+                        )}
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin: 30px auto; max-width: 800px;">
+                        <h4 style="color: #60a5fa; margin-bottom: 15px; text-align: center;">🎬 Animation Features Summary</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: left;">
+                            <div>
+                                <strong>✨ New Year's:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">8-frame sparkle animation (Dec 31 only)</span>
+                            </div>
+                            <div>
+                                <strong>🎃 Halloween:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">6-frame flicker animation with timezone filtering</span>
+                            </div>
+                            <div>
+                                <strong>❄️ Christmas:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">8-frame falling snow animation (global)</span>
+                            </div>
+                            <div>
+                                <strong>💖 Valentine's:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">6-frame pulsing heart animation (global)</span>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; opacity: 0.7; font-size: 0.9em;">
+                            <strong>🎛️ User Control:</strong> Separate toggles for special dates and animations<br>
+                            <strong>⚡ Performance:</strong> Optimized frame timing for battery efficiency<br>
+                            <strong>🌍 Smart Filtering:</strong> Regional holidays respect timezone preferences
+                        </p>
                     </div>
                 </div>
 

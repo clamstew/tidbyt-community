@@ -426,23 +426,42 @@ for i in "${!SPECIAL_LANG_DATES[@]}"; do
 done
 echo ""
 
-echo "${BLUE}11. Testing New Year's sparkle animation...${NC}"
-# Test New Year's animation on both Dec 31 and Jan 1
-echo "  Testing sparkle animation for New Year's dates..."
+echo "${BLUE}11. Testing holiday animations...${NC}"
+
+# Test New Year's sparkle animation
+echo "  Testing New Year's sparkle animation..."
 NEWYEAR_DATES=("2024-12-31T23:30:00Z" "2024-01-01T00:30:00Z" "2024-01-01T12:00:00Z")
 NEWYEAR_NAMES=("NewYearsEve" "NewYearsMidnight" "NewYearsDay")
 
 for i in "${!NEWYEAR_DATES[@]}"; do
     date="${NEWYEAR_DATES[$i]}"
     name="${NEWYEAR_NAMES[$i]}"
-    run_test "New Year's animation: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "11_animation_${name}.webp"
+    run_test "New Year's animation: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true enable_animations=true show_date=true" "11_animation_${name}.webp"
 done
 
-# Test that animation is disabled when special dates are disabled
-run_test "New Year's no animation (disabled)" "pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true" "11_animation_NewYears_Disabled.webp"
+# Test Halloween flicker animation
+echo "  Testing Halloween flicker animation..."
+run_test "Halloween flicker animation" "pixlet render year_clock.star debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=true show_date=true \$tz=America/New_York" "11_animation_Halloween.webp"
 
-# Test animation with different color schemes (should still show newyear animation)
-run_test "New Year's animation (red scheme override)" "pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true show_date=true" "11_animation_NewYears_RedOverride.webp"
+# Test Christmas snow animation
+echo "  Testing Christmas snow animation..."
+run_test "Christmas snow animation" "pixlet render year_clock.star debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=true show_date=true" "11_animation_Christmas.webp"
+
+# Test Valentine's hearts animation
+echo "  Testing Valentine's hearts animation..."
+run_test "Valentine's hearts animation" "pixlet render year_clock.star debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=true show_date=true" "11_animation_Valentine.webp"
+
+# Test animation toggle - disabled animations
+echo "  Testing animation toggle..."
+run_test "Halloween no animation (disabled)" "pixlet render year_clock.star debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=false show_date=true \$tz=America/New_York" "11_animation_Halloween_Disabled.webp"
+run_test "Christmas no animation (disabled)" "pixlet render year_clock.star debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=false show_date=true" "11_animation_Christmas_Disabled.webp"
+
+# Test that animations still work with different color scheme overrides
+echo "  Testing animation with color scheme overrides..."
+run_test "New Year's animation (red scheme override)" "pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true enable_animations=true show_date=true" "11_animation_NewYears_RedOverride.webp"
+
+# Legacy tests - special dates disabled (for backwards compatibility)
+run_test "New Year's no animation (special dates disabled)" "pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true" "11_animation_NewYears_Disabled.webp"
 echo ""
 
 # Output final results

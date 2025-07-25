@@ -4,7 +4,7 @@ This document provides the complete set of `pixlet render` commands to generate 
 
 ## Overview
 
-- **Total Test Cases**: ~370+ unique configurations
+- **Total Test Cases**: ~380+ unique configurations
 - **Images Generated**: 6x magnification for gallery view
 - **High-res Available**: 12x magnification for modal view (with `-H` flag)
 - **Test Script**: `./test_harness.sh`
@@ -394,26 +394,74 @@ pixlet render year_clock.star debug_date='2024-05-01T12:00:00Z' enable_special_d
 
 ---
 
-## 12. New Year's Experience (5 tests)
+## 12. Holiday Animations (11 tests)
 
-Dec 31st: Party sparkle animation | Jan 1st: Chill gold/silver recovery
+🎊 New Year's sparkles | 🎃 Halloween flicker | ❄️ Christmas snow | 💖 Valentine's hearts
+
+### New Year's Sparkle Animation
 
 ```bash
 # New Year's Eve - Party time! Sparkle animation over gold/silver gradient
-pixlet render year_clock.star debug_date='2024-12-31T23:30:00Z' enable_special_dates=true show_date=true
+pixlet render year_clock.star debug_date='2024-12-31T23:30:00Z' enable_special_dates=true enable_animations=true show_date=true
 
 # New Year's Midnight - Chill recovery mode with gold/silver (no animation)
-pixlet render year_clock.star debug_date='2024-01-01T00:30:00Z' enable_special_dates=true show_date=true
+pixlet render year_clock.star debug_date='2024-01-01T00:30:00Z' enable_special_dates=true enable_animations=true show_date=true
 
 # New Year's Day - Calm gold/silver theme for recovery day
-pixlet render year_clock.star debug_date='2024-01-01T12:00:00Z' enable_special_dates=true show_date=true
-
-# Animation Disabled - Jan 1st with special dates disabled
-pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true
-
-# Color Override Test - New Year's animation overrides color scheme setting
-pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true show_date=true
+pixlet render year_clock.star debug_date='2024-01-01T12:00:00Z' enable_special_dates=true enable_animations=true show_date=true
 ```
+
+### Halloween Flicker Animation
+
+```bash
+# Halloween Flicker - Spooky orange/black flickering animation (US/Canada/Ireland/UK only)
+pixlet render year_clock.star debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=true show_date=true '$tz=America/New_York'
+```
+
+### Christmas Snow Animation
+
+```bash
+# Christmas Snow - Peaceful falling snow animation over Christmas gradient
+pixlet render year_clock.star debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=true show_date=true
+```
+
+### Valentine's Hearts Animation
+
+```bash
+# Valentine's Hearts - Gentle pulsing heart animation over red spectrum
+pixlet render year_clock.star debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=true show_date=true
+```
+
+### Animation Controls
+
+```bash
+# Halloween no animation (disabled) - Keeps orange/black colors but no flicker
+pixlet render year_clock.star debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=false show_date=true '$tz=America/New_York'
+
+# Christmas no animation (disabled) - Keeps red/green colors but no snow
+pixlet render year_clock.star debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=false show_date=true
+
+# New Year's animation (red scheme override) - Animation overrides color scheme setting
+pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true enable_animations=true show_date=true
+
+# New Year's no animation (special dates disabled) - No animation or special colors
+pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' enable_special_dates=false show_date=true
+```
+
+### Animation Technical Details
+
+**Four Unique Holiday Animations:**
+
+- **✨ New Year's**: 8-frame sparkle animation (Dec 31 only) - 50ms frame timing
+- **🎃 Halloween**: 6-frame flicker animation with timezone filtering - 120ms frame timing
+- **❄️ Christmas**: 8-frame falling snow animation (global) - 100ms frame timing
+- **💖 Valentine's**: 6-frame pulsing heart animation (global) - 150ms frame timing
+
+**User Controls:**
+
+- `enable_animations=true/false` - Toggle animations while keeping special date colors
+- `enable_special_dates=true/false` - Toggle special date themes entirely
+- Separate control allows users to keep holiday colors but disable animations for battery saving
 
 ---
 

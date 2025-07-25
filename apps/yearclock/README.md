@@ -81,6 +81,7 @@ A sophisticated temperature-inspired gradient that blends thermal physics with r
   - **Ethiopian**: Traditional calendar with 13 months
   - **Coptic**: Ancient calendar system still used in some regions
 - **Enable Special Date Themes**: Toggle special holiday and astronomical event color overrides
+- **Enable Holiday Animations**: Toggle animations on special holidays (New Year's sparkles, Halloween flicker, Christmas snow, Valentine's hearts)
 
 ## Calendar Systems 📅
 
@@ -174,34 +175,86 @@ All special date themes are enabled by default but can be toggled off in the **"
 
 **Total: 17 special date themes** across holidays, astronomical events, and regional celebrations, each with culturally appropriate color palettes and smart timezone filtering.
 
-## ✨ New Year's Experience
+## ✨ Holiday Animations
+
+Year Clock features a comprehensive holiday animation system that brings special dates to life with unique, culturally appropriate animations.
+
+### 🎊 New Year's Sparkle Experience
 
 Year Clock creates a unique two-day New Year's experience that reflects the party-to-recovery cycle:
 
-### Dec 31st: Party Time! ✨🎉
+**Dec 31st: Party Time! ✨🎉**
 
-**New Year's Eve** features a magical sparkle animation that creates a festive twinkling effect over the gold/silver gradient.
+New Year's Eve features a magical sparkle animation that creates a festive twinkling effect over the gold/silver gradient.
 
-**Animation Features:**
+**Jan 1st: Recovery Mode ☀️**
 
-- **8-Frame Animation**: Smooth twinkling effect with strategically placed sparkle pixels
-- **Festive Colors**: White, light yellow, and gold sparkles that complement the NEWYEAR_PALETTE
-- **Performance Optimized**: 50ms frame delays with minimal pixel count for smooth rendering
-- **Smart Integration**: Works seamlessly with all existing features (hemisphere settings, date display, accent dots, etc.)
+New Year's Day uses the same beautiful gold/silver gradient but without animation, creating a calmer, more restful visual perfect for recovery day.
 
-### Jan 1st: Recovery Mode ☀️
+### 🎃 Halloween Flicker Animation
 
-**New Year's Day** uses the same beautiful gold/silver gradient but without animation, creating a calmer, more restful visual perfect for recovery day.
+**Oct 31st: Spooky Atmosphere**
 
-**Recovery Features:**
+Halloween features an eerie flicker animation that creates a spooky campfire or candle-like effect over the orange/black Halloween gradient.
 
-- **Same Color Palette**: Maintains the gold/silver NEWYEAR_PALETTE for visual continuity
-- **Static Display**: No animation for a more peaceful, contemplative experience
-- **Smooth Transition**: Natural progression from party (animated) to recovery (calm)
+**Flicker Features:**
 
-### Technical Details
+- **6-Frame Animation**: Variable intensity flickering creates atmospheric spookiness
+- **Spooky Colors**: Orange, orange-red, and dark brown flickers complement the HALLOWEEN_PALETTE
+- **Regional Filtering**: Only appears in Halloween-celebrating regions (US/Canada/Ireland/UK)
+- **Slow Timing**: 120ms frame delays create a deliberate, haunting effect
 
-The animation uses `render.Animation` with multiple frames, each containing 3-6 sparkle pixels positioned to create a natural twinkling effect. The sparkles appear in the layer between the gradient background and the dial marker, ensuring proper visual hierarchy while maintaining the functionality of all other features. Animation automatically activates only on Dec 31st when special date themes are enabled.
+### ❄️ Christmas Snow Animation
+
+**Dec 25th: Peaceful Snowfall**
+
+Christmas features a gentle falling snow animation that creates a serene winter wonderland effect over the red/green Christmas gradient.
+
+**Snow Features:**
+
+- **8-Frame Animation**: Realistic falling snow pattern with natural movement
+- **Winter Colors**: White, alice blue, and snow white pixels create authentic snowfall
+- **Global Holiday**: Works worldwide as Christmas is universally celebrated
+- **Gentle Timing**: 100ms frame delays create smooth, peaceful falling motion
+
+### 💖 Valentine's Hearts Animation
+
+**Feb 14th: Romantic Pulse**
+
+Valentine's Day features a gentle pulsing heart animation that creates a romantic heartbeat effect over the red/pink Valentine's gradient.
+
+**Heart Features:**
+
+- **6-Frame Animation**: Smooth pulsing effect simulates a gentle heartbeat
+- **Romantic Colors**: Deep pink, hot pink, light pink, and tomato hearts with varying intensities
+- **Global Holiday**: Works worldwide as Valentine's Day is widely celebrated
+- **Romantic Timing**: 150ms frame delays create a slow, romantic pulse
+
+### Animation Controls
+
+**User-Configurable Animation Toggle:**
+
+- **Enable Holiday Animations**: Control all holiday animations with a single toggle
+- **Smart Separation**: Users can keep special date colors while disabling animations for battery conservation
+- **Backward Compatible**: Works with existing "Enable Special Date Themes" setting
+- **Performance Optimized**: All animations use minimal pixel counts and optimized frame timing
+
+### Technical Implementation
+
+**Animation Framework:**
+
+- **Layered Rendering**: Animations appear between gradient background and dial marker for proper visual hierarchy
+- **Frame Optimization**: Each animation uses strategic pixel placement to minimize rendering load
+- **Smart Integration**: All animations work seamlessly with existing features (hemisphere settings, date display, accent dots, calendar systems, etc.)
+- **Performance Tuning**: Frame timing optimized for each animation type:
+  - New Year's: 50ms (energetic sparkles)
+  - Halloween: 120ms (spooky atmosphere)
+  - Christmas: 100ms (gentle snow)
+  - Valentine's: 150ms (romantic pulse)
+
+**Animation Activation:**
+
+Animations automatically activate on their respective dates when both "Enable Special Date Themes" and "Enable Holiday Animations" are enabled. Regional holidays (like Halloween) respect timezone filtering for cultural relevance.
 
 ## 🌍 Timezone-Based Date Format Detection
 

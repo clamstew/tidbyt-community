@@ -21,9 +21,9 @@ This TODO has been broken into focused documents:
 
 ### Animation Expansion
 
-- [ ] **Other Holiday Animations**: Halloween flicker, Christmas snow, Valentine's hearts
-- [ ] **Performance Framework**: Animation testing, optimization tools
-- [ ] **Configuration**: Enable/disable animations toggle
+- [x] **Other Holiday Animations**: Halloween flicker, Christmas snow, Valentine's hearts ✅ COMPLETED
+- [x] **Performance Framework**: Animation testing, optimization tools ✅ COMPLETED
+- [x] **Configuration**: Enable/disable animations toggle ✅ COMPLETED
 
 ### Multi-Calendar New Years
 

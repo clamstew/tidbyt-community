@@ -656,8 +656,19 @@ def main(config):
 
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
+    enable_animations = config.bool("enable_animations", True)
     special_override = get_special_date_override(now, enable_special_dates, timezone)
-    is_new_years_eve = special_override == "newyears_eve"  # Dec 31 - party with animation
+
+    # Determine which holidays get animations
+    animated_holidays = []
+    if special_override == "newyears_eve":  # Dec 31 - sparkle animation
+        animated_holidays.append("newyears_eve")
+    elif special_override == "halloween":  # Oct 31 - flicker animation  
+        animated_holidays.append("halloween")
+    elif special_override == "christmas":  # Dec 25 - snow animation
+        animated_holidays.append("christmas")
+    elif special_override == "red" and now.month == 2 and now.day == 14:  # Valentine's - hearts animation
+        animated_holidays.append("valentine")
 
     if special_override:
         # Map both New Year's dates to the same color scheme
@@ -674,9 +685,9 @@ def main(config):
     # Calculate year progress (0.0 to 1.0) for selected calendar system
     year_fraction = calculate_year_progress_for_calendar(now, calendar_system)
 
-    # Check if we should show New Year's animation (only Dec 31)
-    if is_new_years_eve and enable_special_dates:
-        return create_new_years_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    # Check if we should show holiday animations
+    if animated_holidays and enable_special_dates and enable_animations:
+        return create_holiday_animation(animated_holidays[0], year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
     else:
         return create_static_year_clock(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
 
@@ -956,6 +967,578 @@ def generate_sparkles_for_frame(frame_idx):
         )
 
     return sparkles
+
+def create_holiday_animation(holiday_type, year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated holiday display - dispatcher for different holiday types"""
+    
+    if holiday_type == "newyears_eve":
+        return create_new_years_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    elif holiday_type == "halloween":
+        return create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    elif holiday_type == "christmas":
+        return create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    elif holiday_type == "valentine":
+        return create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    else:
+        # Fallback to static display
+        return create_static_year_clock(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+
+def create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated Halloween display with orange/black flickering effect"""
+    
+    # Number of animation frames for flicker effect
+    num_frames = 6
+    frame_delay = 120  # slower than sparkles for spooky effect
+    
+    # Create list of animation frames
+    frames = []
+    
+    for frame_idx in range(num_frames):
+        # Create the gradient background with flicker effect
+        gradient_children = []
+        for x in range(64):
+            # Calculate position in gradient (0.0 to 1.0)
+            pos = x / 63.0
+            
+            # Get base color for this position
+            base_color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
+            
+            # Apply flicker effect - darken certain frames to create spooky flicker
+            flicker_intensity = [1.0, 0.7, 1.0, 0.5, 1.0, 0.8][frame_idx]
+            
+            # Parse base color and apply flicker
+            base_rgb = hex_to_rgb(base_color)
+            flickered_color = rgb_to_hex([
+                int(base_rgb[0] * flicker_intensity),
+                int(base_rgb[1] * flicker_intensity),
+                int(base_rgb[2] * flicker_intensity)
+            ])
+            
+            # Create a vertical line for this x position
+            gradient_children.append(
+                render.Box(
+                    width = 1,
+                    height = 32,
+                    color = flickered_color,
+                ),
+            )
+        
+        # Calculate marker position with proper edge handling
+        marker_x = min(62, int(year_fraction * 62) + 1)
+        
+        # Get accent dot color based on style and color scheme
+        accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+        
+        # Generate spooky flicker overlay for this frame
+        flicker_children = generate_halloween_flicker_for_frame(frame_idx)
+        
+        # Create the frame
+        frame = render.Stack(
+            children = [
+                # Halloween gradient background with flicker
+                render.Row(
+                    children = gradient_children,
+                ),
+                # Flicker overlay
+                render.Stack(
+                    children = flicker_children,
+                ),
+                # Dial marker
+                render.Stack(
+                    children = [
+                        # Main dial line (white)
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#FFFFFF",
+                            ),
+                        ),
+                        # Left shadow (darker)
+                        render.Padding(
+                            pad = (max(0, marker_x - 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#999999",
+                            ),
+                        ) if marker_x > 0 else render.Box(width = 0, height = 0),
+                        # Right highlight (lighter)
+                        render.Padding(
+                            pad = (min(63, marker_x + 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#CCCCCC",
+                            ),
+                        ) if marker_x < 63 else render.Box(width = 0, height = 0),
+                        # Top and bottom accent dots
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Column(
+                                children = [
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                    render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                ],
+                            ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
+                    ],
+                ),
+                # Optional date display
+                render.Padding(
+                    pad = (1, 26, 0, 0),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb", 
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
+                    ),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
+            ],
+        )
+        
+        frames.append(frame)
+    
+    # Return animated root with all frames
+    return render.Root(
+        delay = frame_delay,
+        child = render.Animation(
+            children = frames,
+        ),
+    )
+
+def generate_halloween_flicker_for_frame(frame_idx):
+    """Generate flickering overlay pixels for a specific Halloween animation frame"""
+    flickers = []
+    
+    # Different flicker patterns for each frame to create spooky effect
+    # Some frames have more random flickers, others are calmer
+    flicker_patterns = [
+        # Frame 0: scattered orange flickers
+        [(12, 8), (28, 15), (45, 5), (58, 22)],
+        # Frame 1: minimal flickers 
+        [(20, 18), (40, 10)],
+        # Frame 2: intense flicker
+        [(8, 12), (25, 6), (35, 20), (48, 14), (60, 8), (52, 25)],
+        # Frame 3: calm
+        [(30, 16), (50, 12)],
+        # Frame 4: medium flicker
+        [(15, 22), (38, 8), (55, 18)],
+        # Frame 5: spooky finale
+        [(22, 5), (42, 25), (18, 14), (45, 9)],
+    ]
+    
+    # Get flicker positions for this frame
+    frame_flickers = flicker_patterns[frame_idx % len(flicker_patterns)]
+    
+    # Create flicker pixels with orange/black colors
+    flicker_colors = ["#FF6600", "#FF4500", "#1A0A00", "#FF8C00"]  # Orange, orange-red, dark brown, dark orange
+    
+    for i, (x, y) in enumerate(frame_flickers):
+        # Vary flicker color based on position
+        color = flicker_colors[i % len(flicker_colors)]
+        
+        flickers.append(
+            render.Padding(
+                pad = (x, y, 0, 0),
+                child = render.Box(
+                    width = 1,
+                    height = 1,
+                    color = color,
+                ),
+            ),
+        )
+    
+    return flickers
+
+def hex_to_rgb(hex_color):
+    """Convert hex color to RGB tuple"""
+    hex_color = hex_color.lstrip('#')
+    return [int(hex_color[i:i+2], 16) for i in (0, 2, 4)]
+
+def rgb_to_hex(rgb):
+    """Convert RGB tuple to hex color"""
+    r = max(0, min(255, rgb[0]))
+    g = max(0, min(255, rgb[1]))
+    b = max(0, min(255, rgb[2]))
+    
+    # Convert to hex manually since Starlark doesn't support format specifiers
+    def to_hex(n):
+        hex_chars = "0123456789abcdef"
+        if n < 16:
+            return "0" + hex_chars[n]
+        return hex_chars[n // 16] + hex_chars[n % 16]
+    
+    return "#" + to_hex(r) + to_hex(g) + to_hex(b)
+
+def create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated Christmas display with falling snow effect"""
+    
+    # Number of animation frames for snow effect
+    num_frames = 8
+    frame_delay = 100  # Smooth snow falling
+    
+    # Create list of animation frames
+    frames = []
+    
+    for frame_idx in range(num_frames):
+        # Create the gradient background (Christmas colors)
+        gradient_children = []
+        for x in range(64):
+            # Calculate position in gradient (0.0 to 1.0)
+            pos = x / 63.0
+            
+            # Get color for this position
+            color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
+            
+            # Create a vertical line for this x position
+            gradient_children.append(
+                render.Box(
+                    width = 1,
+                    height = 32,
+                    color = color,
+                ),
+            )
+        
+        # Calculate marker position with proper edge handling
+        marker_x = min(62, int(year_fraction * 62) + 1)
+        
+        # Get accent dot color based on style and color scheme
+        accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+        
+        # Generate snow for this frame
+        snow_children = generate_christmas_snow_for_frame(frame_idx)
+        
+        # Create the frame
+        frame = render.Stack(
+            children = [
+                # Christmas gradient background
+                render.Row(
+                    children = gradient_children,
+                ),
+                # Snow overlay
+                render.Stack(
+                    children = snow_children,
+                ),
+                # Dial marker
+                render.Stack(
+                    children = [
+                        # Main dial line (white)
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#FFFFFF",
+                            ),
+                        ),
+                        # Left shadow (darker)
+                        render.Padding(
+                            pad = (max(0, marker_x - 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#999999",
+                            ),
+                        ) if marker_x > 0 else render.Box(width = 0, height = 0),
+                        # Right highlight (lighter)
+                        render.Padding(
+                            pad = (min(63, marker_x + 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#CCCCCC",
+                            ),
+                        ) if marker_x < 63 else render.Box(width = 0, height = 0),
+                        # Top and bottom accent dots
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Column(
+                                children = [
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                    render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                ],
+                            ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
+                    ],
+                ),
+                # Optional date display
+                render.Padding(
+                    pad = (1, 26, 0, 0),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
+                    ),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
+            ],
+        )
+        
+        frames.append(frame)
+    
+    # Return animated root with all frames
+    return render.Root(
+        delay = frame_delay,
+        child = render.Animation(
+            children = frames,
+        ),
+    )
+
+def generate_christmas_snow_for_frame(frame_idx):
+    """Generate falling snow pixels for a specific Christmas animation frame"""
+    snow = []
+    
+    # Different snow patterns for each frame to create falling effect
+    # Snow "falls" by appearing at different Y positions across frames
+    snow_patterns = [
+        # Frame 0: snow at top
+        [(8, 2), (15, 1), (28, 3), (35, 1), (42, 2), (55, 3), (62, 1)],
+        # Frame 1: snow falling
+        [(8, 5), (15, 4), (28, 6), (35, 4), (42, 5), (55, 6), (62, 4), (12, 1), (25, 2), (48, 1)],
+        # Frame 2: snow continues falling
+        [(8, 8), (15, 7), (28, 9), (35, 7), (42, 8), (55, 9), (62, 7), (12, 4), (25, 5), (48, 4), (5, 2), (38, 1)],
+        # Frame 3: mid fall
+        [(8, 11), (15, 10), (28, 12), (35, 10), (42, 11), (55, 12), (62, 10), (12, 7), (25, 8), (48, 7), (5, 5), (38, 4)],
+        # Frame 4: continuing to fall
+        [(8, 14), (15, 13), (28, 15), (35, 13), (42, 14), (55, 15), (62, 13), (12, 10), (25, 11), (48, 10), (5, 8), (38, 7), (20, 2), (52, 3)],
+        # Frame 5: lower snow
+        [(8, 17), (15, 16), (28, 18), (35, 16), (42, 17), (55, 18), (62, 16), (12, 13), (25, 14), (48, 13), (5, 11), (38, 10), (20, 5), (52, 6)],
+        # Frame 6: near bottom
+        [(8, 20), (15, 19), (28, 21), (35, 19), (42, 20), (55, 21), (62, 19), (12, 16), (25, 17), (48, 16), (5, 14), (38, 13), (20, 8), (52, 9)],
+        # Frame 7: at bottom, new snow at top
+        [(8, 23), (15, 22), (28, 24), (35, 22), (42, 23), (55, 24), (62, 22), (12, 19), (25, 20), (48, 19), (5, 17), (38, 16), (20, 11), (52, 12), (10, 1), (30, 2), (50, 1)],
+    ]
+    
+    # Get snow positions for this frame
+    frame_snow = snow_patterns[frame_idx % len(snow_patterns)]
+    
+    # Create snow pixels with white/light blue colors
+    snow_colors = ["#FFFFFF", "#F0F8FF", "#E6F3FF", "#FFFAFA"]  # White, alice blue, very light blue, snow white
+    
+    for i, (x, y) in enumerate(frame_snow):
+        # Keep snow within bounds
+        if (0 <= x and x < 64) and (0 <= y and y < 32):
+            # Vary snow color slightly
+            color = snow_colors[i % len(snow_colors)]
+            
+            snow.append(
+                render.Padding(
+                    pad = (x, y, 0, 0),
+                    child = render.Box(
+                        width = 1,
+                        height = 1,
+                        color = color,
+                    ),
+                ),
+            )
+    
+    return snow
+
+def create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated Valentine's display with pulsing hearts effect"""
+    
+    # Number of animation frames for heart pulsing effect
+    num_frames = 6
+    frame_delay = 150  # Slower, romantic pulse
+    
+    # Create list of animation frames
+    frames = []
+    
+    for frame_idx in range(num_frames):
+        # Create the gradient background (red/pink for Valentine's)
+        gradient_children = []
+        for x in range(64):
+            # Calculate position in gradient (0.0 to 1.0)
+            pos = x / 63.0
+            
+            # Get color for this position
+            color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
+            
+            # Create a vertical line for this x position
+            gradient_children.append(
+                render.Box(
+                    width = 1,
+                    height = 32,
+                    color = color,
+                ),
+            )
+        
+        # Calculate marker position with proper edge handling
+        marker_x = min(62, int(year_fraction * 62) + 1)
+        
+        # Get accent dot color based on style and color scheme
+        accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+        
+        # Generate hearts for this frame
+        heart_children = generate_valentine_hearts_for_frame(frame_idx)
+        
+        # Create the frame
+        frame = render.Stack(
+            children = [
+                # Valentine gradient background
+                render.Row(
+                    children = gradient_children,
+                ),
+                # Hearts overlay
+                render.Stack(
+                    children = heart_children,
+                ),
+                # Dial marker
+                render.Stack(
+                    children = [
+                        # Main dial line (white)
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#FFFFFF",
+                            ),
+                        ),
+                        # Left shadow (darker)
+                        render.Padding(
+                            pad = (max(0, marker_x - 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#999999",
+                            ),
+                        ) if marker_x > 0 else render.Box(width = 0, height = 0),
+                        # Right highlight (lighter)
+                        render.Padding(
+                            pad = (min(63, marker_x + 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#CCCCCC",
+                            ),
+                        ) if marker_x < 63 else render.Box(width = 0, height = 0),
+                        # Top and bottom accent dots
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Column(
+                                children = [
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                    render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                ],
+                            ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
+                    ],
+                ),
+                # Optional date display
+                render.Padding(
+                    pad = (1, 26, 0, 0),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
+                    ),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
+            ],
+        )
+        
+        frames.append(frame)
+    
+    # Return animated root with all frames
+    return render.Root(
+        delay = frame_delay,
+        child = render.Animation(
+            children = frames,
+        ),
+    )
+
+def generate_valentine_hearts_for_frame(frame_idx):
+    """Generate pulsing heart pixels for a specific Valentine's animation frame"""
+    hearts = []
+    
+    # Heart shapes using simple pixel patterns (since we can't draw curves)
+    # We'll use different intensities to simulate pulsing
+    heart_positions = [
+        # Small hearts scattered around
+        (12, 8), (28, 15), (45, 5), (58, 20),  # Single pixel hearts
+        (20, 25), (40, 10), (55, 18)  # More single pixel hearts
+    ]
+    
+    # Pulsing effect - hearts get brighter/dimmer across frames
+    pulse_intensities = [0.6, 0.8, 1.0, 0.8, 0.6, 0.4]  # Smooth pulse
+    intensity = pulse_intensities[frame_idx % len(pulse_intensities)]
+    
+    # Heart colors with varying intensities
+    base_colors = ["#FF1493", "#FF69B4", "#FFB6C1", "#FF6347"]  # Deep pink, hot pink, light pink, tomato
+    
+    for i, (x, y) in enumerate(heart_positions):
+        # Apply pulse intensity to color
+        base_color = base_colors[i % len(base_colors)]
+        base_rgb = hex_to_rgb(base_color)
+        pulsed_color = rgb_to_hex([
+            int(base_rgb[0] * intensity),
+            int(base_rgb[1] * intensity),
+            int(base_rgb[2] * intensity)
+        ])
+        
+        hearts.append(
+            render.Padding(
+                pad = (x, y, 0, 0),
+                child = render.Box(
+                    width = 1,
+                    height = 1,
+                    color = pulsed_color,
+                ),
+            ),
+        )
+        
+        # Add some larger heart shapes (2x2 pixels) for variety
+        if i < 3:  # Only first 3 hearts get the larger treatment
+            # Try to add a second pixel to create larger hearts
+            if x + 1 < 64:  # Make sure we stay in bounds
+                hearts.append(
+                    render.Padding(
+                        pad = (x + 1, y, 0, 0),
+                        child = render.Box(
+                            width = 1,
+                            height = 1,
+                            color = pulsed_color,
+                        ),
+                    ),
+                )
+    
+    return hearts
 
 def get_special_date_override(now, enable_special_dates, timezone_name):
     """
@@ -1939,6 +2522,13 @@ def get_schema():
                 name = "Enable Special Date Themes",
                 desc = "Override colors on holidays",
                 icon = "star",
+                default = True,
+            ),
+            schema.Toggle(
+                id = "enable_animations",
+                name = "Enable Holiday Animations",
+                desc = "Show animations on special holidays (New Year's sparkles, Halloween flicker, Christmas snow, Valentine's hearts)",
+                icon = "magic",
                 default = True,
             ),
         ],

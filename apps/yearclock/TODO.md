@@ -722,6 +722,7 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 - [x] **Performance Optimized**: 50ms frame delay, minimal pixel count ✅ COMPLETED
 - [x] **Smart Integration**: Works seamlessly with all existing features ✅ COMPLETED
 - [x] **Festive Colors**: White, gold, and light yellow sparkles over NEWYEAR_PALETTE ✅ COMPLETED
+- [x] **Dec 31 vs Jan 1 Distinction**: Dec 31 = party animation, Jan 1 = chill gold/silver ✅ COMPLETED
 - [-] **Font Reverted**: Accidentally changed to CG-pixel-4x5-mono, reverted to tom-thumb ✅ FIXED
 
 ---
@@ -732,26 +733,57 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 
 - [ ] **Global vs Regional Holiday Analysis**: Review current "global" holidays for regional appropriateness
   - [ ] **Christmas (Dec 25)**: Currently global - should it be filtered to Christian-majority countries/timezones?
+    - [ ] Research Christian population by timezone/country
+    - [ ] Consider keeping global due to secular celebration in many non-Christian countries
+    - [ ] Alternative: Add configuration toggle for religious holidays
   - [ ] **Halloween (Oct 31)**: Currently global - should it be filtered to US/Canada/Ireland/UK timezones?
-  - [ ] **Valentine's Day (Feb 14)**: Currently global - appropriate as widely celebrated?
+    - [ ] Research global Halloween adoption and celebration
+    - [ ] Consider filtering to Anglo-sphere + Ireland + regions with significant adoption
+    - [ ] May be appropriate to keep global due to international adoption
+  - [ ] **Valentine's Day (Feb 14)**: Currently global - research global celebration patterns
+    - [ ] Generally appropriate as global due to widespread commercial adoption
+    - [ ] Consider if any regions specifically don't celebrate or have cultural objections
   - [ ] **St. Patrick's Day (Mar 17)**: Currently global - should it be filtered to Ireland/Irish diaspora regions?
-- [ ] **Implementation Strategy**: Create holiday categories (Global, Regional, Religious, Secular)
-- [ ] **Timezone Mapping**: Research which holidays are celebrated in which regions
-- [ ] **Configuration Option**: "Show only regional holidays" vs "Show all holidays"
+    - [ ] Research which countries actually celebrate vs. just commercial/pub promotion
+    - [ ] Consider filtering to Ireland, UK, US, Canada, Australia where it's culturally significant
+    - [ ] May be more regional than currently implemented
+  - [ ] **Pride Month (June)**: Currently global - research legal/cultural appropriateness by region
+    - [ ] Consider filtering based on LGBTQ+ rights/acceptance by country
+    - [ ] Alternative: Add configuration toggle for social causes
+    - [ ] May need careful cultural sensitivity research
+- [ ] **Implementation Strategy**: Create holiday categories (Global, Regional, Religious, Secular, Cultural)
+- [ ] **Timezone Mapping**: Research which holidays are celebrated in which regions with cultural significance
+- [ ] **Configuration Options**:
+  - [ ] "Show only regional holidays" vs "Show all holidays"
+  - [ ] "Enable religious holidays" toggle
+  - [ ] "Enable cultural/social holidays" toggle
+- [ ] **Research Phase**: Systematic review of each holiday's global cultural relevance and appropriateness
 
 ### Multi-Calendar New Year's Support
 
 - [ ] **Chinese New Year**: Lunar calendar integration for proper date calculation
   - [ ] Research lunar calendar algorithms for Chinese New Year dates
   - [ ] Create CHINESE_NEWYEAR_PALETTE with red/gold traditional colors
-  - [ ] Add timezone filtering (Asia/Shanghai, Asia/Hong_Kong, etc.)
+  - [ ] Add timezone filtering (Asia/Shanghai, Asia/Hong_Kong, Asia/Taipei, etc.)
+  - [ ] Variable date calculation (typically late January to mid-February)
 - [ ] **Persian New Year (Nowruz)**: Spring equinox-based celebration
   - [ ] Already have Persian calendar support - extend for Nowruz detection
   - [ ] Create NOWRUZ_PALETTE with spring colors
-  - [ ] Add timezone filtering (Asia/Tehran, etc.)
+  - [ ] Add timezone filtering (Asia/Tehran, Asia/Kabul, etc.)
+  - [ ] Fixed date (March 20-21, depending on astronomical calculation)
 - [ ] **Thai New Year (Songkran)**: April 13-15 celebration
+  - [ ] Create SONGKRAN_PALETTE with water festival blues and spring colors
+  - [ ] Add timezone filtering (Asia/Bangkok, etc.)
 - [ ] **Islamic New Year**: Hijri calendar integration
+  - [ ] Already have Islamic calendar support - extend for New Year detection
+  - [ ] Create ISLAMIC_NEWYEAR_PALETTE
+  - [ ] Add timezone filtering for Islamic countries
+  - [ ] Variable date calculation (lunar calendar drift)
 - [ ] **Jewish New Year (Rosh Hashanah)**: Hebrew calendar integration
+  - [ ] Research Hebrew calendar algorithms
+  - [ ] Create ROSH_HASHANAH_PALETTE
+  - [ ] Add timezone filtering for Israel and Jewish communities
+  - [ ] Variable date calculation (typically September-October)
 - [ ] **Configuration**: "New Year Style" dropdown (Gregorian, Chinese, Persian, etc.)
 
 ### Test Harness & Showcase Updates

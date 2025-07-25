@@ -656,10 +656,14 @@ def main(config):
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
     special_override = get_special_date_override(now, enable_special_dates, timezone)
-    is_new_years = special_override == "newyear"
+    is_new_years_eve = special_override == "newyears_eve"  # Dec 31 - party with animation
 
     if special_override:
-        color_scheme = special_override
+        # Map both New Year's dates to the same color scheme
+        if special_override in ["newyears_eve", "newyears_day"]:
+            color_scheme = "newyear"
+        else:
+            color_scheme = special_override
 
         # For Pride Month, use rainbow but respect hemisphere choice
         if special_override == "pride":
@@ -669,8 +673,8 @@ def main(config):
     # Calculate year progress (0.0 to 1.0) for selected calendar system
     year_fraction = calculate_year_progress_for_calendar(now, calendar_system)
 
-    # Check if we should show New Year's animation
-    if is_new_years and enable_special_dates:
+    # Check if we should show New Year's animation (only Dec 31)
+    if is_new_years_eve and enable_special_dates:
         return create_new_years_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
     else:
         return create_static_year_clock(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
@@ -980,9 +984,13 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if month == 12 and day == 25:
         return "christmas"
 
-    # New Year's (Dec 31 or Jan 1) - Override to gold/silver gradient
-    if (month == 12 and day == 31) or (month == 1 and day == 1):
-        return "newyear"
+    # New Year's Eve (Dec 31) - Override to gold/silver gradient WITH sparkle animation
+    if month == 12 and day == 31:
+        return "newyears_eve"
+
+    # New Year's Day (Jan 1) - Override to gold/silver gradient WITHOUT animation (chill recovery)
+    if month == 1 and day == 1:
+        return "newyears_day"
 
     # Pride Month (June) - Override to rainbow but respect hemisphere setting
     if month == 6:

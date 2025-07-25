@@ -387,7 +387,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - **Variable Date Calculation**: Thanksgiving and Black Friday dates computed correctly for each year
 - **Cultural Research**: All color schemes researched for cultural appropriateness and significance
 - **Test Coverage**: 14 comprehensive test images (7 holidays × enabled/filtered versions)
-- **Missing**: Lunar New Year, Carnival, Ramadan/Eid would require complex lunar calendar calculations
+- **Missing**: Lunar New Year, Carnival, Ramadan/Eid would require complex lunar calendar calculations. The remaining items (Lunar New Year, Ramadan/Eid) would require complex lunar calendar libraries that may not be available in Starlark.
 
 ### 5.4. Calendar System Support
 

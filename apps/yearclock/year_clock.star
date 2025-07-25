@@ -633,7 +633,7 @@ def get_schema():
             schema.Toggle(
                 id = "enable_special_dates",
                 name = "Enable Special Date Themes",
-                desc = "Override colors on holidays (Valentine's, St. Patrick's, Halloween, Christmas, New Year's, Pride Month)",
+                desc = "Override colors on holidays",
                 icon = "star",
                 default = True,
             ),

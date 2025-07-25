@@ -314,6 +314,72 @@ run_test "European timezone auto-detection" "pixlet render year_clock.star show_
 run_test "Asian timezone auto-detection" "pixlet render year_clock.star show_date=true date_format=auto debug_date='2024-03-15T12:00:00Z'" "09_verify_asian_auto.webp"
 echo ""
 
+echo "${BLUE}10. Testing language support and timezone-based language detection...${NC}"
+# Test manual language override with different months to show translated month names
+LANGUAGE_TEST_DATES=("2024-01-15T12:00:00Z" "2024-03-15T12:00:00Z" "2024-06-15T12:00:00Z" "2024-09-15T12:00:00Z" "2024-12-15T12:00:00Z")
+LANGUAGE_TEST_MONTHS=("January" "March" "June" "September" "December")
+LANGUAGES=("en" "es" "fr" "de" "pt" "it")
+
+echo "  Testing manual language override across different months..."
+for i in "${!LANGUAGE_TEST_DATES[@]}"; do
+    date="${LANGUAGE_TEST_DATES[$i]}"
+    month="${LANGUAGE_TEST_MONTHS[$i]}"
+    for lang in "${LANGUAGES[@]}"; do
+        run_test "Language $lang in $month" "pixlet render year_clock.star show_date=true language=$lang debug_date='$date' enable_special_dates=false" "10_language_${lang}_${month}.webp"
+    done
+done
+echo ""
+
+echo "  Testing timezone-based automatic language detection..."
+# Test timezone-based language auto-detection with culturally appropriate timezones
+LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome")
+LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy")
+EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it")
+
+for i in "${!LANGUAGE_AUTO_TIMEZONES[@]}"; do
+    tz="${LANGUAGE_AUTO_TIMEZONES[$i]}"
+    name="${LANGUAGE_AUTO_NAMES[$i]}"
+    expected_lang="${EXPECTED_LANGUAGES[$i]}"
+    tz_clean="${tz//\//_}"
+    run_test "Auto-detect: $name" "pixlet render year_clock.star show_date=true language=auto debug_date='2024-03-15T12:00:00Z' '\$tz=$tz'" "10_auto_language_${name}.webp"
+done
+echo ""
+
+echo "  Testing language + format combinations..."
+# Test combinations of language and date format to show the full localization
+COMBO_CONFIGS=(
+    "lang=es,format=us_format,desc=Spanish_US_Format"
+    "lang=fr,format=european_format,desc=French_European_Format" 
+    "lang=de,format=european_format,desc=German_European_Format"
+    "lang=pt,format=us_format,desc=Portuguese_US_Format"
+    "lang=it,format=european_format,desc=Italian_European_Format"
+    "lang=en,format=iso_format,desc=English_ISO_Format"
+)
+
+for config in "${COMBO_CONFIGS[@]}"; do
+    # Parse the config string
+    lang=$(echo "$config" | sed 's/.*lang=\([^,]*\).*/\1/')
+    format=$(echo "$config" | sed 's/.*format=\([^,]*\).*/\1/')
+    desc=$(echo "$config" | sed 's/.*desc=\([^,]*\).*/\1/')
+    
+    run_test "Combo: $desc" "pixlet render year_clock.star show_date=true language=$lang date_format=$format debug_date='2024-08-15T12:00:00Z' enable_special_dates=false" "10_combo_${desc}.webp"
+done
+echo ""
+
+echo "  Testing language support with special dates..."
+# Test how different languages work with special date themes
+SPECIAL_LANG_DATES=("2024-12-25T12:00:00Z" "2024-07-14T12:00:00Z" "2024-10-31T12:00:00Z")
+SPECIAL_LANG_NAMES=("Christmas" "BastilleDay" "Halloween")
+SPECIAL_LANG_LANGS=("es" "fr" "de")
+
+for i in "${!SPECIAL_LANG_DATES[@]}"; do
+    date="${SPECIAL_LANG_DATES[$i]}"
+    name="${SPECIAL_LANG_NAMES[$i]}"
+    lang="${SPECIAL_LANG_LANGS[$i]}"
+    run_test "Special date with $lang: $name" "pixlet render year_clock.star show_date=true language=$lang debug_date='$date' enable_special_dates=true" "10_special_lang_${lang}_${name}.webp"
+done
+echo ""
+
 # Output final results
 echo "=========================="
 echo "${BLUE}Test Results Summary:${NC}"

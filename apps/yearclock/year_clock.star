@@ -101,6 +101,16 @@ PURPLE_PALETTE = [
     "#2D0033",  # Very Dark Purple (back to start)
 ]
 
+# Multi-language month names for international support
+MONTH_NAMES = {
+    "en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "es": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+    "fr": ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"],
+    "de": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+    "pt": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+    "it": ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
+}
+
 THERMAL_PALETTE = [
     "#0D1B2A",  # Deep winter blue (coldest)
     "#1B263B",  # Dark blue
@@ -408,6 +418,10 @@ def main(config):
     hemisphere = config.get("hemisphere", "northern")
     accent_dot_style = config.get("accent_dot_style", "adaptive")
 
+    # Get date display settings (implements sections 5.1 and 5.2 from TODO)
+    date_format = config.get("date_format", "auto")
+    language = config.get("language", "auto")
+
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
     special_override = get_special_date_override(now, enable_special_dates, timezone)
@@ -508,7 +522,7 @@ def main(config):
                 render.Padding(
                     pad = (1, 26, 0, 0),  # Hardcoded x=1 as planned
                     child = render.Text(
-                        content = format_date_with_timezone_detection(now, timezone, config.get("date_format", "auto")),
+                        content = format_date_with_timezone_detection(now, timezone, date_format, language),
                         font = "tom-thumb",
                         color = get_date_color(color_scheme, hemisphere),
                     ),
@@ -983,24 +997,75 @@ def get_date_format_from_timezone(timezone_name):
     # Default fallback
     return "us_format"
 
-def format_date_with_timezone_detection(date, timezone_name, user_override = None):
+def get_language_from_timezone(timezone_name):
     """
-    Format date using automatic timezone-based format detection.
-    Allows user override if specified.
+    Automatically detect language based on timezone.
+    Implements section 5.2 from TODO - intelligent language inference.
     """
-    if user_override and user_override != "auto":
-        format_type = user_override
+
+    if timezone_name.startswith("Europe/Paris") or \
+       timezone_name.startswith("Europe/Luxembourg") or \
+       timezone_name.startswith("Africa/Casablanca") or \
+       timezone_name.startswith("America/Montreal") or \
+       "French" in timezone_name:
+        return "fr"
+    elif timezone_name.startswith("Europe/Berlin") or \
+         timezone_name.startswith("Europe/Vienna") or \
+         timezone_name.startswith("Europe/Zurich") or \
+         "German" in timezone_name:
+        return "de"
+    elif timezone_name.startswith("Europe/Madrid") or \
+         timezone_name.startswith("America/Mexico") or \
+         timezone_name.startswith("America/Argentina") or \
+         timezone_name.startswith("America/Colombia") or \
+         timezone_name.startswith("America/Lima") or \
+         timezone_name.startswith("America/Santiago") or \
+         "Spanish" in timezone_name:
+        return "es"
+    elif timezone_name.startswith("America/Sao_Paulo") or \
+         timezone_name.startswith("Europe/Lisbon") or \
+         "Portuguese" in timezone_name:
+        return "pt"
+    elif timezone_name.startswith("Europe/Rome") or \
+         "Italian" in timezone_name:
+        return "it"
+    else:
+        return "en"
+
+def format_date_with_timezone_detection(date, timezone_name, user_format_override = None, user_language_override = None):
+    """
+    Format date using timezone-based format and language detection with optional user overrides.
+    Implements sections 5.1 and 5.2 from TODO - automatic date format and language localization.
+    """
+
+    # Determine format type
+    if user_format_override and user_format_override != "auto":
+        format_type = user_format_override
     else:
         format_type = get_date_format_from_timezone(timezone_name)
 
-    if format_type == "us_format":
-        return date.format("Jan 2")
-    elif format_type == "european_format":
-        return date.format("2 Jan")
-    elif format_type == "iso_format":
-        return date.format("01-02")
+    # Determine language
+    if user_language_override and user_language_override != "auto":
+        language = user_language_override
     else:
-        return date.format("Jan 2")  # Safe fallback
+        language = get_language_from_timezone(timezone_name)
+
+    # Get localized month names
+    month_names = MONTH_NAMES.get(language, MONTH_NAMES["en"])  # Fallback to English
+    month_name = month_names[date.month - 1]  # Convert 1-based month to 0-based index
+
+    # Format according to the selected format type
+    if format_type == "us_format":
+        return "%s %d" % (month_name, date.day)  # "Jan 2" or "Ene 2"
+    elif format_type == "european_format":
+        return "%d %s" % (date.day, month_name)  # "2 Jan" or "2 Ene"
+    elif format_type == "iso_format":
+        # Format with leading zeros manually since %02d isn't supported in Starlark
+        month_str = "%d" % date.month if date.month >= 10 else "0%d" % date.month
+        day_str = "%d" % date.day if date.day >= 10 else "0%d" % date.day
+        return "%s-%s" % (month_str, day_str)  # "01-02" (no language needed)
+    else:
+        return "%s %d" % (month_name, date.day)  # Safe fallback to US format
 
 def get_schema():
     color_scheme_options = [
@@ -1132,6 +1197,43 @@ def get_schema():
                     schema.Option(
                         display = "ISO format (01-02)",
                         value = "iso_format",
+                    ),
+                ],
+            ),
+            schema.Dropdown(
+                id = "language",
+                name = "Language",
+                desc = "Choose display language (auto-detects from timezone)",
+                icon = "language",
+                default = "auto",
+                options = [
+                    schema.Option(
+                        display = "Auto-detect from timezone",
+                        value = "auto",
+                    ),
+                    schema.Option(
+                        display = "English",
+                        value = "en",
+                    ),
+                    schema.Option(
+                        display = "Español",
+                        value = "es",
+                    ),
+                    schema.Option(
+                        display = "Français",
+                        value = "fr",
+                    ),
+                    schema.Option(
+                        display = "Deutsch",
+                        value = "de",
+                    ),
+                    schema.Option(
+                        display = "Português",
+                        value = "pt",
+                    ),
+                    schema.Option(
+                        display = "Italiano",
+                        value = "it",
                     ),
                 ],
             ),

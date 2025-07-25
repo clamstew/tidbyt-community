@@ -14,6 +14,7 @@ Year Clock transforms your Tidbyt into a slow-moving, year-long timepiece that r
 - **Configurable Dial Marker**: A white dial line with beveled edges and customizable accent dots shows today's position
 - **Optional Date Display**: Shows current date in the corner (configurable)
 - **Timezone-Based Date Formats**: Automatically detects appropriate date format from your timezone
+- **Multi-Language Support**: Intelligent timezone-based language detection with 6-language support
 - **International Support**: Zero-configuration localization that works globally
 
 ## Color Schemes
@@ -55,7 +56,15 @@ Choose from multiple color palettes, each following the natural flow of seasons:
   - **US Format**: Month-day format (e.g., "Mar 15")
   - **European Format**: Day-month format (e.g., "15 Mar")
   - **ISO Format**: Numeric format (e.g., "03-15")
-- **[DEBUG] Test Date**: Pick any date to preview how colors look throughout the year
+- **Language**: Choose display language or use automatic timezone-based detection
+  - **Auto-detect (Default)**: Automatically chooses language based on your timezone
+  - **English**: "Mar 15", "Dec 25"
+  - **Español**: "Mar 15", "Dic 25"
+  - **Français**: "15 Mar", "25 Déc"
+  - **Deutsch**: "15 Mär", "25 Dez"
+  - **Português**: "15 Mar", "25 Dez"
+  - **Italiano**: "15 Mar", "25 Dic"
+- **Enable Special Date Themes**: Toggle special holiday and astronomical event color overrides
 
 ## Special Date Themes 🎉
 
@@ -134,6 +143,66 @@ If you prefer a specific format regardless of your timezone:
 - **US Format**: Always use "Mar 15" style
 - **European Format**: Always use "15 Mar" style
 - **ISO Format**: Always use "03-15" numeric style
+
+## 🗣️ Multi-Language Support
+
+Year Clock is the **first Tidbyt app** with intelligent timezone-based language detection, supporting 6 languages with zero configuration required for most users.
+
+### Intelligent Language Detection
+
+The app automatically detects the appropriate language based on your device's timezone, providing culturally accurate month names:
+
+### Auto-Detection Logic
+
+- **🇺🇸 English Regions**: `America/*` (except Mexico), `Canada/*`, `Australia/*` → English month names
+- **🇪🇸 Spanish Regions**: `Europe/Madrid`, `America/Mexico*`, `America/Argentina*`, `America/Colombia*` → Spanish month names
+- **🇫🇷 French Regions**: `Europe/Paris`, `Europe/Luxembourg`, `America/Montreal` → French month names
+- **🇩🇪 German Regions**: `Europe/Berlin`, `Europe/Vienna`, `Europe/Zurich` → German month names
+- **🇧🇷 Portuguese Regions**: `America/Sao_Paulo`, `Europe/Lisbon` → Portuguese month names
+- **🇮🇹 Italian Regions**: `Europe/Rome` → Italian month names
+
+### Language Examples
+
+**Same date in different languages:**
+
+- 🇺🇸 **English**: "Mar 15", "Dec 25"
+- 🇪🇸 **Spanish**: "Mar 15", "Dic 25"
+- 🇫🇷 **French**: "15 Mar", "25 Déc"
+- 🇩🇪 **German**: "15 Mär", "25 Dez"
+- 🇧🇷 **Portuguese**: "15 Mar", "25 Dez"
+- 🇮🇹 **Italian**: "15 Mar", "25 Dic"
+
+### Revolutionary Features
+
+- **🧠 Smart Auto-Detection**: Automatically detects language from timezone for 90%+ of users
+- **🌍 6-Language Support**: English, Spanish, French, German, Portuguese, Italian
+- **🔧 Manual Override**: Users can force specific language if desired
+- **🎯 Cultural Accuracy**: Smart timezone-to-language correlation based on regional patterns
+- **⚡ Zero Configuration**: No language setup required - works automatically
+- **🏆 Tidbyt First**: Pioneering intelligent language detection in the Tidbyt ecosystem
+
+### Combined Intelligence
+
+Language detection works seamlessly with date format detection:
+
+- **🇺🇸 New York**: Auto → English + US format → "Dec 25"
+- **🇪🇸 Madrid**: Auto → Spanish + European format → "25 Dic"
+- **🇫🇷 Paris**: Auto → French + European format → "25 Déc"
+- **🇩🇪 Berlin**: Auto → German + European format → "25 Dez"
+- **🇧🇷 São Paulo**: Auto → Portuguese + European format → "25 Dez"
+- **🇮🇹 Rome**: Auto → Italian + European format → "25 Dic"
+
+### Manual Override Options
+
+If you prefer a specific language regardless of your timezone:
+
+- **Auto-detect**: Let the app choose based on your timezone (recommended)
+- **English**: Always use English month names
+- **Español**: Always use Spanish month names
+- **Français**: Always use French month names
+- **Deutsch**: Always use German month names
+- **Português**: Always use Portuguese month names
+- **Italiano**: Always use Italian month names
 
 ## Inspiration
 

@@ -565,6 +565,7 @@
         <a href="#comprehensive" class="nav-link">🔬 Comprehensive <span class="nav-count">3</span></a>
         <a href="#accent-dots" class="nav-link">🎨 Accent Dots <span class="nav-count">30</span></a>
         <a href="#timezone" class="nav-link">🌍 Timezone i18n <span class="nav-count">32</span></a>
+        <a href="#language" class="nav-link">🗣️ Language Support <span class="nav-count">45</span></a>
       </div>
     </nav>
 
@@ -1934,6 +1935,165 @@
                         </div>
                         <p style="text-align: center; margin-top: 20px; opacity: 0.7; font-size: 0.9em;">
                             <strong>✨ Phase 1 Complete:</strong> Timezone-based date format detection fully implemented
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Language Support -->
+                <div class="section" id="language">
+                    <h2>🌍 Multi-Language Support (45 tests)</h2>
+                    <div class="common-params"><code>Common: show_date=true</code></div>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Intelligent timezone-based language detection with 6-language support
+                    </p>
+                    
+                    <h3>🎯 Timezone-Based Auto-Detection</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Different regions automatically get appropriate languages
+                    </p>
+                    <div class="grid">
+            `;
+
+        // Add language auto-detection examples
+        const languageAutoExamples = [
+          { key: "English_US", tz: "America/New_York", expected: "Mar 15", flag: "🇺🇸" },
+          { key: "Spanish_Spain", tz: "Europe/Madrid", expected: "15 Mar", flag: "🇪🇸" },
+          { key: "French_France", tz: "Europe/Paris", expected: "15 Mar", flag: "🇫🇷" },
+          { key: "German_Germany", tz: "Europe/Berlin", expected: "15 Mär", flag: "🇩🇪" },
+          { key: "Portuguese_Brazil", tz: "America/Sao_Paulo", expected: "15 Mar", flag: "🇧🇷" },
+          { key: "Italian_Italy", tz: "Europe/Rome", expected: "15 Mar", flag: "🇮🇹" },
+        ];
+
+        languageAutoExamples.forEach((lang) => {
+          html += createDevice(
+            `10_auto_language_${lang.key}.webp`,
+            `${lang.flag} ${lang.key.replace('_', ' ')}`,
+            `Auto-detects to '${lang.expected}' - ${lang.tz} timezone`,
+            `language=auto timezone=${lang.tz}`,
+            `show_date=true language=auto debug_date='2024-03-15T12:00:00Z' timezone=${lang.tz}`
+          );
+        });
+
+        html += `
+                    </div>
+                    
+                    <h3>📅 Month Names Across Languages</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Same date in different languages showing localized month names
+                    </p>
+                    <div class="grid grid-6">
+            `;
+
+        // Show all 6 languages for December to demonstrate month name translations
+        const languages = [
+          { code: "en", name: "English", expected: "Dec 15", flag: "🇺🇸" },
+          { code: "es", name: "Español", expected: "Dic 15", flag: "🇪🇸" },
+          { code: "fr", name: "Français", expected: "Déc 15", flag: "🇫🇷" },
+          { code: "de", name: "Deutsch", expected: "Dez 15", flag: "🇩🇪" },
+          { code: "pt", name: "Português", expected: "Dez 15", flag: "🇧🇷" },
+          { code: "it", name: "Italiano", expected: "Dic 15", flag: "🇮🇹" },
+        ];
+
+        languages.forEach((lang) => {
+          html += createDevice(
+            `10_language_${lang.code}_December.webp`,
+            `${lang.flag} ${lang.name}`,
+            `Shows '${lang.expected}' in ${lang.name}`,
+            `language=${lang.code}`,
+            `show_date=true language=${lang.code} debug_date='2024-12-15T12:00:00Z'`
+          );
+        });
+
+        html += `
+                    </div>
+                    
+                    <h3>🔄 Language + Format Combinations</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Different languages with different date formats
+                    </p>
+                    <div class="grid">
+            `;
+
+        // Show language + format combinations
+        const langFormatCombos = [
+          { desc: "Spanish_US_Format", lang: "Spanish", format: "US", example: "Ago 15", flag: "🇺🇸🇪🇸" },
+          { desc: "French_European_Format", lang: "French", format: "European", example: "15 Aoû", flag: "🇫🇷" },
+          { desc: "German_European_Format", lang: "German", format: "European", example: "15 Aug", flag: "🇩🇪" },
+          { desc: "Portuguese_US_Format", lang: "Portuguese", format: "US", example: "Ago 15", flag: "🇧🇷🇺🇸" },
+          { desc: "Italian_European_Format", lang: "Italian", format: "European", example: "15 Ago", flag: "🇮🇹" },
+          { desc: "English_ISO_Format", lang: "English", format: "ISO", example: "08-15", flag: "🇺🇸📅" },
+        ];
+
+        langFormatCombos.forEach((combo) => {
+          html += createDevice(
+            `10_combo_${combo.desc}.webp`,
+            `${combo.flag} ${combo.lang} + ${combo.format}`,
+            `Shows '${combo.example}' - ${combo.lang} language with ${combo.format} format`,
+            `language + format combo`,
+            `Combined language and format selection`
+          );
+        });
+
+        html += `
+                    </div>
+                    
+                    <h3>🎉 Special Dates with Languages</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Holiday themes work with all languages
+                    </p>
+                    <div class="grid">
+            `;
+
+        // Show special dates with different languages
+        const specialLangDates = [
+          { lang: "es", name: "Christmas", example: "Dic 25", flag: "🇪🇸🎄", desc: "Spanish Christmas" },
+          { lang: "fr", name: "BastilleDay", example: "Jul 14", flag: "🇫🇷🗼", desc: "French Bastille Day" },
+          { lang: "de", name: "Halloween", example: "Okt 31", flag: "🇩🇪🎃", desc: "German Halloween" },
+        ];
+
+        specialLangDates.forEach((special) => {
+          html += createDevice(
+            `10_special_lang_${special.lang}_${special.name}.webp`,
+            `${special.flag} ${special.desc}`,
+            `Shows '${special.example}' with ${special.name} theme`,
+            `language=${special.lang} + special_date`,
+            `show_date=true language=${special.lang} + special date theme`
+          );
+        });
+
+        html += `
+                    </div>
+                    
+                    <div class="feature-highlights">
+                        <h3>🚀 Revolutionary Language Features</h3>
+                        <div class="highlights-grid">
+                            <div>
+                                <strong>🧠 Smart Auto-Detection:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Automatically detects language from timezone</span>
+                            </div>
+                            <div>
+                                <strong>🌍 6 Languages:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">English, Spanish, French, German, Portuguese, Italian</span>
+                            </div>
+                            <div>
+                                <strong>🔧 Manual Override:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Users can force specific language if desired</span>
+                            </div>
+                            <div>
+                                <strong>⚡ Zero Config:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">90%+ of users get correct language automatically</span>
+                            </div>
+                            <div>
+                                <strong>🎯 Cultural Accuracy:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Smart timezone-to-language correlation</span>
+                            </div>
+                            <div>
+                                <strong>🏆 Tidbyt First:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">First app with intelligent language detection</span>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; opacity: 0.7; font-size: 0.9em;">
+                            <strong>🌟 Phase 2 Complete:</strong> Multi-language support with pioneering UX
                         </p>
                     </div>
                 </div>

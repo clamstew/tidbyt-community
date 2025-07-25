@@ -742,6 +742,14 @@
             filteredTz: "Europe/London",
           },
           {
+            key: "BastilleDay",
+            display: "Bastille Day 🇫🇷",
+            description:
+              "Jul 14: French tricolor (bleu, blanc, rouge) (French timezones)",
+            enabledTz: "Europe/Paris",
+            filteredTz: "America/New_York",
+          },
+          {
             key: "BoxingDay",
             display: "Boxing Day 🇬🇧",
             description:
@@ -1648,6 +1656,8 @@
           const debugDate =
             regional.key === "IndependenceDay"
               ? "2024-07-04T12:00:00Z"
+              : regional.key === "BastilleDay"
+              ? "2024-07-14T12:00:00Z"
               : regional.key === "BoxingDay"
               ? "2024-12-26T12:00:00Z"
               : regional.key === "MayDay"

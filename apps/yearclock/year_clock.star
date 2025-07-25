@@ -369,6 +369,21 @@ INDEPENDENCE_DAY_PALETTE = [
     "#000080",  # Navy Blue (back to start)
 ]
 
+BASTILLE_DAY_PALETTE = [
+    "#002654",  # Official French Blue (darker, richer than US blue)
+    "#1B365D",  # Deep French Navy
+    "#2E4F7F",  # Rich Blue
+    "#4169E1",  # Royal Blue (transition)
+    "#E8F0FF",  # Very light blue tint
+    "#FFFFFF",  # Pure White (French flag blanc)
+    "#FAFBFC",  # Ivory white
+    "#FFFFFF",  # White emphasis (central to French flag)
+    "#FFE8E8",  # Pale rose tint
+    "#F5A3A3",  # Light French rose
+    "#ED2939",  # Official French Red (deeper, more burgundy)
+    "#B91C3C",  # Deep French crimson (darker than US red)
+]
+
 BOXING_DAY_PALETTE = [
     "#006400",  # Dark Green (traditional)
     "#228B22",  # Forest Green
@@ -812,6 +827,10 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if month == 7 and day == 4 and is_us_timezone(timezone_name):
         return "independence_day"
 
+    # Bastille Day (Jul 14) - French national day with tricolor
+    if month == 7 and day == 14 and is_french_timezone(timezone_name):
+        return "bastille_day"
+
     # Boxing Day (Dec 26) - European/Commonwealth post-Christmas tradition
     if month == 12 and day == 26 and is_commonwealth_timezone(timezone_name):
         return "boxing_day"
@@ -861,6 +880,23 @@ def is_us_timezone(timezone_name):
         "Pacific/Honolulu",
     ]
     return timezone_name in us_patterns or (timezone_name.startswith("America/") and not timezone_name.startswith("America/Mexico"))
+
+def is_french_timezone(timezone_name):
+    """Check if timezone is in France or Francophone regions for Bastille Day"""
+    french_patterns = [
+        "Europe/Paris",
+        "Europe/Monaco",
+        "America/Cayenne",  # French Guiana
+        "America/Guadeloupe",
+        "America/Martinique",
+        "America/St_Barthelemy",
+        "America/St_Pierre_and_Miquelon",
+        "Indian/Reunion",
+        "Indian/Mayotte",
+        "Pacific/Noumea",  # New Caledonia
+        "Pacific/Tahiti",  # French Polynesia
+    ]
+    return timezone_name in french_patterns or "French" in timezone_name
 
 def is_commonwealth_timezone(timezone_name):
     """Check if timezone is in Europe or Commonwealth countries for Boxing Day"""
@@ -1026,6 +1062,8 @@ def get_color_palette(color_scheme):
         return WINTER_SOLSTICE_PALETTE
     elif color_scheme == "independence_day":
         return INDEPENDENCE_DAY_PALETTE
+    elif color_scheme == "bastille_day":
+        return BASTILLE_DAY_PALETTE
     elif color_scheme == "boxing_day":
         return BOXING_DAY_PALETTE
     elif color_scheme == "may_day":

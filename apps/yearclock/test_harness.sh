@@ -255,10 +255,10 @@ for i in "${!ASTRONOMICAL_DATES[@]}"; do
 done
 
 # Test regional holidays with timezone filtering (fixed dates)
-REGIONAL_DATES=("2024-07-04T12:00:00Z" "2024-12-26T12:00:00Z" "2024-05-01T12:00:00Z" "2024-11-01T12:00:00Z")
-REGIONAL_NAMES=("IndependenceDay" "BoxingDay" "MayDay" "DiaDeLosMuertos")
-REGIONAL_ENABLED_TZ=("America/New_York" "Europe/London" "Europe/Paris" "America/Mexico_City")
-REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York")
+REGIONAL_DATES=("2024-07-04T12:00:00Z" "2024-07-14T12:00:00Z" "2024-12-26T12:00:00Z" "2024-05-01T12:00:00Z" "2024-11-01T12:00:00Z")
+REGIONAL_NAMES=("IndependenceDay" "BastilleDay" "BoxingDay" "MayDay" "DiaDeLosMuertos")
+REGIONAL_ENABLED_TZ=("America/New_York" "Europe/Paris" "Europe/London" "Europe/Paris" "America/Mexico_City")
+REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York" "America/New_York")
 
 # Test variable date regional holidays
 VARIABLE_DATES=("2024-11-28T12:00:00Z" "2024-11-29T12:00:00Z" "2024-05-01T12:00:00Z")

@@ -1007,6 +1007,11 @@ def get_language_from_timezone(timezone_name):
        timezone_name.startswith("Europe/Luxembourg") or \
        timezone_name.startswith("Africa/Casablanca") or \
        timezone_name.startswith("America/Montreal") or \
+       timezone_name.startswith("Africa/Ouagadougou") or \
+       timezone_name.startswith("Africa/Bamako") or \
+       timezone_name.startswith("Africa/Dakar") or \
+       timezone_name.startswith("Africa/Conakry") or \
+       timezone_name.startswith("Africa/Abidjan") or \
        "French" in timezone_name:
         return "fr"
     elif timezone_name.startswith("Europe/Berlin") or \

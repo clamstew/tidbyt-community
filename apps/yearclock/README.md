@@ -156,7 +156,7 @@ The app automatically detects the appropriate language based on your device's ti
 
 - **🇺🇸 English Regions**: `America/*` (except Mexico), `Canada/*`, `Australia/*` → English month names
 - **🇪🇸 Spanish Regions**: `Europe/Madrid`, `America/Mexico*`, `America/Argentina*`, `America/Colombia*` → Spanish month names
-- **🇫🇷 French Regions**: `Europe/Paris`, `Europe/Luxembourg`, `America/Montreal` → French month names
+- **🇫🇷 French Regions**: `Europe/Paris`, `Europe/Luxembourg`, `America/Montreal`, `Africa/Ouagadougou`, `Africa/Bamako`, `Africa/Dakar`, `Africa/Conakry`, `Africa/Abidjan` → French month names
 - **🇩🇪 German Regions**: `Europe/Berlin`, `Europe/Vienna`, `Europe/Zurich` → German month names
 - **🇧🇷 Portuguese Regions**: `America/Sao_Paulo`, `Europe/Lisbon` → Portuguese month names
 - **🇮🇹 Italian Regions**: `Europe/Rome` → Italian month names
@@ -180,6 +180,7 @@ The app automatically detects the appropriate language based on your device's ti
 - **🎯 Cultural Accuracy**: Smart timezone-to-language correlation based on regional patterns
 - **⚡ Zero Configuration**: No language setup required - works automatically
 - **🏆 Tidbyt First**: Pioneering intelligent language detection in the Tidbyt ecosystem
+- **🌍 Francophone Africa Coverage**: Expanded French language detection for Burkina Faso, Mali, Senegal, Guinea, and Ivory Coast (~300M people)
 
 ### Combined Intelligence
 

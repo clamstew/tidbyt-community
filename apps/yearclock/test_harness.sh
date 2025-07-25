@@ -332,9 +332,9 @@ echo ""
 
 echo "  Testing timezone-based automatic language detection..."
 # Test timezone-based language auto-detection with culturally appropriate timezones
-LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome")
-LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy")
-EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it")
+LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome" "Africa/Ouagadougou" "Africa/Bamako" "Africa/Dakar" "Africa/Conakry" "Africa/Abidjan")
+LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy" "French_BurkinaFaso" "French_Mali" "French_Senegal" "French_Guinea" "French_IvoryCoast")
+EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it" "fr" "fr" "fr" "fr" "fr")
 
 for i in "${!LANGUAGE_AUTO_TIMEZONES[@]}"; do
     tz="${LANGUAGE_AUTO_TIMEZONES[$i]}"

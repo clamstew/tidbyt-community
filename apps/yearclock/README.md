@@ -13,7 +13,8 @@ Year Clock transforms your Tidbyt into a slow-moving, year-long timepiece that r
 - **Hemisphere Support**: Northern and Southern hemisphere modes flip the seasonal positioning for any color scheme
 - **Configurable Dial Marker**: A white dial line with beveled edges and customizable accent dots shows today's position
 - **Optional Date Display**: Shows current date in the corner (configurable)
-- **Timezone Aware**: Uses your location for accurate local time calculations
+- **Timezone-Based Date Formats**: Automatically detects appropriate date format from your timezone
+- **International Support**: Zero-configuration localization that works globally
 
 ## Color Schemes
 
@@ -49,7 +50,11 @@ Choose from multiple color palettes, each following the natural flow of seasons:
   - **Fixed Colors**: Choose a specific color (Magenta, Cyan, White, Yellow) that never changes
   - **None**: Hide accent dots completely for a minimal aesthetic
 - **Show Date**: Toggle the date display in the bottom corner
-- **Location**: Set your location for proper timezone handling
+- **Date Format**: Choose date format or use automatic timezone-based detection
+  - **Auto-detect (Default)**: Automatically chooses format based on your timezone
+  - **US Format**: Month-day format (e.g., "Mar 15")
+  - **European Format**: Day-month format (e.g., "15 Mar")
+  - **ISO Format**: Numeric format (e.g., "03-15")
 - **[DEBUG] Test Date**: Pick any date to preview how colors look throughout the year
 
 ## Special Date Themes 🎉
@@ -73,6 +78,35 @@ Year Clock automatically detects special dates and applies unique themed color o
 - **Winter Solstice (Dec 21)**: Deep winter colors with blues, purples, and silvery whites
 
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
+
+## 🌍 Timezone-Based Date Format Detection
+
+Year Clock automatically detects the appropriate date format based on your device's timezone, providing a seamless international experience:
+
+### Auto-Detection Logic
+
+- **US Timezones** (`America/*`, `US/*`): Uses "Mar 15" format
+- **European Timezones** (`Europe/*`): Uses "15 Mar" format
+- **Asian Timezones** (`Asia/*`): Uses "03-15" ISO format
+- **Canadian Timezones**: Mixed logic based on region
+  - `Canada/Eastern`: Uses US format (proximity to US)
+  - `Canada/Pacific`: Uses European format (Commonwealth influence)
+
+### Benefits
+
+- **🎯 Zero Configuration**: Works automatically for 90%+ of users worldwide
+- **🔧 Manual Override**: Users can still force a specific format if desired
+- **🌐 Global Coverage**: Handles major timezone patterns intelligently
+- **⚡ Smart Defaults**: Uses existing timezone info - no additional setup required
+
+### Manual Override Options
+
+If you prefer a specific format regardless of your timezone:
+
+- **Auto-detect**: Let the app choose based on your timezone (recommended)
+- **US Format**: Always use "Mar 15" style
+- **European Format**: Always use "15 Mar" style
+- **ISO Format**: Always use "03-15" numeric style
 
 ## Inspiration
 

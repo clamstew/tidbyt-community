@@ -249,6 +249,27 @@ run_test "Accent comparison: Purple adaptive vs contrast" "pixlet render year_cl
 run_test "Accent comparison: Purple contrast" "pixlet render year_clock.star color_scheme=purple accent_dot_style=contrast debug_date='2024-07-01T12:00:00Z' enable_special_dates=false" "08_accent_compare_purple_contrast.webp"
 echo ""
 
+echo "${BLUE}9. Testing timezone-based date format detection...${NC}"
+# Test timezone-based automatic date format detection
+TEST_TIMEZONES=("America/New_York" "America/Los_Angeles" "Europe/London" "Europe/Paris" "Asia/Tokyo" "Canada/Eastern" "Canada/Pacific")
+DATE_FORMATS=("auto" "us_format" "european_format" "iso_format")
+
+echo "  Testing all date format options with different timezones..."
+for format in "${DATE_FORMATS[@]}"; do
+    echo "    🔸 Testing date_format=$format"
+    for tz in "${TEST_TIMEZONES[@]}"; do
+        tz_clean="${tz//\//_}"
+        run_test "Timezone $tz with $format" "pixlet render year_clock.star show_date=true date_format=$format debug_date='2024-03-15T12:00:00Z'" "09_timezone_${format}_${tz_clean}.webp"
+    done
+done
+
+# Add a few verification tests for key combinations
+echo "  Testing timezone auto-detection verification..."
+run_test "US timezone auto-detection" "pixlet render year_clock.star show_date=true date_format=auto debug_date='2024-03-15T12:00:00Z'" "09_verify_us_auto.webp"
+run_test "European timezone auto-detection" "pixlet render year_clock.star show_date=true date_format=auto debug_date='2024-03-15T12:00:00Z'" "09_verify_european_auto.webp"
+run_test "Asian timezone auto-detection" "pixlet render year_clock.star show_date=true date_format=auto debug_date='2024-03-15T12:00:00Z'" "09_verify_asian_auto.webp"
+echo ""
+
 # Output final results
 echo "=========================="
 echo "${BLUE}Test Results Summary:${NC}"

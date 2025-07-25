@@ -1,8 +1,8 @@
 """
 Applet: Year Clock
-Summary: Rainbow year progress tracker
+Summary: Rainbow year clock
 Description: Displays a rainbow gradient representing the year with a retro dial marker showing today's position. Inspired by vintage rainbow wall clocks that track yearly progress with warmer colors for summer and cooler colors for winter.
-Author: Community
+Author: clamstew
 """
 
 load("render.star", "render")

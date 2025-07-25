@@ -58,7 +58,7 @@ This TODO has been broken into focused documents:
 
 ### Technical Improvements
 
-- [ ] **Test Harness Animation**: Animated GIF generation for New Year's
+- [ ] **Test Harness Animation**: Animated GIF generation for New Year's (IS THIS REALLY NEEDED - WEBP seems good for animations.)
 - [ ] **Showcase Updates**: Animation display, frame-by-frame breakdown
 - [ ] **Font Strategy**: Contextual font choices for special effects
 

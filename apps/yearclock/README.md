@@ -95,6 +95,11 @@ When you select an alternative calendar system:
    - Primary line: Gregorian date in your preferred format/language
    - Secondary line: Alternative calendar date (e.g., "Far 25, 1403" for Persian)
 3. **Seasonal Accuracy**: Colors and hemisphere settings work correctly for each calendar system
+4. **Calendar-Aware Thermal Peak**: The thermal color scheme adjusts its peak position based on when each calendar's new year starts:
+   - **Gregorian/Thai Buddhist**: Peak at 65% (late August relative to January start)
+   - **Persian**: Peak at 38% (late August relative to spring equinox start)
+   - **Ethiopian/Coptic**: Peak at 90% (late August relative to September start)
+   - **Islamic**: Peak at 50% (neutral positioning for lunar calendar that drifts through seasons)
 
 ### Example Alternative Calendar Dates
 

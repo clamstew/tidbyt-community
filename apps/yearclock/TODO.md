@@ -177,7 +177,7 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - [x] **PR Draft Created**: `PR-DRAFT.md` with comprehensive submission documentation
 - [x] **PR Creation Script**: `create-pr.sh` with automated file copying and organization
 - [x] **Document all configuration options**: 7 color schemes, hemisphere support, special dates
-- [x] **Testing documentation**: 231 test cases, edge cases, comprehensive coverage
+- [x] **Testing documentation**: 235 test cases, edge cases, comprehensive coverage
 - [x] **Feature overview**: Multiple color schemes, astronomical events, special date themes
 - [x] **Technical implementation**: Dial positioning, seasonal accuracy, hemisphere support
 - [x] **Image strategy planned**: External hosting options, key showcase images identified
@@ -421,7 +421,12 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - 6 calendar systems: Gregorian, Persian, Islamic, Thai Buddhist, Ethiopian, Coptic
 - Hybrid date display shows both Gregorian + alternative calendar when enabled
 - Year progress calculation adapts to different calendar year boundaries
-- 15 comprehensive test cases covering all calendar systems and seasonal positions
+- 19 comprehensive test cases covering all calendar systems and seasonal positions
+- **Calendar-aware thermal peak positioning**: Adjusts thermal peak position based on calendar year start
+  - Gregorian/Thai Buddhist: 65% (late August relative to January start)
+  - Persian: 38% (late August relative to spring equinox start)
+  - Ethiopian/Coptic: 90% (late August relative to September start)
+  - Islamic: 50% (neutral positioning for lunar calendar)
 - Full integration with all existing features (color schemes, hemispheres, special dates)
 
 ### 5.5. Cultural Considerations

@@ -658,8 +658,8 @@ def main(config):
         # Calculate position in gradient (0.0 to 1.0)
         pos = x / 63.0
 
-        # Get color for this position
-        color = get_gradient_color(pos, color_scheme, hemisphere)
+        # Get color for this position (with calendar-specific thermal peak)
+        color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
 
         # Create a vertical line for this x position
         gradient_children.append(
@@ -1042,15 +1042,51 @@ def get_color_palette(color_scheme):
         # Default fallback
         return RAINBOW_PALETTE
 
-def get_gradient_color(position, color_scheme, hemisphere):
+def get_calendar_thermal_peak(calendar_system):
+    """
+    Calculate the thermal peak position (0.0 to 1.0) for different calendar systems.
+    The thermal peak represents late August in the Northern Hemisphere (hottest months).
+
+    Args:
+        calendar_system: String identifying the calendar system
+
+    Returns:
+        Float from 0.0 to 1.0 representing when thermal peak occurs in that calendar year
+    """
+    if calendar_system == "Persian":
+        # Persian calendar starts at spring equinox (March 20-21)
+        # Late August is about 140 days after spring equinox
+        # 140 days / 365 days ≈ 0.38 (38% through Persian year)
+        return 0.38
+    elif calendar_system == "Ethiopian" or calendar_system == "Coptic":
+        # Ethiopian/Coptic calendars start around September 11
+        # Late August is about 350 days after previous September 11
+        # Which is about 350/365 ≈ 0.96, but wrapping to next year means ~0.04
+        # Actually, August comes BEFORE the new year starts in September
+        # So August is about 35 days before September 11
+        # That means August is at about (365-35)/365 ≈ 0.90 (90% through Ethiopian year)
+        return 0.90
+    elif calendar_system == "Islamic":
+        # Islamic calendar is lunar and drifts through solar seasons
+        # Thermal peak concept doesn't apply - use a more neutral positioning
+        # Place peak at middle of year for visual balance
+        return 0.5
+    else:
+        # Gregorian, Thai Buddhist, and other January-based calendars
+        # Late August is about 240 days after January 1
+        # 240 days / 365 days ≈ 0.66, but we use 0.65 based on research
+        return 0.65
+
+def get_gradient_color(position, color_scheme, hemisphere, calendar_system = "Gregorian"):
     """
     Get color for a position (0.0 to 1.0) in the year gradient.
-    Creates a mirrored/symmetrical gradient that peaks in the center.
+    Creates a mirrored/symmetrical gradient that peaks based on calendar system.
 
     Args:
         position: Float from 0.0 to 1.0 representing position in year
         color_scheme: String identifying which color palette to use
         hemisphere: String "northern" or "southern" for seasonal positioning
+        calendar_system: String identifying calendar system for thermal peak calculation
     """
 
     # Get the appropriate color palette
@@ -1067,10 +1103,10 @@ def get_gradient_color(position, color_scheme, hemisphere):
     bright_end = bright_start + (palette_length // 2)  # Take about half the palette
     bright_colors = color_stops[bright_start:bright_end + 1]
 
-    # Create mirrored gradient: bright colors peak in August/September (hottest months)
-    # Position 0.0 = Jan 1, 0.65 = late August peak, 1.0 = Dec 31
-    # Shift the center from summer solstice (0.5) to late summer (0.65)
-    peak_position = 0.65  # Late August/early September
+    # Create mirrored gradient: bright colors peak at thermal maximum for this calendar
+    # Position varies by calendar system (e.g., 0.65 for Gregorian, 0.38 for Persian)
+    # This accounts for when different calendars experience their thermal peak
+    peak_position = get_calendar_thermal_peak(calendar_system)
 
     # Calculate distance from peak, handling year wrap-around
     distance_from_peak = min(

@@ -547,7 +547,7 @@
         <div class="nav-section-title">Core Features</div>
         <a href="#hemispheres" class="nav-link">🌍 Hemispheres <span class="nav-count">14</span></a>
         <a href="#date-display" class="nav-link">📅 Date Display <span class="nav-count">14</span></a>
-        <a href="#calendar-systems" class="nav-link">📅 Calendar Systems <span class="nav-count">15</span></a>
+        <a href="#calendar-systems" class="nav-link">📅 Calendar Systems <span class="nav-count">19</span></a>
         <a href="#overlap-tests" class="nav-link">⚠️ Overlap Tests <span class="nav-count">9</span></a>
         <a href="#seasonal" class="nav-link">🍂 Seasonal <span class="nav-count">10</span></a>
         <a href="#edge-cases" class="nav-link">🔧 Edge Cases <span class="nav-count">3</span></a>
@@ -911,7 +911,7 @@
             count: CONFIG.colorSchemes.length * CONFIG.hemispheres.length,
           },
           { pattern: "03_overlap_", count: CONFIG.specialTests.length * 3 }, // rainbow, grayscale, red
-          { pattern: "04_calendar_", count: 15 }, // calendar systems (6 overview + 9 comparison)
+          { pattern: "04_calendar_", count: 19 }, // calendar systems (6 overview + 9 comparison + 4 thermal peak)
           { pattern: "04_seasonal_", count: CONFIG.seasonalTests.length * 2 }, // rainbow, grayscale
           { pattern: "05_edge_", count: 3 }, // Dec31, Jan1, LeapDay
           { pattern: "06_special_", count: CONFIG.specialDates.length + 1 }, // special dates + disabled test
@@ -1375,7 +1375,7 @@
           { name: "Gregorian", display: "Gregorian (Standard)" },
           { name: "Persian", display: "Persian/Jalali" },
           { name: "Islamic", display: "Islamic/Hijri" },
-          { name: "ThaiButdhist", display: "Thai Buddhist" },
+          { name: "ThaiBuddhist", display: "Thai Buddhist" },
           { name: "Ethiopian", display: "Ethiopian" },
           { name: "Coptic", display: "Coptic" },
         ].forEach((calendar) => {
@@ -1415,6 +1415,34 @@
               `calendar_system='${calendar}' debug_date='${dateTest.debug}' show_date=true enable_special_dates=false`
             );
           });
+        });
+
+        html += `
+                        </div>
+                    </div>
+
+                    <!-- Thermal Peak Positioning -->
+                    <div class="subsection">
+                        <h3>Thermal Peak Positioning (4 tests)</h3>
+                        <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">
+                            Same August 25th date, different thermal peak positions based on calendar year starts
+                        </p>
+                        <div class="grid">
+            `;
+
+        [
+          { name: "Gregorian", display: "Gregorian (65%)", desc: "Peak at 65% - late August in Gregorian year" },
+          { name: "Persian", display: "Persian (38%)", desc: "Peak at 38% - August is 38% through Persian year starting at spring equinox" },
+          { name: "Ethiopian", display: "Ethiopian (90%)", desc: "Peak at 90% - August comes before Ethiopian new year in September" },
+          { name: "Islamic", display: "Islamic (50%)", desc: "Peak at 50% - lunar calendar, thermal peak concept doesn't apply" },
+        ].forEach((calendar) => {
+          html += createDevice(
+            `04_calendar_thermal_${calendar.name}_Aug25.webp`,
+            `${calendar.display}`,
+            calendar.desc,
+            `calendar_system=${calendar.name}`,
+            `calendar_system='${calendar.name}' color_scheme=thermal debug_date='2024-08-25T12:00:00Z' show_date=true enable_special_dates=false`
+          );
         });
 
         html += `

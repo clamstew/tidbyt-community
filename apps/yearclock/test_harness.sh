@@ -198,6 +198,14 @@ for i in "${!CALENDAR_TEST_DATES[@]}"; do
         run_test "Calendar: $calendar @ $name" "pixlet render year_clock.star calendar_system='$calendar' debug_date='$date' show_date=true enable_special_dates=false" "04_calendar_${calendar}_${name}.webp"
     done
 done
+
+# Test thermal peak positioning across different calendar systems (late August date)
+echo ""
+echo "  Testing thermal peak positioning with late August date..."
+THERMAL_TEST_DATE="2024-08-25T12:00:00Z"
+for calendar in "Gregorian" "Persian" "Ethiopian" "Islamic"; do
+    run_test "Thermal peak: $calendar @ Aug 25" "pixlet render year_clock.star calendar_system='$calendar' color_scheme=thermal debug_date='$THERMAL_TEST_DATE' show_date=true enable_special_dates=false" "04_calendar_thermal_${calendar}_Aug25.webp"
+done
 echo ""
 
 echo "${BLUE}5. Testing seasonal positions (debug dates)...${NC}"

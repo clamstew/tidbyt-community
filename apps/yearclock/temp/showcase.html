@@ -18,12 +18,136 @@
         color: #ffffff;
         line-height: 1.6;
         min-height: 100vh;
+        display: flex;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 280px;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        overflow-y: auto;
+        z-index: 100;
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar-header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 20px;
+      }
+
+      .sidebar-title {
+        font-size: 1.5em;
+        font-weight: 700;
+        background: linear-gradient(45deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 5px;
+      }
+
+      .sidebar-subtitle {
+        font-size: 0.8em;
+        opacity: 0.7;
+      }
+
+      .nav-section {
+        margin-bottom: 25px;
+      }
+
+      .nav-section-title {
+        font-size: 0.9em;
+        font-weight: 600;
+        color: #a78bfa;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-link {
+        display: block;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        color: #e2e8f0;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.85em;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+      }
+
+      .nav-link:hover {
+        background: rgba(96, 165, 250, 0.1);
+        border-left-color: #60a5fa;
+        transform: translateX(4px);
+      }
+
+      .nav-link.active {
+        background: rgba(96, 165, 250, 0.2);
+        border-left-color: #60a5fa;
+        color: #93c5fd;
+      }
+
+      .nav-count {
+        float: right;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.7em;
+        opacity: 0.8;
+      }
+
+      .toggle-sidebar {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 200;
+        background: rgba(96, 165, 250, 0.2);
+        border: 1px solid rgba(96, 165, 250, 0.3);
+        color: #93c5fd;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+      }
+
+      .main-content {
+        flex: 1;
+        margin-left: 280px;
+        min-height: 100vh;
       }
 
       .container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.open {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .toggle-sidebar {
+          display: block;
+        }
       }
 
       .header {
@@ -401,23 +525,68 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="header">
-        <h1>
-          🌈
-          <span> Year Clock Showcase </span>
-        </h1>
-        <p>
-          Comprehensive visual testing gallery for all color schemes,
-          hemispheres, and configurations
-        </p>
+    <!-- Mobile sidebar toggle -->
+    <button class="toggle-sidebar" onclick="toggleSidebar()">
+      ☰ Navigation
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">🌈 Year Clock</div>
+        <div class="sidebar-subtitle">Test Showcase</div>
       </div>
 
-      <div class="stats">
-        <div class="stats-grid" id="stats-grid">
-          <div class="loading">Loading statistics...</div>
-        </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="#stats" class="nav-link">📊 Statistics</a>
+        <a href="#color-schemes" class="nav-link">🎨 Color Schemes <span class="nav-count">7</span></a>
       </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Core Features</div>
+        <a href="#hemispheres" class="nav-link">🌍 Hemispheres <span class="nav-count">14</span></a>
+        <a href="#date-display" class="nav-link">📅 Date Display <span class="nav-count">14</span></a>
+        <a href="#overlap-tests" class="nav-link">⚠️ Overlap Tests <span class="nav-count">9</span></a>
+        <a href="#seasonal" class="nav-link">🍂 Seasonal <span class="nav-count">10</span></a>
+        <a href="#edge-cases" class="nav-link">🔧 Edge Cases <span class="nav-count">3</span></a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Special Dates</div>
+        <a href="#special-dates" class="nav-link">🎉 Holiday Themes <span class="nav-count">7</span></a>
+        <a href="#astronomical" class="nav-link">🌌 Astronomical <span class="nav-count">4</span></a>
+        <a href="#regional" class="nav-link">🌍 Regional <span class="nav-count">8</span></a>
+        <a href="#variable" class="nav-link">🗓️ Variable Date <span class="nav-count">6</span></a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Advanced</div>
+        <a href="#comprehensive" class="nav-link">🔬 Comprehensive <span class="nav-count">3</span></a>
+        <a href="#accent-dots" class="nav-link">🎨 Accent Dots <span class="nav-count">30</span></a>
+        <a href="#timezone" class="nav-link">🌍 Timezone i18n <span class="nav-count">32</span></a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="container">
+        <div class="header">
+          <h1>
+            🌈
+            <span> Year Clock Showcase </span>
+          </h1>
+          <p>
+            Comprehensive visual testing gallery for all color schemes,
+            hemispheres, and configurations
+          </p>
+        </div>
+
+              <div class="stats" id="stats">
+          <div class="stats-grid" id="stats-grid">
+            <div class="loading">Loading statistics...</div>
+          </div>
+        </div>
 
       <div class="regeneration-info">
         <h3>🔄 Regenerating Images</h3>
@@ -1060,7 +1229,7 @@
 
         let html = `
                 <!-- Color Schemes Overview -->
-                <div class="section">
+                <div class="section" id="color-schemes">
                     <h2>Color Schemes (${CONFIG.colorSchemes.length} variations)</h2>
                     <div class="grid">
             `;
@@ -1080,7 +1249,7 @@
                 </div>
 
                 <!-- Hemisphere Combinations -->
-                <div class="section">
+                <div class="section" id="hemispheres">
                     <h2>Hemisphere Combinations (${
                       CONFIG.colorSchemes.length * CONFIG.hemispheres.length
                     } variations)</h2>
@@ -1150,7 +1319,7 @@
                 </div>
 
                 <!-- Date Display Tests -->
-                <div class="section">
+                <div class="section" id="date-display">
                     <h2>Date Display Tests (${
                       CONFIG.colorSchemes.length * CONFIG.hemispheres.length
                     } variations)</h2>
@@ -1179,7 +1348,7 @@
                 </div>
 
                 <!-- Overlap Tests -->
-                <div class="section">
+                <div class="section" id="overlap-tests">
                     <h2>Date Overlap Analysis (${
                       CONFIG.specialTests.length * 3
                     } tests)</h2>
@@ -1215,7 +1384,7 @@
                 </div>
 
                 <!-- Seasonal Positioning -->
-                <div class="section">
+                <div class="section" id="seasonal">
                     <h2>Seasonal Positioning (${
                       CONFIG.seasonalTests.length * 2
                     } tests)</h2>
@@ -1254,7 +1423,7 @@
                 </div>
 
                 <!-- Edge Cases -->
-                <div class="section">
+                <div class="section" id="edge-cases">
                     <h2>Edge Cases & Special Scenarios (3 tests)</h2>
                     <div class="grid">
                         ${createDevice(
@@ -1282,7 +1451,7 @@
                 </div>
 
                 <!-- Special Date Easter Eggs -->
-                <div class="section">
+                <div class="section" id="special-dates">
                     <h2>🎉 Special Date Easter Eggs (${
                       CONFIG.specialDates.length + 1
                     } tests)</h2>
@@ -1329,7 +1498,7 @@
                 </div>
 
                 <!-- Astronomical Events -->
-                <div class="section">
+                <div class="section" id="astronomical">
                     <h2>🌌 Astronomical Events (${CONFIG.astronomicalEvents.length} tests)</h2>
                     <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
                     <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
@@ -1361,7 +1530,7 @@
                 </div>
 
                 <!-- Regional Holidays with Timezone Filtering -->
-                <div class="section">
+                <div class="section" id="regional">
                     <h2>🌍 Regional Holidays (${
                       CONFIG.regionalHolidays.length * 2
                     } tests)</h2>
@@ -1406,7 +1575,7 @@
                 </div>
 
                 <!-- Variable Date Regional Holidays -->
-                <div class="section">
+                <div class="section" id="variable">
                     <h2>🗓️ Variable Date Regional Holidays (${
                       CONFIG.variableHolidays.length * 2
                     } tests)</h2>
@@ -1449,7 +1618,7 @@
                 </div>
 
                 <!-- Comprehensive Tests -->
-                <div class="section">
+                <div class="section" id="comprehensive">
                     <h2>Comprehensive Parameter Tests (3 tests)</h2>
                     <div class="grid">
                         ${createDevice(
@@ -1477,7 +1646,7 @@
                 </div>
 
                 <!-- Accent Dot Variations -->
-                <div class="section">
+                <div class="section" id="accent-dots">
                     <h2>🎨 Accent Dot Variations (${7 * 4 + 2} tests)</h2>
                     <div class="common-params"><code>Common: debug_date='2024-07-01T12:00:00Z' enable_special_dates=false</code></div>
                     <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
@@ -1604,7 +1773,7 @@
                 </div>
 
                 <!-- Timezone-Based Date Format Detection -->
-                <div class="section">
+                <div class="section" id="timezone">
                     <h2>🌍 Timezone-Based Date Format Detection (${
                       CONFIG.timezones.length * CONFIG.dateFormats.length + 3
                     } tests)</h2>
@@ -1817,6 +1986,64 @@
           }
         });
       }
+
+      // Sidebar functionality
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+      }
+
+      // Auto-close sidebar on mobile when clicking nav links
+      document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              document.getElementById('sidebar').classList.remove('open');
+            }
+          });
+        });
+
+        // Smooth scrolling for navigation links
+        navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+              targetSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          });
+        });
+
+        // Highlight active section in sidebar
+        function updateActiveNavLink() {
+          const sections = document.querySelectorAll('.section[id]');
+          const navLinks = document.querySelectorAll('.nav-link');
+          
+          let currentSection = '';
+          sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 100 && rect.bottom >= 100) {
+              currentSection = section.id;
+            }
+          });
+
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + currentSection) {
+              link.classList.add('active');
+            }
+          });
+        }
+
+        // Update active link on scroll
+        window.addEventListener('scroll', updateActiveNavLink);
+        updateActiveNavLink(); // Initial call
+      });
 
       // Start the app
       document.addEventListener("DOMContentLoaded", init);

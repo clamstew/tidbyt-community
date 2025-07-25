@@ -225,16 +225,16 @@ WINTER_SOLSTICE_PALETTE = [
 # Regional Holiday Color Palettes
 INDEPENDENCE_DAY_PALETTE = [
     "#000080",  # Navy Blue (flag blue)
-    "#0000FF",  # Blue
+    "#0000CC",  # Dark Blue
+    "#0033FF",  # Royal Blue
     "#4169E1",  # Royal Blue
-    "#6495ED",  # Cornflower Blue
-    "#F8F8FF",  # Ghost White (transition)
+    "#87CEEB",  # Sky Blue (transition)
     "#FFFFFF",  # Pure White (flag white)
-    "#FFE4E1",  # Misty Rose (white to red transition)
-    "#FFB6C1",  # Light Pink
-    "#FF69B4",  # Hot Pink
+    "#F0F0F0",  # Light Gray (white emphasis)
+    "#FF1A1A",  # Bold Red (vibrant flag red)
     "#FF0000",  # Pure Red (flag red)
     "#DC143C",  # Crimson
+    "#B22222",  # Fire Brick (bold red)
     "#000080",  # Navy Blue (back to start)
 ]
 

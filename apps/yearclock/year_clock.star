@@ -224,59 +224,62 @@ WINTER_SOLSTICE_PALETTE = [
 
 # Accent Dot Color Constants - for different styles
 ACCENT_DOT_STYLES = {
-    "fixed_magenta": "#FF00FF",       # Original magenta (always visible)
-    "fixed_cyan": "#00FFFF",          # Cyan alternative
-    "fixed_white": "#FFFFFF",         # Classic white
-    "fixed_yellow": "#FFFF00",        # High contrast yellow
+    "fixed_magenta": "#FF00FF",  # Original magenta (always visible)
+    "fixed_cyan": "#00FFFF",  # Cyan alternative
+    "fixed_white": "#FFFFFF",  # Classic white
+    "fixed_yellow": "#FFFF00",  # High contrast yellow
 }
 
 # Adaptive accent dot colors per color scheme
 ADAPTIVE_ACCENT_COLORS = {
-    "rainbow": "#FF00FF",     # Magenta (good contrast across rainbow)
-    "thermal": "#00FFFF",     # Cyan (complements thermal colors)
-    "grayscale": "#FFFF00",   # Yellow (high contrast on gray)
-    "red": "#00FFFF",         # Cyan (complementary to red)
-    "blue": "#FFFF00",        # Yellow (complementary to blue)
-    "green": "#FF00FF",       # Magenta (complementary to green)
-    "purple": "#00FF00",      # Green (complementary to purple)
-    "halloween": "#00FFFF",   # Cyan (contrasts with orange/brown)
-    "christmas": "#FFFF00",   # Yellow (contrasts with red/green)
-    "newyear": "#FF00FF",     # Magenta (contrasts with gold/silver)
-    "spring_equinox": "#8A2BE2",      # Purple (contrasts with light spring colors)
-    "summer_solstice": "#0000FF",     # Blue (contrasts with bright yellows)
-    "fall_equinox": "#00FFFF",        # Cyan (contrasts with autumn colors)
-    "winter_solstice": "#FF4500",     # Orange Red (contrasts with blues/whites)
+    "rainbow": "#FF00FF",  # Magenta (good contrast across rainbow)
+    "thermal": "#00FFFF",  # Cyan (complements thermal colors)
+    "grayscale": "#FFFF00",  # Yellow (high contrast on gray)
+    "red": "#00FFFF",  # Cyan (complementary to red)
+    "blue": "#FFFF00",  # Yellow (complementary to blue)
+    "green": "#FF00FF",  # Magenta (complementary to green)
+    "purple": "#00FF00",  # Green (complementary to purple)
+    "halloween": "#00FFFF",  # Cyan (contrasts with orange/brown)
+    "christmas": "#FFFF00",  # Yellow (contrasts with red/green)
+    "newyear": "#FF00FF",  # Magenta (contrasts with gold/silver)
+    "spring_equinox": "#8A2BE2",  # Purple (contrasts with light spring colors)
+    "summer_solstice": "#0000FF",  # Blue (contrasts with bright yellows)
+    "fall_equinox": "#00FFFF",  # Cyan (contrasts with autumn colors)
+    "winter_solstice": "#FF4500",  # Orange Red (contrasts with blues/whites)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
 CONTRAST_ACCENT_COLORS = {
-    "rainbow": "#000000",     # Black (darker contrast)
-    "thermal": "#FFFFFF",     # White (lighter contrast)
-    "grayscale": "#000000",   # Black (darker contrast)
-    "red": "#800000",         # Dark red (darker contrast)
-    "blue": "#000080",        # Navy (darker contrast)
-    "green": "#006400",       # Dark green (darker contrast)
-    "purple": "#4B0082",      # Indigo (darker contrast)
-    "halloween": "#2F1B14",   # Very dark brown (darker contrast)
-    "christmas": "#006400",   # Dark green (darker contrast)
-    "newyear": "#B8860B",     # Dark golden rod (darker contrast)
-    "spring_equinox": "#2E8B57",      # Sea green (darker contrast)
-    "summer_solstice": "#B8860B",     # Dark golden rod (darker contrast)
-    "fall_equinox": "#8B4513",        # Saddle brown (darker contrast)
-    "winter_solstice": "#191970",     # Midnight blue (darker contrast)
+    "rainbow": "#000000",  # Black (darker contrast)
+    "thermal": "#FFFFFF",  # White (lighter contrast)
+    "grayscale": "#000000",  # Black (darker contrast)
+    "red": "#800000",  # Dark red (darker contrast)
+    "blue": "#000080",  # Navy (darker contrast)
+    "green": "#006400",  # Dark green (darker contrast)
+    "purple": "#4B0082",  # Indigo (darker contrast)
+    "halloween": "#2F1B14",  # Very dark brown (darker contrast)
+    "christmas": "#006400",  # Dark green (darker contrast)
+    "newyear": "#B8860B",  # Dark golden rod (darker contrast)
+    "spring_equinox": "#2E8B57",  # Sea green (darker contrast)
+    "summer_solstice": "#B8860B",  # Dark golden rod (darker contrast)
+    "fall_equinox": "#8B4513",  # Saddle brown (darker contrast)
+    "winter_solstice": "#191970",  # Midnight blue (darker contrast)
 }
 
 def main(config):
+    # Get user's timezone for automatic date format detection (implements section 5 from TODO)
+    timezone = config.get("$tz", "America/New_York")  # Special timezone variable from device
+
     # Get current time in user's local timezone, or use debug time if provided
     # Note: debug_date has no schema entry (hidden from UI) but works via URL/command line
     debug_date = config.get("debug_date")
     if debug_date:
         # Parse the debug date and use it instead of current time
         # For debug mode, we use a consistent timezone for testing
-        now = time.parse_time(debug_date).in_location("America/New_York")
+        now = time.parse_time(debug_date).in_location(timezone)
     else:
-        # Use system timezone - no need for user to configure this
-        now = time.now()
+        # Use user's timezone for proper localization
+        now = time.now().in_location(timezone)
 
     # Get color scheme and hemisphere settings
     color_scheme = config.get("color_scheme", "rainbow")
@@ -379,11 +382,11 @@ def main(config):
                         ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
                     ],
                 ),
-                # Optional date display in bottom corner
+                # Optional date display in bottom corner with automatic timezone-based formatting
                 render.Padding(
                     pad = (1, 26, 0, 0),  # Hardcoded x=1 as planned
                     child = render.Text(
-                        content = now.format("Jan 2"),
+                        content = format_date_with_timezone_detection(now, timezone, config.get("date_format", "auto")),
                         font = "tom-thumb",
                         color = get_date_color(color_scheme, hemisphere),
                     ),
@@ -615,11 +618,11 @@ def interpolate_color(color1, color2, t):
 def get_accent_dot_color(accent_dot_style, color_scheme):
     """
     Get the appropriate accent dot color based on style and color scheme.
-    
+
     Args:
         accent_dot_style: String indicating the accent dot style
         color_scheme: String indicating the current color scheme
-        
+
     Returns:
         Hex color string for the accent dots
     """
@@ -634,6 +637,90 @@ def get_accent_dot_color(accent_dot_style, color_scheme):
     else:
         # Fallback to original magenta
         return "#FF00FF"
+
+def get_date_format_from_timezone(timezone_name):
+    """
+    Automatically determine date format based on timezone.
+    Implements section 5.6.1 from TODO - timezone mapping for date formats.
+    """
+
+    # US timezone patterns - use "Jan 2" format
+    us_timezones = [
+        "America/New_York",
+        "America/Chicago",
+        "America/Denver",
+        "America/Los_Angeles",
+        "US/Eastern",
+        "US/Central",
+        "US/Mountain",
+        "US/Pacific",
+        "America/Phoenix",
+        "America/Anchorage",
+        "Pacific/Honolulu",
+    ]
+
+    # European timezone patterns - use "2 Jan" format
+    european_timezones = [
+        "Europe/London",
+        "Europe/Paris",
+        "Europe/Berlin",
+        "Europe/Rome",
+        "Europe/Madrid",
+        "Europe/Amsterdam",
+        "Europe/Stockholm",
+        "Europe/Warsaw",
+        "Europe/Vienna",
+        "Europe/Zurich",
+        "Europe/Dublin",
+        "Europe/Brussels",
+    ]
+
+    # Check for exact matches first
+    if timezone_name in us_timezones:
+        return "us_format"  # "Jan 2"
+    elif timezone_name in european_timezones:
+        return "european_format"  # "2 Jan"
+
+        # Check for timezone patterns
+    elif timezone_name.startswith("America/"):
+        # Most American timezones use US format
+        return "us_format"
+    elif timezone_name.startswith("Europe/"):
+        # Most European timezones use European format
+        return "european_format"
+    elif timezone_name.startswith("Asia/"):
+        # Default to ISO format for Asia
+        return "iso_format"  # "01-02"
+
+        # Special cases
+    elif timezone_name.startswith("Canada/"):
+        # Canadian timezones - mixed based on region
+        if "Eastern" in timezone_name:
+            return "us_format"  # Eastern Canada follows US style
+        else:
+            return "european_format"  # Rest of Canada follows European style
+
+    # Default fallback
+    return "us_format"
+
+def format_date_with_timezone_detection(date, timezone_name, user_override = None):
+    """
+    Format date using automatic timezone-based format detection.
+    Allows user override if specified.
+    """
+    if user_override and user_override != "auto":
+        format_type = user_override
+    else:
+        format_type = get_date_format_from_timezone(timezone_name)
+
+    if format_type == "us_format":
+        return date.format("Jan 2")
+    elif format_type == "european_format":
+        return date.format("2 Jan")
+    elif format_type == "iso_format":
+        return date.format("01-02")
+    else:
+        return date.format("Jan 2")  # Safe fallback
 
 def get_schema():
     color_scheme_options = [
@@ -742,6 +829,31 @@ def get_schema():
                 desc = "Display current date in corner",
                 icon = "calendar",
                 default = False,
+            ),
+            schema.Dropdown(
+                id = "date_format",
+                name = "Date Format",
+                desc = "Choose date format (auto-detects from timezone)",
+                icon = "calendar-days",
+                default = "auto",
+                options = [
+                    schema.Option(
+                        display = "Auto-detect from timezone",
+                        value = "auto",
+                    ),
+                    schema.Option(
+                        display = "US format (Jan 2)",
+                        value = "us_format",
+                    ),
+                    schema.Option(
+                        display = "European format (2 Jan)",
+                        value = "european_format",
+                    ),
+                    schema.Option(
+                        display = "ISO format (01-02)",
+                        value = "iso_format",
+                    ),
+                ],
             ),
             schema.Toggle(
                 id = "enable_special_dates",

@@ -1136,12 +1136,12 @@ def calculate_thanksgiving(year):
     # Use the approach from PR #2872: work backwards from November 30th
     nov_30 = time.time(year = year, month = 11, day = 30)
 
-    # Get day of week using humanize (1=Sunday, 2=Monday, ..., 5=Thursday, 6=Friday, 7=Saturday)
+    # Get day of week using humanize (0=Sunday, 1=Monday, ..., 4=Thursday, 5=Friday, 6=Saturday)
     day_of_week = humanize.day_of_week(nov_30)
 
     # Calculate days back from Nov 30 to the 4th Thursday
-    # Thursday is day 5 in humanize numbering
-    calc = day_of_week - 5
+    # Thursday is day 4 in humanize numbering
+    calc = day_of_week - 4
     if calc >= 0:
         # Nov 30 is Thursday or later in week, simple subtraction
         day = 30 - calc

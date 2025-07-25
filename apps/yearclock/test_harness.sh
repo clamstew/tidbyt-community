@@ -222,6 +222,28 @@ for i in "${!ASTRONOMICAL_DATES[@]}"; do
     run_test "Astronomical event: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "06_astronomical_${name}.webp"
 done
 
+# Test regional holidays with timezone filtering
+REGIONAL_DATES=("2024-07-04T12:00:00Z" "2024-12-26T12:00:00Z" "2024-05-01T12:00:00Z" "2024-11-01T12:00:00Z")
+REGIONAL_NAMES=("IndependenceDay" "BoxingDay" "MayDay" "DiaDeLosMuertos")
+REGIONAL_ENABLED_TZ=("America/New_York" "Europe/London" "Europe/Paris" "America/Mexico_City")
+REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York")
+
+# Test regional holidays in correct timezones (should show special colors)
+for i in "${!REGIONAL_DATES[@]}"; do
+    date="${REGIONAL_DATES[$i]}"
+    name="${REGIONAL_NAMES[$i]}"
+    enabled_tz="${REGIONAL_ENABLED_TZ[$i]}"
+    run_test "Regional holiday: $name (enabled)" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true '\$tz=$enabled_tz'" "06_regional_${name}_enabled.webp"
+done
+
+# Test regional holidays in wrong timezones (should show default colors)
+for i in "${!REGIONAL_DATES[@]}"; do
+    date="${REGIONAL_DATES[$i]}"
+    name="${REGIONAL_NAMES[$i]}"
+    disabled_tz="${REGIONAL_DISABLED_TZ[$i]}"
+    run_test "Regional holiday: $name (filtered)" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true color_scheme=rainbow '\$tz=$disabled_tz'" "06_regional_${name}_filtered.webp"
+done
+
 # Test that special dates can be disabled
 run_test "Special dates disabled" "pixlet render year_clock.star debug_date='2024-12-25T12:00:00Z' enable_special_dates=false color_scheme=blue hemisphere=southern show_date=true" "06_special_disabled.webp"
 echo ""

@@ -222,6 +222,67 @@ WINTER_SOLSTICE_PALETTE = [
     "#191970",  # Midnight Blue (back to start)
 ]
 
+# Regional Holiday Color Palettes
+INDEPENDENCE_DAY_PALETTE = [
+    "#000080",  # Navy Blue (flag blue)
+    "#0000FF",  # Blue
+    "#4169E1",  # Royal Blue
+    "#6495ED",  # Cornflower Blue
+    "#F8F8FF",  # Ghost White (transition)
+    "#FFFFFF",  # Pure White (flag white)
+    "#FFE4E1",  # Misty Rose (white to red transition)
+    "#FFB6C1",  # Light Pink
+    "#FF69B4",  # Hot Pink
+    "#FF0000",  # Pure Red (flag red)
+    "#DC143C",  # Crimson
+    "#000080",  # Navy Blue (back to start)
+]
+
+BOXING_DAY_PALETTE = [
+    "#006400",  # Dark Green (traditional)
+    "#228B22",  # Forest Green
+    "#32CD32",  # Lime Green
+    "#90EE90",  # Light Green
+    "#F5F5DC",  # Beige (neutral transition)
+    "#FFD700",  # Gold (Boxing Day gifts)
+    "#FFF8DC",  # Cornsilk
+    "#FFFACD",  # Lemon Chiffon
+    "#F0F8FF",  # Alice Blue (winter)
+    "#E6E6FA",  # Lavender
+    "#C0C0C0",  # Silver
+    "#006400",  # Dark Green (back to start)
+]
+
+MAY_DAY_PALETTE = [
+    "#8B0000",  # Dark Red (workers' movement)
+    "#DC143C",  # Crimson
+    "#FF0000",  # Red (solidarity)
+    "#FF4500",  # Orange Red
+    "#FF6347",  # Tomato (transition to spring)
+    "#90EE90",  # Light Green (spring renewal)
+    "#32CD32",  # Lime Green
+    "#00FF00",  # Bright Green
+    "#ADFF2F",  # Green Yellow
+    "#FFFF00",  # Yellow (spring sunshine)
+    "#FFD700",  # Gold
+    "#8B0000",  # Dark Red (back to start)
+]
+
+DIA_DE_LOS_MUERTOS_PALETTE = [
+    "#FF8C00",  # Dark Orange (marigolds)
+    "#FFA500",  # Orange
+    "#FF7F50",  # Coral
+    "#FF69B4",  # Hot Pink (celebration)
+    "#FF1493",  # Deep Pink
+    "#9932CC",  # Dark Orchid (vibrant purple)
+    "#8A2BE2",  # Blue Violet
+    "#BA55D3",  # Medium Orchid
+    "#DA70D6",  # Orchid
+    "#FFD700",  # Gold (celebration)
+    "#FFFF00",  # Yellow (joy)
+    "#FF8C00",  # Dark Orange (back to start)
+]
+
 # Accent Dot Color Constants - for different styles
 ACCENT_DOT_STYLES = {
     "fixed_magenta": "#FF00FF",  # Original magenta (always visible)
@@ -246,6 +307,10 @@ ADAPTIVE_ACCENT_COLORS = {
     "summer_solstice": "#0000FF",  # Blue (contrasts with bright yellows)
     "fall_equinox": "#00FFFF",  # Cyan (contrasts with autumn colors)
     "winter_solstice": "#FF4500",  # Orange Red (contrasts with blues/whites)
+    "independence_day": "#FFD700",  # Gold (contrasts with red/white/blue)
+    "boxing_day": "#FF00FF",  # Magenta (contrasts with green/gold)
+    "may_day": "#00FFFF",  # Cyan (contrasts with red/green)
+    "dia_de_los_muertos": "#00FF00",  # Green (contrasts with orange/purple)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
@@ -264,6 +329,10 @@ CONTRAST_ACCENT_COLORS = {
     "summer_solstice": "#B8860B",  # Dark golden rod (darker contrast)
     "fall_equinox": "#8B4513",  # Saddle brown (darker contrast)
     "winter_solstice": "#191970",  # Midnight blue (darker contrast)
+    "independence_day": "#000080",  # Navy blue (darker contrast)
+    "boxing_day": "#006400",  # Dark green (darker contrast)
+    "may_day": "#8B0000",  # Dark red (darker contrast)
+    "dia_de_los_muertos": "#8B4513",  # Saddle brown (darker contrast)
 }
 
 def main(config):
@@ -288,7 +357,7 @@ def main(config):
 
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
-    special_override = get_special_date_override(now, enable_special_dates)
+    special_override = get_special_date_override(now, enable_special_dates, timezone)
     if special_override:
         color_scheme = special_override
 
@@ -395,10 +464,11 @@ def main(config):
         ),
     )
 
-def get_special_date_override(now, enable_special_dates):
+def get_special_date_override(now, enable_special_dates, timezone_name):
     """
     Detect if current date falls on a special date and return override color scheme.
     Returns None if no special date applies or if special dates are disabled.
+    Regional holidays are filtered by timezone for cultural relevance.
     """
     if not enable_special_dates:
         return None
@@ -447,7 +517,83 @@ def get_special_date_override(now, enable_special_dates):
     if month == 12 and day == 21:
         return "winter_solstice"
 
+    # Regional Holidays - Fixed Date Celebrations (timezone-filtered for cultural relevance)
+
+    # Independence Day (Jul 4) - North American (US) patriotic colors
+    if month == 7 and day == 4 and is_us_timezone(timezone_name):
+        return "independence_day"
+
+    # Boxing Day (Dec 26) - European/Commonwealth post-Christmas tradition
+    if month == 12 and day == 26 and is_commonwealth_timezone(timezone_name):
+        return "boxing_day"
+
+    # May Day (May 1) - European/International workers' day + spring celebration
+    # Note: US doesn't traditionally celebrate May Day as workers' holiday
+    if month == 5 and day == 1 and is_may_day_timezone(timezone_name):
+        return "may_day"
+
+    # Día de los Muertos (Nov 1-2) - Latin American celebration of life
+    if month == 11 and (day == 1 or day == 2) and is_latin_american_timezone(timezone_name):
+        return "dia_de_los_muertos"
+
     return None
+
+def is_us_timezone(timezone_name):
+    """Check if timezone is in United States for Independence Day"""
+    us_patterns = [
+        "America/New_York",
+        "America/Chicago",
+        "America/Denver",
+        "America/Los_Angeles",
+        "US/Eastern",
+        "US/Central",
+        "US/Mountain",
+        "US/Pacific",
+        "America/Phoenix",
+        "America/Anchorage",
+        "Pacific/Honolulu",
+    ]
+    return timezone_name in us_patterns or (timezone_name.startswith("America/") and not timezone_name.startswith("America/Mexico"))
+
+def is_commonwealth_timezone(timezone_name):
+    """Check if timezone is in Europe or Commonwealth countries for Boxing Day"""
+    commonwealth_patterns = ["Europe/", "Canada/", "Australia/", "Pacific/Auckland", "Africa/Johannesburg"]
+    for pattern in commonwealth_patterns:
+        if timezone_name.startswith(pattern):
+            return True
+    return timezone_name in ["GMT", "UTC"]
+
+def is_may_day_timezone(timezone_name):
+    """Check if timezone celebrates May Day as workers' holiday (Europe, not US)"""
+
+    # Europe celebrates May Day, but US traditionally doesn't (has Labor Day in September)
+    if timezone_name.startswith("Europe/"):
+        return True
+
+    # Some other international locations that celebrate May Day
+    may_day_locations = ["Asia/Manila", "Africa/Cairo", "Australia/", "Canada/"]
+    for location in may_day_locations:
+        if timezone_name.startswith(location):
+            return True
+    return False
+
+def is_latin_american_timezone(timezone_name):
+    """Check if timezone is in Latin America for Día de los Muertos"""
+
+    # Mexico and Central/South America
+    latin_patterns = [
+        "America/Mexico",
+        "America/Guatemala",
+        "America/Bogota",
+        "America/Lima",
+        "America/Santiago",
+        "America/Argentina",
+        "America/Sao_Paulo",
+    ]
+    for pattern in latin_patterns:
+        if timezone_name.startswith(pattern):
+            return True
+    return False
 
 def get_date_color(color_scheme, hemisphere):
     """Get appropriate date text color based on color scheme and hemisphere"""
@@ -522,6 +668,14 @@ def get_color_palette(color_scheme):
         return FALL_EQUINOX_PALETTE
     elif color_scheme == "winter_solstice":
         return WINTER_SOLSTICE_PALETTE
+    elif color_scheme == "independence_day":
+        return INDEPENDENCE_DAY_PALETTE
+    elif color_scheme == "boxing_day":
+        return BOXING_DAY_PALETTE
+    elif color_scheme == "may_day":
+        return MAY_DAY_PALETTE
+    elif color_scheme == "dia_de_los_muertos":
+        return DIA_DE_LOS_MUERTOS_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE

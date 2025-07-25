@@ -77,6 +77,22 @@ Year Clock automatically detects special dates and applies unique themed color o
 - **Fall Equinox (Sep 22)**: Rich autumn colors with browns, oranges, and deep reds
 - **Winter Solstice (Dec 21)**: Deep winter colors with blues, purples, and silvery whites
 
+### Regional Holiday Themes (Timezone-Filtered)
+
+Year Clock intelligently shows regional holidays based on your timezone for cultural relevance:
+
+- **Independence Day (Jul 4)**: Red, white, and blue patriotic colors (US timezones only)
+- **Boxing Day (Dec 26)**: Traditional green and gold post-Christmas colors (Europe/Commonwealth timezones)
+- **May Day (May 1)**: Workers' solidarity red transitioning to spring renewal greens (Europe/International, not US)
+- **Día de los Muertos (Nov 1-2)**: Vibrant orange, purple, and gold celebration colors (Latin American timezones)
+
+**Smart Regional Filtering**: Regional holidays only appear for users in relevant timezones:
+
+- 🇺🇸 Independence Day: `America/*` timezones (excluding Mexico)
+- 🇬🇧 Boxing Day: `Europe/*`, `Canada/*`, `Australia/*`, and Commonwealth timezones
+- 🌍 May Day: `Europe/*`, `Asia/*`, `Australia/*`, `Canada/*` (Europe celebrates workers' holiday, US has Labor Day in September)
+- 🇲🇽 Día de los Muertos: `America/Mexico*` and Latin American timezones
+
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
 
 ## 🌍 Timezone-Based Date Format Detection

@@ -1,7 +1,4 @@
-Great question! Let me do a quick research check to make sure our seasonal timing is accurate across different regions:
-Ran tool
-
-Excellent question! The research confirms that our August/September peak timing is **absolutely scientifically accurate**. Here's what I found:
+Excellent question! The research confirms that our August/September peak timing is **scientifically accurate**.
 
 ## ✅ **Seasonal Lag is Real Science**
 

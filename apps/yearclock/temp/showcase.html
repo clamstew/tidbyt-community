@@ -561,6 +561,40 @@
             description: "Dec 21: Deep winter colors (blues, purples, whites)",
           },
         ],
+        regionalHolidays: [
+          {
+            key: "IndependenceDay",
+            display: "Independence Day 🇺🇸",
+            description:
+              "Jul 4: Red, white, blue patriotic colors (US timezones)",
+            enabledTz: "America/New_York",
+            filteredTz: "Europe/London",
+          },
+          {
+            key: "BoxingDay",
+            display: "Boxing Day 🇬🇧",
+            description:
+              "Dec 26: Green/gold post-Christmas (Europe/Commonwealth)",
+            enabledTz: "Europe/London",
+            filteredTz: "America/New_York",
+          },
+          {
+            key: "MayDay",
+            display: "May Day 🌍",
+            description:
+              "May 1: Red/green workers'/spring celebration (Europe, not US)",
+            enabledTz: "Europe/Paris",
+            filteredTz: "America/New_York",
+          },
+          {
+            key: "DiaDeLosMuertos",
+            display: "Día de los Muertos 🇲🇽",
+            description:
+              "Nov 1-2: Orange/purple celebration of life (Latin America)",
+            enabledTz: "America/Mexico_City",
+            filteredTz: "America/New_York",
+          },
+        ],
         seasonalTests: [
           {
             key: "NewYear",
@@ -688,6 +722,10 @@
             pattern: "06_astronomical_",
             count: CONFIG.astronomicalEvents.length,
           }, // astronomical events
+          {
+            pattern: "06_regional_",
+            count: CONFIG.regionalHolidays.length * 2,
+          }, // regional holidays (enabled + filtered)
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
           { pattern: "08_accent_", count: 7 * 4 + 2 }, // adaptive, compare, fixed, none
           {
@@ -1286,6 +1324,51 @@
             astro.description,
             `debug_date='${debugDate}'`,
             `debug_date='${debugDate}' enable_special_dates=true show_date=true`
+          );
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Regional Holidays with Timezone Filtering -->
+                <div class="section">
+                    <h2>🌍 Regional Holidays (${
+                      CONFIG.regionalHolidays.length * 2
+                    } tests)</h2>
+                    <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Smart timezone filtering shows culturally relevant holidays based on your location
+                    </p>
+                    <div class="grid">
+            `;
+
+        CONFIG.regionalHolidays.forEach((regional) => {
+          const debugDate =
+            regional.key === "IndependenceDay"
+              ? "2024-07-04T12:00:00Z"
+              : regional.key === "BoxingDay"
+              ? "2024-12-26T12:00:00Z"
+              : regional.key === "MayDay"
+              ? "2024-05-01T12:00:00Z"
+              : "2024-11-01T12:00:00Z"; // DiaDeLosMuertos
+
+          // Show enabled version (correct timezone)
+          html += createDevice(
+            `06_regional_${regional.key}_enabled.webp`,
+            `${regional.display} (Enabled)`,
+            `${regional.description} - Shows special colors in correct timezone`,
+            `debug_date='${debugDate}' '$tz=${regional.enabledTz}'`,
+            `debug_date='${debugDate}' enable_special_dates=true show_date=true '$tz=${regional.enabledTz}'`
+          );
+
+          // Show filtered version (wrong timezone)
+          html += createDevice(
+            `06_regional_${regional.key}_filtered.webp`,
+            `${regional.display} (Filtered)`,
+            `Same date in different timezone - shows default rainbow colors`,
+            `debug_date='${debugDate}' '$tz=${regional.filteredTz}'`,
+            `debug_date='${debugDate}' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=${regional.filteredTz}'`
           );
         });
 

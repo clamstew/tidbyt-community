@@ -1071,7 +1071,28 @@ def is_us_timezone(timezone_name):
         "America/Anchorage",
         "Pacific/Honolulu",
     ]
-    return timezone_name in us_patterns or (timezone_name.startswith("America/") and not timezone_name.startswith("America/Mexico"))
+    
+    # Mexican timezones to exclude
+    mexico_patterns = [
+        "America/Tijuana",
+        "America/Hermosillo", 
+        "America/Mazatlan",
+        "America/Ciudad_Juarez",
+        "America/Chihuahua",
+        "America/Mexico_City",
+        "America/Ojinaga",
+        "America/Matamoros",
+        "America/Cancun",
+        "America/Bahia_Banderas",
+        "America/Monterrey",
+        "America/Merida",
+    ]
+    
+    # Check if it's a known Mexican timezone
+    if timezone_name in mexico_patterns:
+        return False
+        
+    return timezone_name in us_patterns or timezone_name.startswith("America/")
 
 def is_french_timezone(timezone_name):
     """Check if timezone is in France or Francophone regions for Bastille Day"""

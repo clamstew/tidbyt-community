@@ -729,35 +729,93 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 
 ## 🆕 New Ideas & Improvements Queue
 
-### Holiday Categorization Review
+### Holiday Categorization Review - FINDINGS & RECOMMENDATIONS ✅
 
-- [ ] **Global vs Regional Holiday Analysis**: Review current "global" holidays for regional appropriateness
-  - [ ] **Christmas (Dec 25)**: Currently global - should it be filtered to Christian-majority countries/timezones?
-    - [ ] Research Christian population by timezone/country
-    - [ ] Consider keeping global due to secular celebration in many non-Christian countries
-    - [ ] Alternative: Add configuration toggle for religious holidays
-  - [ ] **Halloween (Oct 31)**: Currently global - should it be filtered to US/Canada/Ireland/UK timezones?
-    - [ ] Research global Halloween adoption and celebration
-    - [ ] Consider filtering to Anglo-sphere + Ireland + regions with significant adoption
-    - [ ] May be appropriate to keep global due to international adoption
-  - [ ] **Valentine's Day (Feb 14)**: Currently global - research global celebration patterns
-    - [ ] Generally appropriate as global due to widespread commercial adoption
-    - [ ] Consider if any regions specifically don't celebrate or have cultural objections
-  - [ ] **St. Patrick's Day (Mar 17)**: Currently global - should it be filtered to Ireland/Irish diaspora regions?
-    - [ ] Research which countries actually celebrate vs. just commercial/pub promotion
-    - [ ] Consider filtering to Ireland, UK, US, Canada, Australia where it's culturally significant
-    - [ ] May be more regional than currently implemented
-  - [ ] **Pride Month (June)**: Currently global - research legal/cultural appropriateness by region
-    - [ ] Consider filtering based on LGBTQ+ rights/acceptance by country
-    - [ ] Alternative: Add configuration toggle for social causes
-    - [ ] May need careful cultural sensitivity research
-- [ ] **Implementation Strategy**: Create holiday categories (Global, Regional, Religious, Secular, Cultural)
-- [ ] **Timezone Mapping**: Research which holidays are celebrated in which regions with cultural significance
-- [ ] **Configuration Options**:
-  - [ ] "Show only regional holidays" vs "Show all holidays"
-  - [ ] "Enable religious holidays" toggle
-  - [ ] "Enable cultural/social holidays" toggle
-- [ ] **Research Phase**: Systematic review of each holiday's global cultural relevance and appropriateness
+**Research Completed**: Global celebration patterns analyzed for major holidays
+
+#### Global Holidays (Should be shown worldwide)
+
+**Rationale**: Holidays with truly universal celebration or significant global cultural adoption
+
+1. **New Year's Day/Eve (January 1)** ✅ GLOBAL
+
+   - **Justification**: Most universal celebration worldwide
+   - **Adoption**: Celebrated in virtually every country using Gregorian calendar
+   - **Cultural**: Transcends religious/cultural boundaries
+   - **Recommendation**: Keep as global holiday
+
+2. **Christmas (December 25)** ✅ GLOBAL
+   - **Justification**: Celebrated far beyond Christian countries
+   - **Secular adoption**: Japan, South Korea, China celebrate as cultural holiday
+   - **Commercial**: Global gift-giving and festive traditions
+   - **Recommendation**: Keep as global holiday
+
+#### Regional Holidays (Should be timezone/region specific)
+
+**Rationale**: Holidays with strong cultural/national identity but limited global adoption
+
+3. **Halloween (October 31)** → SHOULD BE REGIONAL (US/Canada/Ireland/UK)
+
+   - **Current**: Global
+   - **Research findings**:
+     - Strong adoption: US, Canada, Ireland, UK, Australia
+     - Limited adoption: Most of Europe, Asia, Africa, South America
+     - Cultural: Anglo-Saxon tradition with limited global penetration
+   - **Recommendation**: Change to US/UK timezone detection only
+
+4. **Valentine's Day (February 14)** → SHOULD BE REGIONAL/GLOBAL HYBRID
+
+   - **Current**: Global
+   - **Research findings**:
+     - Strong adoption: US, Europe, some Asia-Pacific
+     - Regional variations: Japan (White Day), China (Qixi), India (opposition in some regions)
+     - Commercial but not universal
+   - **Recommendation**: Consider regional implementation or keep global
+
+5. **St. Patrick's Day (March 17)** → SHOULD BE REGIONAL (Ireland/US/UK/Australia)
+   - **Current**: Global
+   - **Research findings**:
+     - Strong adoption: Ireland, US, UK, Canada, Australia (Irish diaspora)
+     - Limited adoption: Most other countries
+     - Cultural: Irish identity celebration
+   - **Recommendation**: Change to Irish diaspora regions only
+
+#### US-Specific Holidays (Correctly implemented)
+
+6. **Independence Day (July 4)** ✅ CORRECTLY US-ONLY
+7. **Thanksgiving (November 28, 2024)** ✅ CORRECTLY US-ONLY
+   - **Bug fixed**: calculate_thanksgiving function corrected
+
+#### Other Regional Examples for Future Implementation
+
+8. **Diwali** → Should be India/Hindu regions
+9. **Chinese New Year** → Should be East Asia/Chinese diaspora
+10. **Ramadan/Eid** → Should be Muslim-majority regions
+11. **Bastille Day** → Should be France/Francophone regions (already implemented)
+
+#### Implementation Strategy
+
+1. **Phase 1**: Fix Halloween and St. Patrick's Day regional detection
+2. **Phase 2**: Implement more sophisticated region detection beyond just US
+3. **Phase 3**: Add major non-Western holidays with regional detection
+
+#### Technical Requirements
+
+- Expand timezone detection beyond `is_us_timezone()`
+- Add functions like `is_irish_diaspora_timezone()`, `is_uk_timezone()`, etc.
+- Consider user preference override for holidays
+
+#### Research Sources
+
+- Halloween: Limited global adoption despite media presence
+- St. Patrick's Day: Primarily Irish diaspora celebration
+- Valentine's Day: Global commercial but varied cultural acceptance
+- Christmas: Truly global secular and religious celebration
+- New Year's: Universal Gregorian calendar adoption
+
+**Status**: Research complete ✅ | Implementation recommendations ready ✅
+
+---
 
 ### Multi-Calendar New Year's Support
 

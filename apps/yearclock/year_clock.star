@@ -802,7 +802,7 @@ def get_schema():
             schema.Dropdown(
                 id = "color_scheme",
                 name = "Color Scheme",
-                desc = "Choose color palette for the year gradient",
+                desc = "Choose year gradient color",
                 icon = "palette",
                 default = "rainbow",
                 options = color_scheme_options,
@@ -818,7 +818,7 @@ def get_schema():
             schema.Dropdown(
                 id = "accent_dot_style",
                 name = "Accent Dot Style",
-                desc = "Choose how accent dots are colored",
+                desc = "Choose accent dots color",
                 icon = "brush",
                 default = "adaptive",
                 options = accent_dot_style_options,

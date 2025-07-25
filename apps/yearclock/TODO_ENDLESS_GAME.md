@@ -7,7 +7,7 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 ### Endless Cultural Expansion
 
 - [ ] **More Regional Holidays**: Diwali (India), ~~Bastille Day (France)~~, Carnival (Brazil), Oktoberfest (Germany)
-- [ ] **More Languages**: Hindi, Arabic, Japanese, Korean, Russian, Dutch, Swedish, etc.
+- [ ] **More Languages**: Hindi, Arabic, Japanese, Korean, ~~Russian~~, Dutch, Swedish, etc.
 - [ ] **Religious Calendar Integration**: Hebrew, ~~Buddhist~~, Hindu lunar calendars
 - [ ] **Cultural Color Research**: Color symbolism across all world cultures
 - [ ] **Regional Season Mapping**: Monsoons, dry seasons, tropical variations
@@ -38,7 +38,7 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 
 #### Language & Script Expansion
 
-- [ ] **Major World Languages**: Mandarin, Hindi, Arabic, Bengali, ~~Portuguese~~, Russian
+- [ ] **Major World Languages**: Mandarin, Hindi, Arabic, Bengali, ~~Portuguese~~, ~~Russian~~
 - [ ] **Regional Languages**: Catalan, Welsh, Gaelic, Basque, Flemish
 - [ ] **Script Systems**: Arabic, Devanagari, Chinese characters, Cyrillic
 - [ ] **Right-to-Left Support**: Arabic, Hebrew text direction handling

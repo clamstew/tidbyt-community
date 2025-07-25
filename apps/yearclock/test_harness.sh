@@ -356,7 +356,7 @@ echo "${BLUE}10. Testing language support and timezone-based language detection.
 # Test manual language override with different months to show translated month names
 LANGUAGE_TEST_DATES=("2024-01-15T12:00:00Z" "2024-03-15T12:00:00Z" "2024-06-15T12:00:00Z" "2024-09-15T12:00:00Z" "2024-12-15T12:00:00Z")
 LANGUAGE_TEST_MONTHS=("January" "March" "June" "September" "December")
-LANGUAGES=("en" "es" "fr" "de" "pt" "it")
+LANGUAGES=("en" "es" "fr" "de" "pt" "it" "ru")
 
 echo "  Testing manual language override across different months..."
 for i in "${!LANGUAGE_TEST_DATES[@]}"; do
@@ -370,9 +370,9 @@ echo ""
 
 echo "  Testing timezone-based automatic language detection..."
 # Test timezone-based language auto-detection with culturally appropriate timezones
-LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome" "Africa/Ouagadougou" "Africa/Bamako" "Africa/Dakar" "Africa/Conakry" "Africa/Abidjan" "America/Guatemala" "America/El_Salvador" "America/Tegucigalpa" "America/Managua" "America/Costa_Rica" "Africa/Luanda" "Africa/Maputo" "Africa/Bissau" "Africa/Sao_Tome" "America/Fortaleza" "America/Caracas" "America/Guayaquil" "America/La_Paz" "America/Asuncion" "America/Montevideo" "America/Havana" "America/Santo_Domingo" "America/Panama" "America/Cancun" "America/Tijuana")
-LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy" "French_BurkinaFaso" "French_Mali" "French_Senegal" "French_Guinea" "French_IvoryCoast" "Spanish_Guatemala" "Spanish_ElSalvador" "Spanish_Honduras" "Spanish_Nicaragua" "Spanish_CostaRica" "Portuguese_Angola" "Portuguese_Mozambique" "Portuguese_GuineaBissau" "Portuguese_SaoTome" "Portuguese_BrazilFortaleza" "Spanish_Venezuela" "Spanish_Ecuador" "Spanish_Bolivia" "Spanish_Paraguay" "Spanish_Uruguay" "Spanish_Cuba" "Spanish_DominicanRepublic" "Spanish_Panama" "Spanish_MexicoCancun" "Spanish_MexicoTijuana")
-EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it" "fr" "fr" "fr" "fr" "fr" "es" "es" "es" "es" "es" "pt" "pt" "pt" "pt" "pt" "es" "es" "es" "es" "es" "es" "es" "es" "es" "es")
+LANGUAGE_AUTO_TIMEZONES=("America/New_York" "Europe/Madrid" "Europe/Paris" "Europe/Berlin" "America/Sao_Paulo" "Europe/Rome" "Europe/Moscow" "Asia/Yekaterinburg" "Asia/Vladivostok" "Europe/Minsk" "Asia/Almaty" "Africa/Ouagadougou" "Africa/Bamako" "Africa/Dakar" "Africa/Conakry" "Africa/Abidjan" "America/Guatemala" "America/El_Salvador" "America/Tegucigalpa" "America/Managua" "America/Costa_Rica" "Africa/Luanda" "Africa/Maputo" "Africa/Bissau" "Africa/Sao_Tome" "America/Fortaleza" "America/Caracas" "America/Guayaquil" "America/La_Paz" "America/Asuncion" "America/Montevideo" "America/Havana" "America/Santo_Domingo" "America/Panama" "America/Cancun" "America/Tijuana")
+LANGUAGE_AUTO_NAMES=("English_US" "Spanish_Spain" "French_France" "German_Germany" "Portuguese_Brazil" "Italian_Italy" "Russian_Moscow" "Russian_Yekaterinburg" "Russian_Vladivostok" "Russian_Belarus" "Russian_Kazakhstan" "French_BurkinaFaso" "French_Mali" "French_Senegal" "French_Guinea" "French_IvoryCoast" "Spanish_Guatemala" "Spanish_ElSalvador" "Spanish_Honduras" "Spanish_Nicaragua" "Spanish_CostaRica" "Portuguese_Angola" "Portuguese_Mozambique" "Portuguese_GuineaBissau" "Portuguese_SaoTome" "Portuguese_BrazilFortaleza" "Spanish_Venezuela" "Spanish_Ecuador" "Spanish_Bolivia" "Spanish_Paraguay" "Spanish_Uruguay" "Spanish_Cuba" "Spanish_DominicanRepublic" "Spanish_Panama" "Spanish_MexicoCancun" "Spanish_MexicoTijuana")
+EXPECTED_LANGUAGES=("en" "es" "fr" "de" "pt" "it" "ru" "ru" "ru" "ru" "ru" "fr" "fr" "fr" "fr" "fr" "es" "es" "es" "es" "es" "pt" "pt" "pt" "pt" "pt" "es" "es" "es" "es" "es" "es" "es" "es" "es" "es")
 
 for i in "${!LANGUAGE_AUTO_TIMEZONES[@]}"; do
     tz="${LANGUAGE_AUTO_TIMEZONES[$i]}"
@@ -391,6 +391,7 @@ COMBO_CONFIGS=(
     "lang=de,format=european_format,desc=German_European_Format"
     "lang=pt,format=us_format,desc=Portuguese_US_Format"
     "lang=it,format=european_format,desc=Italian_European_Format"
+    "lang=ru,format=european_format,desc=Russian_European_Format"
     "lang=en,format=iso_format,desc=English_ISO_Format"
 )
 
@@ -406,10 +407,10 @@ echo ""
 
 echo "  Testing language support with special dates..."
 # Test how different languages work with special date themes
-SPECIAL_LANG_DATES=("2024-12-25T12:00:00Z" "2024-07-14T12:00:00Z" "2024-10-31T12:00:00Z")
-SPECIAL_LANG_NAMES=("Christmas" "BastilleDay" "Halloween")
-SPECIAL_LANG_LANGS=("es" "fr" "de")
-SPECIAL_LANG_TIMEZONES=("" "Europe/Paris" "")  # Only Bastille Day needs French timezone to trigger regional holiday
+SPECIAL_LANG_DATES=("2024-12-25T12:00:00Z" "2024-07-14T12:00:00Z" "2024-10-31T12:00:00Z" "2024-01-01T12:00:00Z")
+SPECIAL_LANG_NAMES=("Christmas" "BastilleDay" "Halloween" "NewYearsDay")
+SPECIAL_LANG_LANGS=("es" "fr" "de" "ru")
+SPECIAL_LANG_TIMEZONES=("" "Europe/Paris" "" "")  # Only Bastille Day needs French timezone to trigger regional holiday
 
 for i in "${!SPECIAL_LANG_DATES[@]}"; do
     date="${SPECIAL_LANG_DATES[$i]}"

@@ -234,7 +234,7 @@ If you prefer a specific format regardless of your timezone:
 
 ## 🗣️ Multi-Language Support
 
-Year Clock is the **first Tidbyt app** with intelligent timezone-based language detection, supporting 6 languages with zero configuration required for most users.
+Year Clock is the **first Tidbyt app** with intelligent timezone-based language detection, supporting 7 languages with zero configuration required for most users.
 
 ### Intelligent Language Detection
 
@@ -263,7 +263,7 @@ The app automatically detects the appropriate language based on your device's ti
 ### Revolutionary Features
 
 - **🧠 Smart Auto-Detection**: Automatically detects language from timezone for 90%+ of users
-- **🌍 6-Language Support**: English, Spanish, French, German, Portuguese, Italian
+- **🌍 7-Language Support**: English, Spanish, French, German, Portuguese, Italian, Russian
 - **🔧 Manual Override**: Users can force specific language if desired
 - **🎯 Cultural Accuracy**: Smart timezone-to-language correlation based on regional patterns
 - **⚡ Zero Configuration**: No language setup required - works automatically

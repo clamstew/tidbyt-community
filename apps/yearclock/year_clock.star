@@ -229,6 +229,7 @@ MONTH_NAMES = {
     "de": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
     "pt": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
     "it": ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
+    "ru": ["Yanv", "Fev", "Mar", "Apr", "May", "Iyun", "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek"],
 }
 
 THERMAL_PALETTE = [
@@ -1666,6 +1667,28 @@ def get_language_from_timezone(timezone_name):
     elif timezone_name.startswith("Europe/Rome") or \
          "Italian" in timezone_name:
         return "it"
+    elif timezone_name.startswith("Europe/Moscow") or \
+         timezone_name.startswith("Asia/Novosibirsk") or \
+         timezone_name.startswith("Asia/Yekaterinburg") or \
+         timezone_name.startswith("Asia/Irkutsk") or \
+         timezone_name.startswith("Asia/Vladivostok") or \
+         timezone_name.startswith("Asia/Magadan") or \
+         timezone_name.startswith("Asia/Kamchatka") or \
+         timezone_name.startswith("Asia/Sakhalin") or \
+         timezone_name.startswith("Asia/Anadyr") or \
+         timezone_name.startswith("Europe/Kaliningrad") or \
+         timezone_name.startswith("Europe/Samara") or \
+         timezone_name.startswith("Asia/Omsk") or \
+         timezone_name.startswith("Asia/Krasnoyarsk") or \
+         timezone_name.startswith("Asia/Yakutsk") or \
+         timezone_name.startswith("Asia/Khandyga") or \
+         timezone_name.startswith("Asia/Ust-Nera") or \
+         timezone_name.startswith("Asia/Srednekolymsk") or \
+         timezone_name.startswith("Asia/Almaty") or \
+         timezone_name.startswith("Asia/Bishkek") or \
+         timezone_name.startswith("Europe/Minsk") or \
+         "Russian" in timezone_name:
+        return "ru"
     else:
         return "en"
 
@@ -1871,6 +1894,10 @@ def get_schema():
                     schema.Option(
                         display = "Italiano",
                         value = "it",
+                    ),
+                    schema.Option(
+                        display = "Русский",
+                        value = "ru",
                     ),
                 ],
             ),

@@ -605,6 +605,14 @@
             filteredTz: "Europe/London",
           },
           {
+            key: "BlackFriday",
+            display: "Black Friday 🛍️",
+            description:
+              "Day after Thanksgiving: Shopping blacks/sale colors (US timezones)",
+            enabledTz: "America/New_York",
+            filteredTz: "Europe/London",
+          },
+          {
             key: "GoldenWeek",
             display: "Golden Week 🌸",
             description: "Apr 29-May 5: Cherry blossom pinks (Japan timezones)",
@@ -1413,6 +1421,8 @@
           const debugDate =
             variable.key === "Thanksgiving"
               ? "2024-11-28T12:00:00Z"
+              : variable.key === "BlackFriday"
+              ? "2024-11-29T12:00:00Z"
               : "2024-05-01T12:00:00Z"; // GoldenWeek
 
           // Show enabled version (correct timezone)

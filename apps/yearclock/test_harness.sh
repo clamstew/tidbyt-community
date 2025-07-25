@@ -229,10 +229,10 @@ REGIONAL_ENABLED_TZ=("America/New_York" "Europe/London" "Europe/Paris" "America/
 REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York")
 
 # Test variable date regional holidays
-VARIABLE_DATES=("2024-11-28T12:00:00Z" "2024-05-01T12:00:00Z")
-VARIABLE_NAMES=("Thanksgiving" "GoldenWeek")
-VARIABLE_ENABLED_TZ=("America/New_York" "Asia/Tokyo")
-VARIABLE_DISABLED_TZ=("Europe/London" "America/New_York")
+VARIABLE_DATES=("2024-11-28T12:00:00Z" "2024-11-29T12:00:00Z" "2024-05-01T12:00:00Z")
+VARIABLE_NAMES=("Thanksgiving" "BlackFriday" "GoldenWeek")
+VARIABLE_ENABLED_TZ=("America/New_York" "America/New_York" "Asia/Tokyo")
+VARIABLE_DISABLED_TZ=("Europe/London" "Europe/London" "America/New_York")
 
 # Test regional holidays in correct timezones (should show special colors)
 for i in "${!REGIONAL_DATES[@]}"; do

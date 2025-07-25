@@ -635,15 +635,16 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 - [x] **May Day (May 1st)**: Workers' red to spring green for Europe/International (not US) ✅ COMPLETED
 - [x] **Día de los Muertos (Nov 1-2)**: Orange/purple celebration colors for Latin America ✅ COMPLETED
 
-**Variable Date Regional Holidays (2 completed):**
+**Variable Date Regional Holidays (3 completed):**
 
 - [x] **Thanksgiving (4th Thursday Nov)**: Autumn harvest browns/golds for US timezones ✅ COMPLETED
+- [x] **Black Friday (day after Thanksgiving)**: Shopping blacks/sale colors for US timezones ✅ COMPLETED
 - [x] **Golden Week (April 29-May 5)**: Cherry blossom pinks for Japan/Asia timezones ✅ COMPLETED
 
 **Smart Timezone Filtering:**
 
 - [x] **Cultural Relevance**: Regional holidays only appear in appropriate timezones ✅ COMPLETED
-- [x] **Test Coverage**: 12 new test images (6 holidays × enabled/filtered versions) ✅ COMPLETED
+- [x] **Test Coverage**: 14 new test images (7 holidays × enabled/filtered versions) ✅ COMPLETED
 - [x] **Documentation**: README, test harness, and showcase fully updated ✅ COMPLETED
 
-**Total Special Date Themes: 16** (6 original + 4 astronomical + 4 fixed regional + 2 variable regional) = Complete cultural coverage! 🌍
+**Total Special Date Themes: 17** (6 original + 4 astronomical + 4 fixed regional + 3 variable regional) = Complete cultural coverage! 🌍

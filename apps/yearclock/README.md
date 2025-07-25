@@ -91,6 +91,7 @@ Year Clock intelligently shows regional holidays based on your timezone for cult
 Smart calculation of holidays with changing dates each year:
 
 - **Thanksgiving (4th Thursday in November)**: Autumn harvest browns, golds, and cranberry reds (US timezones only)
+- **Black Friday (day after Thanksgiving)**: Shopping theme with black, sale reds, and deal colors (US timezones only)
 - **Golden Week (April 29 - May 5)**: Cherry blossom pinks and spring pastels (Japan/Asia/Tokyo timezone only)
 
 **Smart Regional Filtering**: Regional holidays only appear for users in relevant timezones:
@@ -100,6 +101,7 @@ Smart calculation of holidays with changing dates each year:
 - 🌍 May Day: `Europe/*`, `Asia/*`, `Australia/*`, `Canada/*` (Europe celebrates workers' holiday, US has Labor Day in September)
 - 🇲🇽 Día de los Muertos: `America/Mexico*` and Latin American timezones
 - 🇺🇸 Thanksgiving: `America/*` timezones (excluding Mexico)
+- 🛍️ Black Friday: `America/*` timezones (excluding Mexico)
 - 🇯🇵 Golden Week: `Asia/Tokyo` and related Japanese timezones
 
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.

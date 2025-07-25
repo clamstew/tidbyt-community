@@ -314,6 +314,21 @@ GOLDEN_WEEK_PALETTE = [
     "#FF69B4",  # Hot Pink (back to start)
 ]
 
+BLACK_FRIDAY_PALETTE = [
+    "#000000",  # Pure Black (Black Friday theme)
+    "#1C1C1C",  # Dark Gray
+    "#2F2F2F",  # Medium Dark Gray
+    "#FF0000",  # Red (sale prices)
+    "#FF4500",  # Orange Red (hot deals)
+    "#FFD700",  # Gold (special offers)
+    "#FFFF00",  # Yellow (price tags)
+    "#FFFFFF",  # White (contrast/excitement)
+    "#FF69B4",  # Hot Pink (flash sales)
+    "#00FF00",  # Green (savings/money)
+    "#696969",  # Dim Gray
+    "#000000",  # Pure Black (back to start)
+]
+
 # Accent Dot Color Constants - for different styles
 ACCENT_DOT_STYLES = {
     "fixed_magenta": "#FF00FF",  # Original magenta (always visible)
@@ -344,6 +359,7 @@ ADAPTIVE_ACCENT_COLORS = {
     "dia_de_los_muertos": "#00FF00",  # Green (contrasts with orange/purple)
     "thanksgiving": "#00FFFF",  # Cyan (contrasts with brown/orange harvest colors)
     "golden_week": "#0000FF",  # Blue (contrasts with pink cherry blossom colors)
+    "black_friday": "#FFFF00",  # Yellow (contrasts with black, like a price tag)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
@@ -368,6 +384,7 @@ CONTRAST_ACCENT_COLORS = {
     "dia_de_los_muertos": "#8B4513",  # Saddle brown (darker contrast)
     "thanksgiving": "#654321",  # Dark brown (darker contrast)
     "golden_week": "#8B008B",  # Dark magenta (darker contrast)
+    "black_friday": "#2F2F2F",  # Dark gray (darker contrast on black theme)
 }
 
 def main(config):
@@ -579,6 +596,12 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
         if day == thanksgiving_day:
             return "thanksgiving"
 
+    # Black Friday (day after Thanksgiving) - US shopping holiday
+    if is_us_timezone(timezone_name):
+        black_friday_day, black_friday_month = calculate_black_friday(now.year)
+        if month == black_friday_month and day == black_friday_day:
+            return "black_friday"
+
     # Golden Week (April 29 - May 5) - Japanese holiday period
     if is_golden_week_date(month, day) and timezone_name.startswith("Asia/") and "Tokyo" in timezone_name:
         return "golden_week"
@@ -644,7 +667,7 @@ def is_latin_american_timezone(timezone_name):
 
 def calculate_thanksgiving(year):
     """Get Thanksgiving date (4th Thursday in November) for given year"""
-    
+
     # Thanksgiving dates for common years (4th Thursday in November)
     # This is more reliable than calculating day-of-week in Starlark
     thanksgiving_dates = {
@@ -660,7 +683,7 @@ def calculate_thanksgiving(year):
         2029: 22,  # November 22, 2029
         2030: 28,  # November 28, 2030
     }
-    
+
     # Return the date if we have it, otherwise default to 4th Thursday estimate
     return thanksgiving_dates.get(year, 26)  # Default to Nov 26 (common date)
 
@@ -670,6 +693,19 @@ def calculate_golden_week_start():
     # Golden Week runs April 29 - May 5 (approximately)
     # April 29 is Showa Day (always the start)
     return 29  # Always April 29th
+
+def calculate_black_friday(year):
+    """Calculate Black Friday date (day after Thanksgiving) for given year"""
+
+    # Black Friday is always the day after Thanksgiving (4th Thursday)
+    thanksgiving_day = calculate_thanksgiving(year)
+    black_friday_day = thanksgiving_day + 1
+
+    # Handle month rollover (if Thanksgiving is November 30, Black Friday is December 1)
+    if black_friday_day > 30:  # November has 30 days
+        return 1, 12  # December 1st
+    else:
+        return black_friday_day, 11  # Still November
 
 def is_golden_week_date(month, day):
     """Check if date falls within Golden Week period (April 29 - May 5)"""
@@ -764,6 +800,8 @@ def get_color_palette(color_scheme):
         return THANKSGIVING_PALETTE
     elif color_scheme == "golden_week":
         return GOLDEN_WEEK_PALETTE
+    elif color_scheme == "black_friday":
+        return BLACK_FRIDAY_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE

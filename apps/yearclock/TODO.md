@@ -368,17 +368,26 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
   - [ ] Europe/\* timezones → Local language based on country code
   - [ ] Asia/\* timezones → English with local language options
 
-### 5.3. Regional Holiday Themes
+### 5.3. Regional Holiday Themes ✅ (Partially Complete)
 
-- [ ] **Regional Holiday Detection**: Expand special date themes by region
-  - [ ] **North America**: Thanksgiving (4th Thu Nov), Independence Day (Jul 4)
-  - [ ] **Europe**: Boxing Day (Dec 26), May Day (May 1)
-  - [ ] **Asia-Pacific**: Lunar New Year (variable), Golden Week (Japan)
-  - [ ] **Latin America**: Día de los Muertos (Nov 1-2), Carnival (variable)
-  - [ ] **Middle East**: Ramadan/Eid (lunar calendar, variable dates)
-- [ ] **Cultural Sensitivity**: Research appropriate color schemes for each holiday
-- [ ] **Configuration Option**: "Enable Regional Holidays" with region selector
-- [ ] **Smart Defaults**: Auto-enable holidays based on user's location
+- [x] **Regional Holiday Detection**: Expand special date themes by region ✅ COMPLETED: 7 regional holidays implemented
+  - [x] **North America**: Thanksgiving (4th Thu Nov), Independence Day (Jul 4) ✅ COMPLETED: Both implemented with US timezone filtering
+  - [x] **Europe**: Boxing Day (Dec 26), May Day (May 1) ✅ COMPLETED: Both implemented with Europe/Commonwealth timezone filtering
+  - [x] **Asia-Pacific**: ~~Lunar New Year (variable),~~ Golden Week (Japan) ✅ PARTIALLY COMPLETED: Golden Week implemented for Japan/Tokyo timezone
+  - [x] **Latin America**: Día de los Muertos (Nov 1-2), ~~Carnival (variable)~~ ✅ PARTIALLY COMPLETED: Día de los Muertos implemented for Latin American timezones
+  - [ ] **Middle East**: Ramadan/Eid (lunar calendar, variable dates) - Not implemented (complex lunar calendar calculations)
+- [x] **Cultural Sensitivity**: Research appropriate color schemes for each holiday ✅ COMPLETED: All 7 regional holidays have culturally appropriate color palettes
+- [x] **Smart Timezone Filtering**: Auto-enable holidays based on user's timezone ✅ COMPLETED: Holidays only appear in culturally relevant timezones
+- [ ] **Configuration Option**: "Enable Regional Holidays" with region selector - Uses existing "Enable Special Date Themes" toggle (no region selector)
+
+**Implementation Notes:**
+
+- **7 Regional Holidays Implemented**: Independence Day, Boxing Day, May Day, Día de los Muertos, Thanksgiving, Black Friday, Golden Week
+- **Smart Filtering**: Each holiday only appears for users in appropriate timezones (US gets July 4th, Europe gets Boxing Day, etc.)
+- **Variable Date Calculation**: Thanksgiving and Black Friday dates computed correctly for each year
+- **Cultural Research**: All color schemes researched for cultural appropriateness and significance
+- **Test Coverage**: 14 comprehensive test images (7 holidays × enabled/filtered versions)
+- **Missing**: Lunar New Year, Carnival, Ramadan/Eid would require complex lunar calendar calculations
 
 ### 5.4. Calendar System Support
 

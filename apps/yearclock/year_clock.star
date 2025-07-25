@@ -5,6 +5,7 @@ Description: Displays a rainbow gradient representing the year with a retro dial
 Author: clamstew
 """
 
+load("humanize.star", "humanize")
 load("render.star", "render")
 load("schema.star", "schema")
 load("time.star", "time")
@@ -666,36 +667,25 @@ def is_latin_american_timezone(timezone_name):
     return False
 
 def calculate_thanksgiving(year):
-    """Get Thanksgiving date (4th Thursday in November) for given year"""
+    """Dynamically calculate Thanksgiving date (4th Thursday in November) for any year"""
 
-    # Thanksgiving dates for common years (4th Thursday in November)
-    # This is more reliable than calculating day-of-week in Starlark
-    thanksgiving_dates = {
-        2020: 26,  # November 26, 2020
-        2021: 25,  # November 25, 2021
-        2022: 24,  # November 24, 2022
-        2023: 23,  # November 23, 2023
-        2024: 28,  # November 28, 2024
-        2025: 27,  # November 27, 2025
-        2026: 26,  # November 26, 2026
-        2027: 25,  # November 25, 2027
-        2028: 23,  # November 23, 2028
-        2029: 22,  # November 22, 2029
-        2030: 28,  # November 28, 2030
-        2031: 27,  # November 27, 2031
-        2032: 25,  # November 25, 2032
-        2033: 24,  # November 24, 2033
-        2034: 23,  # November 23, 2034
-        2035: 22,  # November 22, 2035
-        2036: 27,  # November 27, 2036
-        2037: 26,  # November 26, 2037
-        2038: 25,  # November 25, 2038
-        2039: 24,  # November 24, 2039
-        2040: 22,  # November 22, 2040
-    }
+    # Use the approach from PR #2872: work backwards from November 30th
+    nov_30 = time.time(year = year, month = 11, day = 30)
 
-    # Return the date if we have it, otherwise default to 4th Thursday estimate
-    return thanksgiving_dates.get(year, 26)  # Default to Nov 26 (common date)
+    # Get day of week using humanize (1=Sunday, 2=Monday, ..., 5=Thursday, 6=Friday, 7=Saturday)
+    day_of_week = humanize.day_of_week(nov_30)
+
+    # Calculate days back from Nov 30 to the 4th Thursday
+    # Thursday is day 5 in humanize numbering
+    calc = day_of_week - 5
+    if calc >= 0:
+        # Nov 30 is Thursday or later in week, simple subtraction
+        day = 30 - calc
+    else:
+        # Nov 30 is earlier than Thursday, need to go back further
+        day = 30 - (calc + 7)
+
+    return day
 
 def calculate_golden_week_start():
     """Calculate Golden Week start date (April 29 - Showa Day)"""

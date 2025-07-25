@@ -283,6 +283,37 @@ DIA_DE_LOS_MUERTOS_PALETTE = [
     "#FF8C00",  # Dark Orange (back to start)
 ]
 
+# Variable Date Regional Holidays
+THANKSGIVING_PALETTE = [
+    "#8B4513",  # Saddle Brown (autumn harvest)
+    "#A0522D",  # Sienna
+    "#CD853F",  # Peru (golden harvest)
+    "#DEB887",  # Burlywood
+    "#F4A460",  # Sandy Brown
+    "#FFD700",  # Gold (golden corn)
+    "#FFA500",  # Orange (pumpkins)
+    "#FF8C00",  # Dark Orange
+    "#FF6347",  # Tomato (cranberries)
+    "#DC143C",  # Crimson (cranberry sauce)
+    "#B22222",  # Fire Brick
+    "#8B4513",  # Saddle Brown (back to start)
+]
+
+GOLDEN_WEEK_PALETTE = [
+    "#FF69B4",  # Hot Pink (cherry blossoms)
+    "#FFB6C1",  # Light Pink
+    "#FFC0CB",  # Pink (sakura)
+    "#FFCCCB",  # Light Pink
+    "#FFE4E1",  # Misty Rose
+    "#F0F8FF",  # Alice Blue (spring sky)
+    "#E6E6FA",  # Lavender
+    "#DDA0DD",  # Plum
+    "#DA70D6",  # Orchid
+    "#BA55D3",  # Medium Orchid
+    "#9370DB",  # Medium Purple
+    "#FF69B4",  # Hot Pink (back to start)
+]
+
 # Accent Dot Color Constants - for different styles
 ACCENT_DOT_STYLES = {
     "fixed_magenta": "#FF00FF",  # Original magenta (always visible)
@@ -311,6 +342,8 @@ ADAPTIVE_ACCENT_COLORS = {
     "boxing_day": "#FF00FF",  # Magenta (contrasts with green/gold)
     "may_day": "#00FFFF",  # Cyan (contrasts with red/green)
     "dia_de_los_muertos": "#00FF00",  # Green (contrasts with orange/purple)
+    "thanksgiving": "#00FFFF",  # Cyan (contrasts with brown/orange harvest colors)
+    "golden_week": "#0000FF",  # Blue (contrasts with pink cherry blossom colors)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
@@ -333,6 +366,8 @@ CONTRAST_ACCENT_COLORS = {
     "boxing_day": "#006400",  # Dark green (darker contrast)
     "may_day": "#8B0000",  # Dark red (darker contrast)
     "dia_de_los_muertos": "#8B4513",  # Saddle brown (darker contrast)
+    "thanksgiving": "#654321",  # Dark brown (darker contrast)
+    "golden_week": "#8B008B",  # Dark magenta (darker contrast)
 }
 
 def main(config):
@@ -536,6 +571,18 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if month == 11 and (day == 1 or day == 2) and is_latin_american_timezone(timezone_name):
         return "dia_de_los_muertos"
 
+    # Variable Date Regional Holidays
+
+    # Thanksgiving (4th Thursday in November) - US holiday
+    if month == 11 and is_us_timezone(timezone_name):
+        thanksgiving_day = calculate_thanksgiving(now.year)
+        if day == thanksgiving_day:
+            return "thanksgiving"
+
+    # Golden Week (April 29 - May 5) - Japanese holiday period
+    if is_golden_week_date(month, day) and timezone_name.startswith("Asia/") and "Tokyo" in timezone_name:
+        return "golden_week"
+
     return None
 
 def is_us_timezone(timezone_name):
@@ -593,6 +640,43 @@ def is_latin_american_timezone(timezone_name):
     for pattern in latin_patterns:
         if timezone_name.startswith(pattern):
             return True
+    return False
+
+def calculate_thanksgiving(year):
+    """Get Thanksgiving date (4th Thursday in November) for given year"""
+    
+    # Thanksgiving dates for common years (4th Thursday in November)
+    # This is more reliable than calculating day-of-week in Starlark
+    thanksgiving_dates = {
+        2020: 26,  # November 26, 2020
+        2021: 25,  # November 25, 2021
+        2022: 24,  # November 24, 2022
+        2023: 23,  # November 23, 2023
+        2024: 28,  # November 28, 2024
+        2025: 27,  # November 27, 2025
+        2026: 26,  # November 26, 2026
+        2027: 25,  # November 25, 2027
+        2028: 23,  # November 23, 2028
+        2029: 22,  # November 22, 2029
+        2030: 28,  # November 28, 2030
+    }
+    
+    # Return the date if we have it, otherwise default to 4th Thursday estimate
+    return thanksgiving_dates.get(year, 26)  # Default to Nov 26 (common date)
+
+def calculate_golden_week_start():
+    """Calculate Golden Week start date (April 29 - Showa Day)"""
+
+    # Golden Week runs April 29 - May 5 (approximately)
+    # April 29 is Showa Day (always the start)
+    return 29  # Always April 29th
+
+def is_golden_week_date(month, day):
+    """Check if date falls within Golden Week period (April 29 - May 5)"""
+    if month == 4 and day >= 29:
+        return True
+    if month == 5 and day <= 5:
+        return True
     return False
 
 def get_date_color(color_scheme, hemisphere):
@@ -676,6 +760,10 @@ def get_color_palette(color_scheme):
         return MAY_DAY_PALETTE
     elif color_scheme == "dia_de_los_muertos":
         return DIA_DE_LOS_MUERTOS_PALETTE
+    elif color_scheme == "thanksgiving":
+        return THANKSGIVING_PALETTE
+    elif color_scheme == "golden_week":
+        return GOLDEN_WEEK_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE

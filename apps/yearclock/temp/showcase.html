@@ -595,6 +595,23 @@
             filteredTz: "America/New_York",
           },
         ],
+        variableHolidays: [
+          {
+            key: "Thanksgiving",
+            display: "Thanksgiving 🦃",
+            description:
+              "4th Thu Nov: Autumn harvest browns/golds (US timezones)",
+            enabledTz: "America/New_York",
+            filteredTz: "Europe/London",
+          },
+          {
+            key: "GoldenWeek",
+            display: "Golden Week 🌸",
+            description: "Apr 29-May 5: Cherry blossom pinks (Japan timezones)",
+            enabledTz: "Asia/Tokyo",
+            filteredTz: "America/New_York",
+          },
+        ],
         seasonalTests: [
           {
             key: "NewYear",
@@ -726,6 +743,10 @@
             pattern: "06_regional_",
             count: CONFIG.regionalHolidays.length * 2,
           }, // regional holidays (enabled + filtered)
+          {
+            pattern: "06_variable_",
+            count: CONFIG.variableHolidays.length * 2,
+          }, // variable holidays (enabled + filtered)
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
           { pattern: "08_accent_", count: 7 * 4 + 2 }, // adaptive, compare, fixed, none
           {
@@ -1369,6 +1390,47 @@
             `Same date in different timezone - shows default rainbow colors`,
             `debug_date='${debugDate}' '$tz=${regional.filteredTz}'`,
             `debug_date='${debugDate}' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=${regional.filteredTz}'`
+          );
+        });
+
+        html += `
+                    </div>
+                </div>
+
+                <!-- Variable Date Regional Holidays -->
+                <div class="section">
+                    <h2>🗓️ Variable Date Regional Holidays (${
+                      CONFIG.variableHolidays.length * 2
+                    } tests)</h2>
+                    <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Smart calculation of holidays with changing dates each year, filtered by timezone
+                    </p>
+                    <div class="grid">
+            `;
+
+        CONFIG.variableHolidays.forEach((variable) => {
+          const debugDate =
+            variable.key === "Thanksgiving"
+              ? "2024-11-28T12:00:00Z"
+              : "2024-05-01T12:00:00Z"; // GoldenWeek
+
+          // Show enabled version (correct timezone)
+          html += createDevice(
+            `06_variable_${variable.key}_enabled.webp`,
+            `${variable.display} (Enabled)`,
+            `${variable.description} - Shows special colors in correct timezone`,
+            `debug_date='${debugDate}' '$tz=${variable.enabledTz}'`,
+            `debug_date='${debugDate}' enable_special_dates=true show_date=true '$tz=${variable.enabledTz}'`
+          );
+
+          // Show filtered version (wrong timezone)
+          html += createDevice(
+            `06_variable_${variable.key}_filtered.webp`,
+            `${variable.display} (Filtered)`,
+            `Same date in different timezone - shows default rainbow colors`,
+            `debug_date='${debugDate}' '$tz=${variable.filteredTz}'`,
+            `debug_date='${debugDate}' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=${variable.filteredTz}'`
           );
         });
 

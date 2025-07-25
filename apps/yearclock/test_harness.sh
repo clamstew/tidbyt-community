@@ -222,11 +222,17 @@ for i in "${!ASTRONOMICAL_DATES[@]}"; do
     run_test "Astronomical event: $name" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true" "06_astronomical_${name}.webp"
 done
 
-# Test regional holidays with timezone filtering
+# Test regional holidays with timezone filtering (fixed dates)
 REGIONAL_DATES=("2024-07-04T12:00:00Z" "2024-12-26T12:00:00Z" "2024-05-01T12:00:00Z" "2024-11-01T12:00:00Z")
 REGIONAL_NAMES=("IndependenceDay" "BoxingDay" "MayDay" "DiaDeLosMuertos")
 REGIONAL_ENABLED_TZ=("America/New_York" "Europe/London" "Europe/Paris" "America/Mexico_City")
 REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York")
+
+# Test variable date regional holidays
+VARIABLE_DATES=("2024-11-28T12:00:00Z" "2024-05-01T12:00:00Z")
+VARIABLE_NAMES=("Thanksgiving" "GoldenWeek")
+VARIABLE_ENABLED_TZ=("America/New_York" "Asia/Tokyo")
+VARIABLE_DISABLED_TZ=("Europe/London" "America/New_York")
 
 # Test regional holidays in correct timezones (should show special colors)
 for i in "${!REGIONAL_DATES[@]}"; do
@@ -242,6 +248,22 @@ for i in "${!REGIONAL_DATES[@]}"; do
     name="${REGIONAL_NAMES[$i]}"
     disabled_tz="${REGIONAL_DISABLED_TZ[$i]}"
     run_test "Regional holiday: $name (filtered)" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true color_scheme=rainbow '\$tz=$disabled_tz'" "06_regional_${name}_filtered.webp"
+done
+
+# Test variable date regional holidays in correct timezones (should show special colors)
+for i in "${!VARIABLE_DATES[@]}"; do
+    date="${VARIABLE_DATES[$i]}"
+    name="${VARIABLE_NAMES[$i]}"
+    enabled_tz="${VARIABLE_ENABLED_TZ[$i]}"
+    run_test "Variable holiday: $name (enabled)" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true '\$tz=$enabled_tz'" "06_variable_${name}_enabled.webp"
+done
+
+# Test variable date regional holidays in wrong timezones (should show default colors)
+for i in "${!VARIABLE_DATES[@]}"; do
+    date="${VARIABLE_DATES[$i]}"
+    name="${VARIABLE_NAMES[$i]}"
+    disabled_tz="${VARIABLE_DISABLED_TZ[$i]}"
+    run_test "Variable holiday: $name (filtered)" "pixlet render year_clock.star debug_date='$date' enable_special_dates=true show_date=true color_scheme=rainbow '\$tz=$disabled_tz'" "06_variable_${name}_filtered.webp"
 done
 
 # Test that special dates can be disabled

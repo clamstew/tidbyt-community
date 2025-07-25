@@ -126,6 +126,21 @@ Seasonal position tests - shows dial marker at key dates:
   - `FallEquinox` (Sep 22) - 75% through year
   - `WinterSolstice` (Dec 21) - Near year end
 
+### 📅 04*calendar*\*.webp (15 files)
+
+Calendar system tests - validates alternative calendar support:
+
+- Format: `04_calendar_{system}_rainbow.webp` (6 files)
+  - Tests each calendar system with rainbow color scheme
+  - Systems: Gregorian, Persian, Islamic, ThaiButdhist, Ethiopian, Coptic
+- Format: `04_calendar_{system}_{date}.webp` (9 files)
+  - Tests Gregorian, Persian, and Islamic calendars at 3 key dates:
+    - `NewYear` (Jan 1) - Different year starts for each calendar
+    - `MidYear` (Jun 21) - Shows year progress differences
+    - `YearEnd` (Dec 21) - Year boundary variations
+  - Shows hybrid date display (Gregorian + alternative calendar)
+  - Demonstrates how dial position changes based on calendar year boundaries
+
 ### ⚠️ 05*edge*\*.webp (3 files)
 
 Edge case tests - validates boundary conditions:

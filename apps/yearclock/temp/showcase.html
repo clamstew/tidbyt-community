@@ -547,6 +547,7 @@
         <div class="nav-section-title">Core Features</div>
         <a href="#hemispheres" class="nav-link">🌍 Hemispheres <span class="nav-count">14</span></a>
         <a href="#date-display" class="nav-link">📅 Date Display <span class="nav-count">14</span></a>
+        <a href="#calendar-systems" class="nav-link">📅 Calendar Systems <span class="nav-count">15</span></a>
         <a href="#overlap-tests" class="nav-link">⚠️ Overlap Tests <span class="nav-count">9</span></a>
         <a href="#seasonal" class="nav-link">🍂 Seasonal <span class="nav-count">10</span></a>
         <a href="#edge-cases" class="nav-link">🔧 Edge Cases <span class="nav-count">3</span></a>
@@ -910,6 +911,7 @@
             count: CONFIG.colorSchemes.length * CONFIG.hemispheres.length,
           },
           { pattern: "03_overlap_", count: CONFIG.specialTests.length * 3 }, // rainbow, grayscale, red
+          { pattern: "04_calendar_", count: 15 }, // calendar systems (6 overview + 9 comparison)
           { pattern: "04_seasonal_", count: CONFIG.seasonalTests.length * 2 }, // rainbow, grayscale
           { pattern: "05_edge_", count: 3 }, // Dec31, Jan1, LeapDay
           { pattern: "06_special_", count: CONFIG.specialDates.length + 1 }, // special dates + disabled test
@@ -1349,6 +1351,74 @@
         });
 
         html += `
+                    </div>
+                </div>
+
+                <!-- Calendar Systems -->
+                <div class="section" id="calendar-systems">
+                    <h2>Calendar Systems (15 tests)</h2>
+                    <div class="common-params"><code>Common: show_date=true enable_special_dates=false</code></div>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Testing alternative calendar systems with hybrid date display and year progress calculation
+                    </p>
+                    
+                    <!-- Calendar System Overview -->
+                    <div class="subsection">
+                        <h3>Calendar System Overview (6 systems)</h3>
+                        <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">
+                            Each calendar system using rainbow color scheme for consistency
+                        </p>
+                        <div class="grid">
+            `;
+
+        [
+          { name: "Gregorian", display: "Gregorian (Standard)" },
+          { name: "Persian", display: "Persian/Jalali" },
+          { name: "Islamic", display: "Islamic/Hijri" },
+          { name: "ThaiButdhist", display: "Thai Buddhist" },
+          { name: "Ethiopian", display: "Ethiopian" },
+          { name: "Coptic", display: "Coptic" },
+        ].forEach((calendar) => {
+          html += createDevice(
+            `04_calendar_${calendar.name}_rainbow.webp`,
+            `${calendar.display}`,
+            `Calendar system with rainbow gradient`,
+            `calendar_system=${calendar.name}`,
+            `calendar_system='${calendar.name}' color_scheme=rainbow show_date=true enable_special_dates=false`
+          );
+        });
+
+        html += `
+                        </div>
+                    </div>
+
+                    <!-- Calendar System Comparisons -->
+                    <div class="subsection">
+                        <h3>Year Progress Comparison (9 tests)</h3>
+                        <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">
+                            Comparing how different calendars track year progress at key dates
+                        </p>
+                        <div class="grid">
+            `;
+
+        [
+          { date: "NewYear", display: "New Year (Jan 1)", debug: "2024-01-01T12:00:00Z" },
+          { date: "MidYear", display: "Mid-Year (Jun 21)", debug: "2024-06-21T12:00:00Z" },
+          { date: "YearEnd", display: "Year End (Dec 21)", debug: "2024-12-21T12:00:00Z" },
+        ].forEach((dateTest) => {
+          ["Gregorian", "Persian", "Islamic"].forEach((calendar) => {
+            html += createDevice(
+              `04_calendar_${calendar}_${dateTest.date}.webp`,
+              `${calendar} @ ${dateTest.display}`,
+              `Year progress at ${dateTest.display}`,
+              `calendar_system=${calendar}`,
+              `calendar_system='${calendar}' debug_date='${dateTest.debug}' show_date=true enable_special_dates=false`
+            );
+          });
+        });
+
+        html += `
+                        </div>
                     </div>
                 </div>
 

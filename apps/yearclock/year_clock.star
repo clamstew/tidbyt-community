@@ -10,6 +10,126 @@ load("render.star", "render")
 load("schema.star", "schema")
 load("time.star", "time")
 
+# Calendar conversion constants and data (borrowed from apps/calendars/calendars.star)
+# Based on algorithms from "Mapping Time: the calendar and its history" by E.G. Richards
+
+# Calendar parameter constants
+Y = "y"  # Computational year in which J_1 falls
+J = "j"  # Number of days that J_c falls before day zero
+M = "m"  # Month number in a given calendar for which M' = 0
+N = "n"  # Number of months in a year
+R = "r"  # Number of years in a cycle of intercalation
+P = "p"  # Number of days in a cycle of interacalation
+Q = "q"  # Parameter required in calculating years
+V = "v"  # Parameter required in calculating years
+U = "u"  # Parameter required in calculating months
+S = "s"  # Parameter required in calculating months
+T = "t"  # Parameter required in calculating months
+W = "w"  # Parameter required in calculating months
+A = "A"  # Parameter used to handle Gregorian intercalation
+B = "B"  # Parameter used to handle Gregorian intercalation
+G = "G"  # Parameter used to handle Gregorian intercalation
+IS_GREGORIAN = "is_gregorian"
+IS_SAKA = "is_saka"
+
+# Calendar systems data (subset of most useful ones for year clock)
+CALENDAR_SYSTEMS = {
+    "Gregorian": {
+        Y: 4716,
+        J: 1401,
+        M: 3,
+        N: 12,
+        R: 4,
+        P: 1461,
+        Q: 0,
+        V: 3,
+        U: 5,
+        S: 153,
+        T: 2,
+        W: 2,
+        A: 184,
+        B: 274277,
+        G: -38,
+        IS_GREGORIAN: True,
+    },
+    "Persian": {
+        Y: 5348,
+        J: 77,
+        M: 10,
+        N: 13,
+        R: 1,
+        P: 365,
+        Q: 0,
+        V: 0,
+        U: 1,
+        S: 30,
+        T: 0,
+        W: 0,
+    },
+    "Islamic": {
+        Y: 5519,
+        J: 7665,
+        M: 1,
+        N: 12,
+        R: 30,
+        P: 10631,
+        Q: 14,
+        V: 15,
+        U: 100,
+        S: 2951,
+        T: 51,
+        W: 10,
+    },
+    "Thai Buddhist": {
+        # Saka calendar
+        Y: 4794,
+        J: 1348,
+        M: 2,
+        N: 12,
+        R: 4,
+        P: 1461,
+        Q: 0,
+        V: 3,
+        U: 1,
+        S: 31,
+        T: 0,
+        W: 0,
+        A: 184,
+        B: 274073,
+        G: -36,
+        IS_GREGORIAN: True,
+        IS_SAKA: True,
+    },
+    "Ethiopian": {
+        Y: 4720,
+        J: 124,
+        M: 1,
+        N: 13,
+        R: 4,
+        P: 1461,
+        Q: 0,
+        V: 3,
+        U: 1,
+        S: 30,
+        T: 0,
+        W: 0,
+    },
+    "Coptic": {
+        Y: 4996,
+        J: 124,
+        M: 1,
+        N: 13,
+        R: 4,
+        P: 1461,
+        Q: 0,
+        V: 3,
+        U: 1,
+        S: 30,
+        T: 0,
+        W: 0,
+    },
+}
+
 # Color Palette Constants - makes code more readable and maintainable
 RAINBOW_PALETTE = [
     "#8A2BE2",  # Blue Violet (edges)
@@ -398,6 +518,99 @@ CONTRAST_ACCENT_COLORS = {
     "black_friday": "#2F2F2F",  # Dark gray (darker contrast on black theme)
 }
 
+# Calendar conversion functions (borrowed from apps/calendars/calendars.star)
+
+def to_julian_day(day, month, year, calendar):
+    """Algorithm E, page 323 - Convert calendar date to Julian day number"""
+    year_ = year + calendar[Y] - (calendar[N] + calendar[M] - 1 - month) // calendar[N]
+    month_ = (month - calendar[M] + calendar[N]) % calendar[N]
+    day_ = day - 1
+    c = (calendar[P] * year_ + calendar[Q]) // calendar[R]
+    s = calendar[S]
+    t = calendar[T]
+    if calendar.get(IS_SAKA):
+        z = month_ // 6
+        s = 31 - z
+        t = 5 * z
+    d = (s * month_ + t) // calendar[U]
+    g = 0
+    if calendar.get(IS_GREGORIAN):
+        g = 3 * ((year_ + calendar[A]) // 100) // 4 + calendar[G]
+    return c + d + day_ - calendar[J] - g
+
+def to_calendar_date(julian_day, calendar):
+    """Algorithm F, page 324 - Convert Julian day number to calendar date"""
+    g = 0
+    if calendar.get(IS_GREGORIAN):
+        g = (3 * ((4 * julian_day + calendar[B]) // 146097)) // 4 + calendar[G]
+    j_ = julian_day + calendar[J] + g
+    year_ = (calendar[R] * j_ + calendar[V]) // calendar[P]
+
+    t_ = ((calendar[R] * j_ + calendar[V]) % calendar[P]) // calendar[R]
+    s = calendar[S]
+    w = calendar[W]
+    if calendar.get(IS_SAKA):
+        x = t_ // 365
+        z = t_ // 185 - x
+        s = 31 - z
+        w = -5 * z
+        day_ = (6 * x + ((calendar[U] * t_ + w) % s)) // calendar[U]
+    else:
+        day_ = ((calendar[U] * t_ + w) % s) // calendar[U]
+    month_ = (calendar[U] * t_ + w) // s
+    day = day_ + 1
+    month = ((month_ + calendar[M] - 1) % calendar[N]) + 1
+    year = year_ - calendar[Y] + ((calendar[N] + calendar[M] - 1 - month) // calendar[N])
+    return day, month, year
+
+def calculate_year_progress_for_calendar(now, calendar_system):
+    """Calculate year progress (0.0 to 1.0) for any calendar system"""
+    if calendar_system == "Gregorian":
+        # Use existing Gregorian calculation for efficiency
+        year_start = time.time(year = now.year, month = 1, day = 1, hour = 0, minute = 0, second = 0)
+        year_end = time.time(year = now.year + 1, month = 1, day = 1, hour = 0, minute = 0, second = 0)
+        year_duration = year_end - year_start
+        elapsed = now - year_start
+        return float(elapsed.seconds) / float(year_duration.seconds)
+
+    # For other calendar systems, we need to convert dates
+    calendar = CALENDAR_SYSTEMS[calendar_system]
+
+    # Convert current Gregorian date to target calendar
+    gregorian_julian = to_julian_day(now.day, now.month, now.year, CALENDAR_SYSTEMS["Gregorian"])
+    _, _, alt_year = to_calendar_date(gregorian_julian, calendar)
+
+    # Find start of year in this calendar system
+    alt_year_start_julian = to_julian_day(1, 1, alt_year, calendar)
+    alt_year_end_julian = to_julian_day(1, 1, alt_year + 1, calendar)
+
+    # Calculate progress within the alternative calendar year
+    year_length = alt_year_end_julian - alt_year_start_julian
+    days_elapsed = gregorian_julian - alt_year_start_julian
+
+    return float(days_elapsed) / float(year_length)
+
+def get_alternative_calendar_date(now, calendar_system):
+    """Get current date in alternative calendar system"""
+    if calendar_system == "Gregorian":
+        return None  # No alternative needed
+
+    calendar = CALENDAR_SYSTEMS[calendar_system]
+    gregorian_julian = to_julian_day(now.day, now.month, now.year, CALENDAR_SYSTEMS["Gregorian"])
+    alt_day, alt_month, alt_year = to_calendar_date(gregorian_julian, calendar)
+
+    # Simple month names for different calendar systems
+    month_names = {
+        "Persian": ["Far", "Ord", "Kho", "Tir", "Mor", "Sha", "Meh", "Aba", "Aza", "Dey", "Bah", "Esf", "Adj"],
+        "Islamic": ["Muh", "Saf", "Rab I", "Rab II", "Jum I", "Jum II", "Raj", "Sha", "Ram", "Shaw", "Dhu I", "Dhu II"],
+        "Thai Buddhist": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        "Ethiopian": ["Mes", "Tik", "Hed", "Tah", "Ter", "Yak", "Mag", "Miy", "Gen", "Sen", "Ham", "Neh", "Pag"],
+        "Coptic": ["Tho", "Pao", "Ath", "Koi", "Tyo", "Mec", "Pha", "Pha", "Pas", "Pao", "Epi", "Mes", "Epa"],
+    }
+
+    month_name = month_names.get(calendar_system, ["M%d" % i for i in range(1, 14)])[alt_month - 1]
+    return "%s %d, %d" % (month_name, alt_day, alt_year)
+
 def main(config):
     # Get user's timezone for automatic date format detection (implements section 5 from TODO)
     timezone = config.get("$tz", "America/New_York")  # Special timezone variable from device
@@ -422,6 +635,9 @@ def main(config):
     date_format = config.get("date_format", "auto")
     language = config.get("language", "auto")
 
+    # Get calendar system setting (implements section 5.4 from TODO)
+    calendar_system = config.get("calendar_system", "Gregorian")
+
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
     special_override = get_special_date_override(now, enable_special_dates, timezone)
@@ -433,13 +649,8 @@ def main(config):
             color_scheme = "rainbow"
             # Keep the user's hemisphere setting - don't override it
 
-    # Calculate year progress (0.0 to 1.0)
-    # Use local time for year boundaries
-    year_start = time.time(year = now.year, month = 1, day = 1, hour = 0, minute = 0, second = 0)
-    year_end = time.time(year = now.year + 1, month = 1, day = 1, hour = 0, minute = 0, second = 0)
-    year_duration = year_end - year_start
-    elapsed = now - year_start
-    year_fraction = elapsed.seconds / year_duration.seconds
+    # Calculate year progress (0.0 to 1.0) for selected calendar system
+    year_fraction = calculate_year_progress_for_calendar(now, calendar_system)
 
     # Create the gradient background
     gradient_children = []
@@ -521,10 +732,21 @@ def main(config):
                 # Optional date display in bottom corner with automatic timezone-based formatting
                 render.Padding(
                     pad = (1, 26, 0, 0),  # Hardcoded x=1 as planned
-                    child = render.Text(
-                        content = format_date_with_timezone_detection(now, timezone, date_format, language),
-                        font = "tom-thumb",
-                        color = get_date_color(color_scheme, hemisphere),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
                     ),
                 ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
@@ -1259,6 +1481,39 @@ def get_schema():
                     schema.Option(
                         display = "Italiano",
                         value = "it",
+                    ),
+                ],
+            ),
+            schema.Dropdown(
+                id = "calendar_system",
+                name = "Calendar System",
+                desc = "Choose calendar system for year progress (Gregorian is standard)",
+                icon = "calendarDays",
+                default = "Gregorian",
+                options = [
+                    schema.Option(
+                        display = "Gregorian (Standard)",
+                        value = "Gregorian",
+                    ),
+                    schema.Option(
+                        display = "Persian/Jalali",
+                        value = "Persian",
+                    ),
+                    schema.Option(
+                        display = "Islamic/Hijri",
+                        value = "Islamic",
+                    ),
+                    schema.Option(
+                        display = "Thai Buddhist",
+                        value = "Thai Buddhist",
+                    ),
+                    schema.Option(
+                        display = "Ethiopian",
+                        value = "Ethiopian",
+                    ),
+                    schema.Option(
+                        display = "Coptic",
+                        value = "Coptic",
                     ),
                 ],
             ),

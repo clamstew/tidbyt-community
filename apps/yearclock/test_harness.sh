@@ -176,6 +176,30 @@ for i in "${!FEBRUARY_DATES[@]}"; do
 done
 echo ""
 
+echo "${BLUE}4.8. Testing calendar systems...${NC}"
+# Test different calendar systems with date display
+CALENDAR_SYSTEMS=("Gregorian" "Persian" "Islamic" "Thai Buddhist" "Ethiopian" "Coptic")
+TEST_COLOR_SCHEMES=("rainbow" "thermal" "blue" "green")
+
+for calendar in "${CALENDAR_SYSTEMS[@]}"; do
+    # Test each calendar system with rainbow for basic functionality
+    run_test "Calendar: $calendar (rainbow)" "pixlet render year_clock.star calendar_system='$calendar' color_scheme=rainbow show_date=true enable_special_dates=false" "04_calendar_${calendar//' '/}_rainbow.webp"
+done
+
+# Test calendar systems with seasonal dates to show year progress differences
+CALENDAR_TEST_DATES=("2024-01-01T12:00:00Z" "2024-06-21T12:00:00Z" "2024-12-21T12:00:00Z")
+CALENDAR_DATE_NAMES=("NewYear" "MidYear" "YearEnd")
+
+for i in "${!CALENDAR_TEST_DATES[@]}"; do
+    date="${CALENDAR_TEST_DATES[$i]}"
+    name="${CALENDAR_DATE_NAMES[$i]}"
+    # Test key calendar systems at different times of year
+    for calendar in "Gregorian" "Persian" "Islamic"; do
+        run_test "Calendar: $calendar @ $name" "pixlet render year_clock.star calendar_system='$calendar' debug_date='$date' show_date=true enable_special_dates=false" "04_calendar_${calendar}_${name}.webp"
+    done
+done
+echo ""
+
 echo "${BLUE}5. Testing seasonal positions (debug dates)...${NC}"
 # Test key dates throughout the year (using UTC times that convert properly to EST/EDT)
 TEST_DATES=("2024-01-01T12:00:00Z" "2024-03-20T12:00:00Z" "2024-06-21T12:00:00Z" "2024-09-22T12:00:00Z" "2024-12-21T12:00:00Z")

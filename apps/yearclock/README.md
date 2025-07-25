@@ -64,7 +64,47 @@ Choose from multiple color palettes, each following the natural flow of seasons:
   - **Deutsch**: "15 Mär", "25 Dez"
   - **Português**: "15 Mar", "25 Dez"
   - **Italiano**: "15 Mar", "25 Dic"
+- **Calendar System**: Choose which calendar system to use for year progress calculation
+  - **Gregorian (Default)**: Standard Western calendar system
+  - **Persian/Jalali**: Solar calendar used in Iran and Afghanistan
+  - **Islamic/Hijri**: Lunar calendar used in Islamic countries
+  - **Thai Buddhist**: Buddhist Era calendar used in Thailand
+  - **Ethiopian**: Traditional calendar with 13 months
+  - **Coptic**: Ancient calendar system still used in some regions
 - **Enable Special Date Themes**: Toggle special holiday and astronomical event color overrides
+
+## Calendar Systems 📅
+
+Year Clock supports multiple calendar systems for calculating year progress, making it culturally relevant worldwide:
+
+### Available Calendar Systems
+
+- **Gregorian Calendar**: The standard Western calendar with 365/366 days per year
+- **Persian/Jalali Calendar**: Solar calendar beginning around March 21st, used in Iran and Afghanistan
+- **Islamic/Hijri Calendar**: Lunar calendar with ~354 days per year, used in Islamic countries
+- **Thai Buddhist Calendar**: Based on Buddhist Era dating, adding ~543 years to Gregorian dates
+- **Ethiopian Calendar**: Features 13 months (12 months of 30 days + 1 month of 5/6 days)
+- **Coptic Calendar**: Ancient calendar still used in some Christian communities
+
+### How Calendar Systems Work
+
+When you select an alternative calendar system:
+
+1. **Year Progress**: The gradient position is calculated based on the alternative calendar's year boundaries
+2. **Hybrid Date Display**: When "Show Date" is enabled, you'll see both:
+   - Primary line: Gregorian date in your preferred format/language
+   - Secondary line: Alternative calendar date (e.g., "Far 25, 1403" for Persian)
+3. **Seasonal Accuracy**: Colors and hemisphere settings work correctly for each calendar system
+
+### Example Alternative Calendar Dates
+
+- **Persian**: "Far 25, 1403" (Farvardin 25, year 1403)
+- **Islamic**: "Muh 15, 1446" (Muharram 15, year 1446)
+- **Thai Buddhist**: "Jan 25, 2567" (January 25, Buddhist Era 2567)
+- **Ethiopian**: "Mes 15, 2016" (Meskerem 15, year 2016)
+- **Coptic**: "Tho 15, 1741" (Thout 15, year 1741)
+
+The calendar conversion uses scholarly mathematical algorithms from _"Mapping Time: the calendar and its history"_ by E.G. Richards (Oxford University Press) for accuracy.
 
 ## Special Date Themes 🎉
 

@@ -218,7 +218,30 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 - Consider screen real estate (64x32 pixels) when positioning
 - Could be configurable: "Auto-adjust date position" toggle
 
-### 7. Evaluate Timezone/Location Necessity
+### 7. Accent Dot Style Configuration ✅
+
+- [x] **Design configurable accent dot system** - ✅ COMPLETED: Comprehensive accent dot style options
+- [x] **Implement adaptive accent dots** - ✅ COMPLETED: Auto-select complementary colors based on color scheme
+- [x] **Add contrast-based accent dots** - ✅ COMPLETED: Darker/lighter shades for subtle contrast
+- [x] **Provide fixed color options** - ✅ COMPLETED: Magenta, Cyan, White, Yellow options
+- [x] **Add minimalist option** - ✅ COMPLETED: "None" option hides accent dots completely
+- [x] **Schema integration** - ✅ COMPLETED: Full dropdown with 7 accent style options
+- [x] **Comprehensive testing** - ✅ COMPLETED: 28 test cases across all color schemes and accent styles
+- [x] **Documentation** - ✅ COMPLETED: Full README section with feature explanation
+
+**Implementation Notes:**
+
+- **Accent Style Options**: 7 total options in schema dropdown
+  - **Adaptive (Default)**: Automatically chooses complementary colors based on color scheme
+  - **Contrast**: Uses darker/lighter shades of background for subtle effect
+  - **Fixed Colors**: Magenta, Cyan, White, Yellow - never change regardless of background
+  - **None**: Hide accent dots entirely for minimal aesthetic
+- **Smart Color Logic**: Adaptive mode uses color theory to select optimal accent colors
+- **Test Coverage**: 28 comprehensive test images (7 accent styles × 4 main color schemes)
+- **Benefits**: Provides user control over visual hierarchy and personal aesthetic preferences
+- **Performance**: No impact on rendering speed, clean implementation
+
+### 8. Evaluate Timezone/Location Necessity ✅
 
 - [x] **Review location setting requirement** - ✅ COMPLETED: Timezone not needed for date-only display
 - [x] **Simplify configuration** - ✅ COMPLETED: Removed location requirement entirely

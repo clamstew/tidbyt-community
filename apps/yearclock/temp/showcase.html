@@ -629,6 +629,7 @@
             count: CONFIG.astronomicalEvents.length,
           }, // astronomical events
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
+          { pattern: "08_accent_", count: 7 * 4 + 2 }, // adaptive, compare, fixed, none
         ];
 
         for (const category of categories) {
@@ -1253,6 +1254,133 @@
                           "color_scheme=grayscale show_date=true",
                           "color_scheme=grayscale show_date=true enable_special_dates=false"
                         )}
+                    </div>
+                </div>
+
+                <!-- Accent Dot Variations -->
+                <div class="section">
+                    <h2>🎨 Accent Dot Variations (${7 * 4 + 2} tests)</h2>
+                    <div class="common-params"><code>Common: debug_date='2024-07-01T12:00:00Z' enable_special_dates=false</code></div>
+                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                        Configurable accent dots that adapt to color schemes for optimal contrast and aesthetics
+                    </p>
+                    
+                    <h3>🌈 Adaptive Style Showcase</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Dots automatically choose complementary colors based on the color scheme
+                    </p>
+                    <div class="grid">
+            `;
+
+        // Add adaptive style examples
+        ["rainbow", "grayscale", "red", "purple"].forEach((scheme) => {
+          const descriptions = {
+            rainbow: "Magenta dots - good contrast across rainbow spectrum",
+            grayscale: "Yellow dots - high contrast on gray backgrounds",
+            red: "Cyan dots - complementary to red spectrum",
+            purple: "Green dots - complementary to purple spectrum",
+          };
+          html += createDevice(
+            `08_accent_adaptive_${scheme}.webp`,
+            `${scheme.charAt(0).toUpperCase() + scheme.slice(1)} + Adaptive`,
+            descriptions[scheme],
+            `color_scheme=${scheme} accent_dot_style=adaptive`,
+            `color_scheme=${scheme} accent_dot_style=adaptive debug_date='2024-07-01T12:00:00Z' enable_special_dates=false`
+          );
+        });
+
+        html += `
+                    </div>
+                    
+                    <h3>⚫ Adaptive vs Contrast Comparison</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Complementary colors (adaptive) vs darker/lighter shades (contrast)
+                    </p>
+                    <div class="grid grid-2">
+                        ${createDevice(
+                          "08_accent_compare_purple_adaptive.webp",
+                          "Purple + Adaptive",
+                          "Green dots (complementary color approach)",
+                          "color_scheme=purple accent_dot_style=adaptive",
+                          "color_scheme=purple accent_dot_style=adaptive debug_date='2024-07-01T12:00:00Z' enable_special_dates=false"
+                        )}
+                        ${createDevice(
+                          "08_accent_compare_purple_contrast.webp",
+                          "Purple + Contrast",
+                          "Indigo dots (darker contrast approach)",
+                          "color_scheme=purple accent_dot_style=contrast",
+                          "color_scheme=purple accent_dot_style=contrast debug_date='2024-07-01T12:00:00Z' enable_special_dates=false"
+                        )}
+                    </div>
+                    
+                    <h3>🎯 Fixed Color Options</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Consistent colors that never change regardless of background
+                    </p>
+                    <div class="grid">
+            `;
+
+        // Add fixed color examples (using rainbow as base for consistency)
+        const fixedStyles = {
+          fixed_magenta: "Magenta (original default)",
+          fixed_cyan: "Cyan (high contrast alternative)",
+          fixed_white: "White (classic minimal)",
+          fixed_yellow: "Yellow (maximum visibility)",
+        };
+
+        Object.entries(fixedStyles).forEach(([style, description]) => {
+          html += createDevice(
+            `08_accent_${style}_rainbow.webp`,
+            `Fixed ${
+              style.split("_")[1].charAt(0).toUpperCase() +
+              style.split("_")[1].slice(1)
+            }`,
+            description,
+            `accent_dot_style=${style}`,
+            `color_scheme=rainbow accent_dot_style=${style} debug_date='2024-07-01T12:00:00Z' enable_special_dates=false`
+          );
+        });
+
+        html += `
+                    </div>
+                    
+                    <h3>👻 Minimal Option</h3>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
+                        Clean aesthetic with no accent dots
+                    </p>
+                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                        ${createDevice(
+                          "08_accent_none_rainbow.webp",
+                          "No Accent Dots",
+                          "Minimal design without accent dots",
+                          "accent_dot_style=none",
+                          "color_scheme=rainbow accent_dot_style=none debug_date='2024-07-01T12:00:00Z' enable_special_dates=false"
+                        )}
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin: 30px auto; max-width: 800px;">
+                        <h4 style="color: #60a5fa; margin-bottom: 15px; text-align: center;">🎨 Accent Dot Style Summary</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: left;">
+                            <div>
+                                <strong>🎨 Adaptive:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Complementary colors for maximum visual appeal</span>
+                            </div>
+                            <div>
+                                <strong>⚫ Contrast:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Darker/lighter shades for subtle effect</span>
+                            </div>
+                            <div>
+                                <strong>🎯 Fixed:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Consistent colors (magenta, cyan, white, yellow)</span>
+                            </div>
+                            <div>
+                                <strong>👻 None:</strong><br>
+                                <span style="opacity: 0.8; font-size: 0.9em;">Clean minimal look</span>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; opacity: 0.7; font-size: 0.9em;">
+                            <strong>🔄 Backward Compatible:</strong> Defaults to "Adaptive" mode for existing users
+                        </p>
                     </div>
                 </div>
             `;

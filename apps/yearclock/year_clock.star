@@ -222,6 +222,50 @@ WINTER_SOLSTICE_PALETTE = [
     "#191970",  # Midnight Blue (back to start)
 ]
 
+# Accent Dot Color Constants - for different styles
+ACCENT_DOT_STYLES = {
+    "fixed_magenta": "#FF00FF",       # Original magenta (always visible)
+    "fixed_cyan": "#00FFFF",          # Cyan alternative
+    "fixed_white": "#FFFFFF",         # Classic white
+    "fixed_yellow": "#FFFF00",        # High contrast yellow
+}
+
+# Adaptive accent dot colors per color scheme
+ADAPTIVE_ACCENT_COLORS = {
+    "rainbow": "#FF00FF",     # Magenta (good contrast across rainbow)
+    "thermal": "#00FFFF",     # Cyan (complements thermal colors)
+    "grayscale": "#FFFF00",   # Yellow (high contrast on gray)
+    "red": "#00FFFF",         # Cyan (complementary to red)
+    "blue": "#FFFF00",        # Yellow (complementary to blue)
+    "green": "#FF00FF",       # Magenta (complementary to green)
+    "purple": "#00FF00",      # Green (complementary to purple)
+    "halloween": "#00FFFF",   # Cyan (contrasts with orange/brown)
+    "christmas": "#FFFF00",   # Yellow (contrasts with red/green)
+    "newyear": "#FF00FF",     # Magenta (contrasts with gold/silver)
+    "spring_equinox": "#8A2BE2",      # Purple (contrasts with light spring colors)
+    "summer_solstice": "#0000FF",     # Blue (contrasts with bright yellows)
+    "fall_equinox": "#00FFFF",        # Cyan (contrasts with autumn colors)
+    "winter_solstice": "#FF4500",     # Orange Red (contrasts with blues/whites)
+}
+
+# Contrast-based accent colors (darker/lighter than background)
+CONTRAST_ACCENT_COLORS = {
+    "rainbow": "#000000",     # Black (darker contrast)
+    "thermal": "#FFFFFF",     # White (lighter contrast)
+    "grayscale": "#000000",   # Black (darker contrast)
+    "red": "#800000",         # Dark red (darker contrast)
+    "blue": "#000080",        # Navy (darker contrast)
+    "green": "#006400",       # Dark green (darker contrast)
+    "purple": "#4B0082",      # Indigo (darker contrast)
+    "halloween": "#2F1B14",   # Very dark brown (darker contrast)
+    "christmas": "#006400",   # Dark green (darker contrast)
+    "newyear": "#B8860B",     # Dark golden rod (darker contrast)
+    "spring_equinox": "#2E8B57",      # Sea green (darker contrast)
+    "summer_solstice": "#B8860B",     # Dark golden rod (darker contrast)
+    "fall_equinox": "#8B4513",        # Saddle brown (darker contrast)
+    "winter_solstice": "#191970",     # Midnight blue (darker contrast)
+}
+
 def main(config):
     # Get current time in user's local timezone, or use debug time if provided
     # Note: debug_date has no schema entry (hidden from UI) but works via URL/command line
@@ -237,6 +281,7 @@ def main(config):
     # Get color scheme and hemisphere settings
     color_scheme = config.get("color_scheme", "rainbow")
     hemisphere = config.get("hemisphere", "northern")
+    accent_dot_style = config.get("accent_dot_style", "adaptive")
 
     # Check for special date overrides
     enable_special_dates = config.bool("enable_special_dates", True)
@@ -280,6 +325,9 @@ def main(config):
     # Jan 1st 00:00 → x=1 (left buffer), Dec 31st 23:59 → x=62 (right highlight at x=63)
     marker_x = min(62, int(year_fraction * 62) + 1)
 
+    # Get accent dot color based on style and color scheme
+    accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+
     # Create the year progress display
     return render.Root(
         child = render.Stack(
@@ -318,17 +366,17 @@ def main(config):
                                 color = "#CCCCCC",
                             ),
                         ) if marker_x < 63 else render.Box(width = 0, height = 0),
-                        # Top and bottom accent dots
+                        # Top and bottom accent dots (now configurable!)
                         render.Padding(
                             pad = (marker_x, 0, 0, 0),
                             child = render.Column(
                                 children = [
-                                    render.Box(width = 1, height = 1, color = "#FF00FF"),
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
                                     render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
-                                    render.Box(width = 1, height = 1, color = "#FF00FF"),
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
                                 ],
                             ),
-                        ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
                     ],
                 ),
                 # Optional date display in bottom corner
@@ -564,6 +612,29 @@ def interpolate_color(color1, color2, t):
 
     return "#" + r_hex + g_hex + b_hex
 
+def get_accent_dot_color(accent_dot_style, color_scheme):
+    """
+    Get the appropriate accent dot color based on style and color scheme.
+    
+    Args:
+        accent_dot_style: String indicating the accent dot style
+        color_scheme: String indicating the current color scheme
+        
+    Returns:
+        Hex color string for the accent dots
+    """
+    if accent_dot_style == "none":
+        return "#00000000"  # Transparent (won't be rendered anyway)
+    elif accent_dot_style == "adaptive":
+        return ADAPTIVE_ACCENT_COLORS.get(color_scheme, "#FF00FF")  # Fallback to magenta
+    elif accent_dot_style == "contrast":
+        return CONTRAST_ACCENT_COLORS.get(color_scheme, "#000000")  # Fallback to black
+    elif accent_dot_style in ACCENT_DOT_STYLES:
+        return ACCENT_DOT_STYLES[accent_dot_style]
+    else:
+        # Fallback to original magenta
+        return "#FF00FF"
+
 def get_schema():
     color_scheme_options = [
         schema.Option(
@@ -607,6 +678,37 @@ def get_schema():
         ),
     ]
 
+    accent_dot_style_options = [
+        schema.Option(
+            display = "Adaptive (Color-based)",
+            value = "adaptive",
+        ),
+        schema.Option(
+            display = "Contrast (Darker/Lighter)",
+            value = "contrast",
+        ),
+        schema.Option(
+            display = "Fixed (Magenta)",
+            value = "fixed_magenta",
+        ),
+        schema.Option(
+            display = "Fixed (Cyan)",
+            value = "fixed_cyan",
+        ),
+        schema.Option(
+            display = "Fixed (White)",
+            value = "fixed_white",
+        ),
+        schema.Option(
+            display = "Fixed (Yellow)",
+            value = "fixed_yellow",
+        ),
+        schema.Option(
+            display = "None",
+            value = "none",
+        ),
+    ]
+
     return schema.Schema(
         version = "1",
         fields = [
@@ -625,6 +727,14 @@ def get_schema():
                 icon = "globe",
                 default = "northern",
                 options = hemisphere_options,
+            ),
+            schema.Dropdown(
+                id = "accent_dot_style",
+                name = "Accent Dot Style",
+                desc = "Choose how accent dots are colored",
+                icon = "brush",
+                default = "adaptive",
+                options = accent_dot_style_options,
             ),
             schema.Toggle(
                 id = "show_date",

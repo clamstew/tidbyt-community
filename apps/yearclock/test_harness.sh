@@ -233,6 +233,22 @@ run_test "Minimal options" "pixlet render year_clock.star enable_special_dates=f
 run_test "Max contrast test" "pixlet render year_clock.star color_scheme=grayscale show_date=true enable_special_dates=false" "07_comprehensive_contrast.webp"
 echo ""
 
+echo "${BLUE}8. Testing accent dot variations...${NC}"
+# Test representative accent dot styles across key color schemes
+ACCENT_STYLES=("adaptive" "contrast" "fixed_magenta" "fixed_cyan" "fixed_white" "fixed_yellow" "none")
+ACCENT_TEST_SCHEMES=("rainbow" "grayscale" "red" "purple")
+
+for style in "${ACCENT_STYLES[@]}"; do
+    for scheme in "${ACCENT_TEST_SCHEMES[@]}"; do
+        run_test "Accent: $style on $scheme" "pixlet render year_clock.star color_scheme=$scheme accent_dot_style=$style debug_date='2024-07-01T12:00:00Z' enable_special_dates=false" "08_accent_${style}_${scheme}.webp"
+    done
+done
+
+# Test a few key comparisons for the showcase
+run_test "Accent comparison: Purple adaptive vs contrast" "pixlet render year_clock.star color_scheme=purple accent_dot_style=adaptive debug_date='2024-07-01T12:00:00Z' enable_special_dates=false" "08_accent_compare_purple_adaptive.webp"
+run_test "Accent comparison: Purple contrast" "pixlet render year_clock.star color_scheme=purple accent_dot_style=contrast debug_date='2024-07-01T12:00:00Z' enable_special_dates=false" "08_accent_compare_purple_contrast.webp"
+echo ""
+
 # Output final results
 echo "=========================="
 echo "${BLUE}Test Results Summary:${NC}"

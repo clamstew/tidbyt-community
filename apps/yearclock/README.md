@@ -8,7 +8,7 @@ Year Clock transforms your Tidbyt into a slow-moving, year-long timepiece that r
 
 ## Features
 
-- **Multiple Color Schemes**: Choose from Rainbow, Grayscale, Red, Blue, Green, or Purple gradients
+- **Multiple Color Schemes**: Choose from Rainbow, Thermal, Grayscale, Red, Blue, Green, or Purple gradients
 - **Seasonal Color Mapping**: Colors flow from darker (winter) to brighter (summer) throughout the year
 - **Hemisphere Support**: Northern and Southern hemisphere modes flip the seasonal positioning for any color scheme
 - **Configurable Dial Marker**: A white dial line with beveled edges and customizable accent dots shows today's position
@@ -28,6 +28,15 @@ Choose from multiple color palettes, each following the natural flow of seasons:
 - Summer: Yellows and oranges
 - Fall: Reds and crimsons
 
+**Thermal**
+
+A sophisticated temperature-inspired gradient that blends thermal physics with rainbow aesthetics:
+
+- Coldest (Winter): Deep winter blues and steel tones
+- Cool (Spring): Light blues transitioning to purple
+- Hot (Summer): Intense thermal oranges and reds at peak heat
+- Warm (Fall): Deep reds cooling back to purple
+
 **Monochrome Options**
 
 - **Grayscale**: Smooth black to white gradient
@@ -43,7 +52,7 @@ Choose from multiple color palettes, each following the natural flow of seasons:
 
 ## Configuration Options
 
-- **Color Scheme**: Choose from Rainbow, Grayscale, Red, Blue, Green, or Purple
+- **Color Scheme**: Choose from Rainbow, Thermal, Grayscale, Red, Blue, Green, or Purple
 - **Hemisphere**: Choose Northern or Southern hemisphere for seasonal positioning
 - **Accent Dot Style**: Configure how accent dots are colored on the dial marker
   - **Adaptive (Default)**: Dots automatically choose complementary colors based on the color scheme
@@ -162,6 +171,8 @@ Smart calculation of holidays with changing dates each year:
 - 🇯🇵 Golden Week: `Asia/Tokyo` and related Japanese timezones
 
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
+
+**Total: 17 special date themes** across holidays, astronomical events, and regional celebrations, each with culturally appropriate color palettes and smart timezone filtering.
 
 ## ✨ New Year's Experience
 

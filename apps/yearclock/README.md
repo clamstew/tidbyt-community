@@ -11,7 +11,7 @@ Year Clock transforms your Tidbyt into a slow-moving, year-long timepiece that r
 - **Multiple Color Schemes**: Choose from Rainbow, Grayscale, Red, Blue, Green, or Purple gradients
 - **Seasonal Color Mapping**: Colors flow from darker (winter) to brighter (summer) throughout the year
 - **Hemisphere Support**: Northern and Southern hemisphere modes flip the seasonal positioning for any color scheme
-- **Retro Dial Marker**: A white dial line with beveled edges and magenta accent dots shows today's position
+- **Configurable Dial Marker**: A white dial line with beveled edges and customizable accent dots shows today's position
 - **Optional Date Display**: Shows current date in the corner (configurable)
 - **Timezone Aware**: Uses your location for accurate local time calculations
 
@@ -43,6 +43,11 @@ Choose from multiple color palettes, each following the natural flow of seasons:
 
 - **Color Scheme**: Choose from Rainbow, Grayscale, Red, Blue, Green, or Purple
 - **Hemisphere**: Choose Northern or Southern hemisphere for seasonal positioning
+- **Accent Dot Style**: Configure how accent dots are colored on the dial marker
+  - **Adaptive (Default)**: Dots automatically choose complementary colors based on the color scheme
+  - **Contrast**: Dots use darker/lighter shades of the background for subtle contrast
+  - **Fixed Colors**: Choose a specific color (Magenta, Cyan, White, Yellow) that never changes
+  - **None**: Hide accent dots completely for a minimal aesthetic
 - **Show Date**: Toggle the date display in the bottom corner
 - **Location**: Set your location for proper timezone handling
 - **[DEBUG] Test Date**: Pick any date to preview how colors look throughout the year

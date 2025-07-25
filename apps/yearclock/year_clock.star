@@ -1025,6 +1025,11 @@ def get_language_from_timezone(timezone_name):
          timezone_name.startswith("America/Colombia") or \
          timezone_name.startswith("America/Lima") or \
          timezone_name.startswith("America/Santiago") or \
+         timezone_name.startswith("America/Guatemala") or \
+         timezone_name.startswith("America/El_Salvador") or \
+         timezone_name.startswith("America/Tegucigalpa") or \
+         timezone_name.startswith("America/Managua") or \
+         timezone_name.startswith("America/Costa_Rica") or \
          "Spanish" in timezone_name:
         return "es"
     elif timezone_name.startswith("America/Sao_Paulo") or \

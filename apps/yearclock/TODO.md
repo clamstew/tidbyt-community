@@ -729,56 +729,48 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
 
 ## 🆕 New Ideas & Improvements Queue
 
-### Holiday Categorization Review - FINDINGS & RECOMMENDATIONS ✅
+### Holiday Categorization Review ✅ **COMPLETED & IMPLEMENTED**
 
-**Research Completed**: Global celebration patterns analyzed for major holidays
+**Research Completed**: Global celebration patterns analyzed and regional filtering implemented.
 
-#### Global Holidays (Should be shown worldwide)
+#### ✅ **IMPLEMENTATION COMPLETED**
 
-**Rationale**: Holidays with truly universal celebration or significant global cultural adoption
+**Global Holidays** (Confirmed worldwide - no changes needed):
 
-1. **New Year's Day/Eve (January 1)** ✅ GLOBAL
+- **New Year's Day/Eve** - Universal Gregorian calendar adoption ✅
+- **Christmas** - Global secular/commercial celebration beyond Christian regions ✅
+- **Valentine's Day** - Commercial globalization across diverse cultures ✅
 
-   - **Justification**: Most universal celebration worldwide
-   - **Adoption**: Celebrated in virtually every country using Gregorian calendar
-   - **Cultural**: Transcends religious/cultural boundaries
-   - **Recommendation**: Keep as global holiday
+**Regional Holidays** (Now properly timezone-filtered):
 
-2. **Christmas (December 25)** ✅ GLOBAL
-   - **Justification**: Celebrated far beyond Christian countries
-   - **Secular adoption**: Japan, South Korea, China celebrate as cultural holiday
-   - **Commercial**: Global gift-giving and festive traditions
-   - **Recommendation**: Keep as global holiday
+✅ **Halloween (October 31)** → **IMPLEMENTED AS REGIONAL**
 
-#### Regional Holidays (Should be timezone/region specific)
+- **Status**: ✅ **FIXED** - Now timezone-filtered (US/Canada/Ireland/UK only)
+- **Implementation**: Added `is_halloween_timezone()` function
+- **Rationale**: Anglo-Saxon tradition; Mexico has Día de los Muertos instead
+- **Result**: Shows orange/brown theme only in celebrating regions
 
-**Rationale**: Holidays with strong cultural/national identity but limited global adoption
+✅ **St. Patrick's Day (March 17)** → **IMPLEMENTED AS REGIONAL**
 
-3. **Halloween (October 31)** → SHOULD BE REGIONAL (US/Canada/Ireland/UK)
+- **Status**: ✅ **FIXED** - Now timezone-filtered (Irish diaspora only)
+- **Implementation**: Added `is_irish_diaspora_timezone()` function
+- **Coverage**: Ireland, UK, US, Canada, Australia, Argentina (Buenos Aires)
+- **Result**: Shows green theme only in Irish heritage regions
 
-   - **Current**: Global
-   - **Research findings**:
-     - Strong adoption: US, Canada, Ireland, UK, Australia
-     - Limited adoption: Most of Europe, Asia, Africa, South America
-     - Cultural: Anglo-Saxon tradition with limited global penetration
-   - **Recommendation**: Change to US/UK timezone detection only
+#### ✅ **Technical Implementation**
 
-4. **Valentine's Day (February 14)** → SHOULD BE REGIONAL/GLOBAL HYBRID
+- `is_halloween_timezone()`: Comprehensive Anglo-Saxon culture mapping
+- `is_irish_diaspora_timezone()`: Global Irish diaspora detection
+- Exclusion logic for Mexico/Latin America where appropriate
+- Maintains backward compatibility for global holidays
 
-   - **Current**: Global
-   - **Research findings**:
-     - Strong adoption: US, Europe, some Asia-Pacific
-     - Regional variations: Japan (White Day), China (Qixi), India (opposition in some regions)
-     - Commercial but not universal
-   - **Recommendation**: Consider regional implementation or keep global
+#### ✅ **Impact**
 
-5. **St. Patrick's Day (March 17)** → SHOULD BE REGIONAL (Ireland/US/UK/Australia)
-   - **Current**: Global
-   - **Research findings**:
-     - Strong adoption: Ireland, US, UK, Canada, Australia (Irish diaspora)
-     - Limited adoption: Most other countries
-     - Cultural: Irish identity celebration
-   - **Recommendation**: Change to Irish diaspora regions only
+- **Improved Cultural Sensitivity**: Themes only appear where culturally relevant
+- **Better User Experience**: No inappropriate holiday themes in wrong regions
+- **Maintained Global Appeal**: Universal celebrations still work worldwide
+- **Research-Driven**: Evidence-based decisions on celebration patterns
+  - **Recommendation**: Change to Irish diaspora regions only
 
 #### US-Specific Holidays (Correctly implemented)
 

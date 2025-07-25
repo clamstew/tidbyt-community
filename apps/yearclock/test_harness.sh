@@ -229,10 +229,10 @@ run_test "Leap day" "pixlet render year_clock.star debug_date='2024-02-29T12:00:
 echo ""
 
 echo "${BLUE}6.5. Testing special date easter eggs...${NC}"
-# Test special date overrides with enable_special_dates=true
-SPECIAL_DATES=("2024-02-14T12:00:00Z" "2024-03-17T12:00:00Z" "2024-06-15T12:00:00Z" "2024-10-31T12:00:00Z" "2024-12-25T12:00:00Z" "2024-01-01T12:00:00Z")
-SPECIAL_NAMES=("ValentinesDay" "StPatricksDay" "PrideMonth" "Halloween" "Christmas" "NewYearsDay")
-EXPECTED_SCHEMES=("red" "green" "rainbow" "halloween" "christmas" "newyear")
+# Test special date overrides with enable_special_dates=true (global holidays only)
+SPECIAL_DATES=("2024-02-14T12:00:00Z" "2024-06-15T12:00:00Z" "2024-12-25T12:00:00Z" "2024-01-01T12:00:00Z")
+SPECIAL_NAMES=("ValentinesDay" "PrideMonth" "Christmas" "NewYearsDay")
+EXPECTED_SCHEMES=("red" "rainbow" "christmas" "newyear")
 
 # Add astronomical events to special dates testing
 ASTRONOMICAL_DATES=("2024-03-20T12:00:00Z" "2024-06-21T12:00:00Z" "2024-09-22T12:00:00Z" "2024-12-21T12:00:00Z")
@@ -267,6 +267,12 @@ VARIABLE_ENABLED_TZ=("America/New_York" "America/New_York" "Asia/Tokyo")
 VARIABLE_DISABLED_TZ=("Europe/London" "Europe/London" "America/New_York")
 
 # Test regional holidays in correct timezones (should show special colors)
+# Add Halloween and St. Patrick's Day to regional holidays
+REGIONAL_DATES+=("2024-10-31T12:00:00Z" "2024-03-17T12:00:00Z")
+REGIONAL_NAMES+=("Halloween" "StPatricksDay")
+REGIONAL_ENABLED_TZ+=("America/New_York" "Europe/Dublin")
+REGIONAL_DISABLED_TZ+=("Europe/Paris" "Europe/Paris")
+
 for i in "${!REGIONAL_DATES[@]}"; do
     date="${REGIONAL_DATES[$i]}"
     name="${REGIONAL_NAMES[$i]}"

@@ -681,32 +681,34 @@
           {
             key: "ValentinesDay",
             display: "Valentine's Day",
-            description: "Feb 14: Override to red spectrum",
-          },
-          {
-            key: "StPatricksDay",
-            display: "St. Patrick's Day",
-            description: "Mar 17: Override to green spectrum",
+            description: "Feb 14: Override to red spectrum (global)",
           },
           {
             key: "PrideMonth",
             display: "Pride Month",
-            description: "June: Rainbow with user's hemisphere setting",
-          },
-          {
-            key: "Halloween",
-            display: "Halloween",
-            description: "Oct 31: Custom orange/brown gradient",
+            description: "June: Rainbow with user's hemisphere setting (global)",
           },
           {
             key: "Christmas",
             display: "Christmas",
-            description: "Dec 25: Custom red/green gradient",
+            description: "Dec 25: Custom red/green gradient (global)",
           },
           {
             key: "NewYearsDay",
             display: "New Year's Transition",
-            description: "Dec 31 & Jan 1: Custom gold/silver gradient",
+            description: "Dec 31 & Jan 1: Custom gold/silver gradient (global)",
+          },
+        ],
+        regionalSpecialDates: [
+          {
+            key: "StPatricksDay",
+            display: "St. Patrick's Day 🍀",
+            description: "Mar 17: Override to green spectrum (Irish diaspora regions only)",
+          },
+          {
+            key: "Halloween",
+            display: "Halloween 🎃",
+            description: "Oct 31: Custom orange/brown gradient (US/Canada/Ireland/UK only)",
           },
         ],
         astronomicalEvents: [
@@ -734,6 +736,22 @@
           },
         ],
         regionalHolidays: [
+          {
+            key: "StPatricksDay",
+            display: "St. Patrick's Day 🍀",
+            description:
+              "Mar 17: Green spectrum (Irish diaspora regions only)",
+            enabledTz: "Europe/Dublin",
+            filteredTz: "Europe/Paris",
+          },
+          {
+            key: "Halloween",
+            display: "Halloween 🎃",
+            description:
+              "Oct 31: Orange/brown gradient (US/Canada/Ireland/UK only)",
+            enabledTz: "America/New_York",
+            filteredTz: "Europe/Paris",
+          },
           {
             key: "IndependenceDay",
             display: "Independence Day 🇺🇸",
@@ -1569,9 +1587,16 @@
                       CONFIG.specialDates.length + 1
                     } tests)</h2>
                     <div class="common-params"><code>Common: enable_special_dates=true show_date=true</code></div>
-                    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">
                         Holiday and special occasion themes that automatically override color schemes
                     </p>
+                    <div style="background: rgba(34, 197, 94, 0.1); border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 800px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                        <h4 style="color: #22c55e; margin-bottom: 10px; text-align: center;">🏆 NEW: Holiday Categorization Review Completed!</h4>
+                        <p style="text-align: center; margin: 0; opacity: 0.9; font-size: 0.9em;">
+                            <strong>Research-driven improvements:</strong> Halloween and St. Patrick's Day are now regional holidays with timezone filtering,
+                            while Christmas, New Year's, and Valentine's Day remain global celebrations.
+                        </p>
+                    </div>
                     <div class="grid">
             `;
 

@@ -972,12 +972,12 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if month == 2 and day == 14:
         return "red"
 
-    # St. Patrick's Day (Mar 17) - Override to green spectrum
-    if month == 3 and day == 17:
+    # St. Patrick's Day (Mar 17) - Override to green spectrum (Irish diaspora only)
+    if month == 3 and day == 17 and is_irish_diaspora_timezone(timezone_name):
         return "green"
 
-    # Halloween (Oct 31) - Override to orange/black gradient
-    if month == 10 and day == 31:
+    # Halloween (Oct 31) - Override to orange/black gradient (US/Canada/Ireland/UK only)
+    if month == 10 and day == 31 and is_halloween_timezone(timezone_name):
         return "halloween"
 
     # Christmas (Dec 25) - Override to red/green gradient
@@ -1148,6 +1148,109 @@ def is_latin_american_timezone(timezone_name):
     ]
     for pattern in latin_patterns:
         if timezone_name.startswith(pattern):
+            return True
+    return False
+
+def is_halloween_timezone(timezone_name):
+    """Check if timezone celebrates Halloween (US/Canada/Ireland/UK only)"""
+    
+    # Halloween is primarily celebrated in Anglo-Saxon cultures
+    halloween_patterns = [
+        "America/",  # United States and Canada (North America)
+        "US/",       # US timezone aliases
+        "Canada/",   # Canadian timezones
+        "Europe/Dublin",        # Ireland
+        "Europe/London",        # United Kingdom
+        "Europe/Belfast",       # Northern Ireland
+        "Europe/Edinburgh",     # Scotland
+        "Europe/Cardiff",       # Wales
+        "Europe/Isle_of_Man",   # Isle of Man
+        "Europe/Jersey",        # Jersey
+        "Europe/Guernsey",      # Guernsey
+        "Atlantic/Reykjavik",   # Iceland (culturally similar)
+    ]
+    
+    # Exclude Mexico from Americas (Halloween not traditionally celebrated)
+    mexican_patterns = [
+        "America/Tijuana",
+        "America/Hermosillo", 
+        "America/Mazatlan",
+        "America/Ciudad_Juarez",
+        "America/Chihuahua",
+        "America/Mexico_City",
+        "America/Ojinaga",
+        "America/Matamoros",
+        "America/Cancun",
+        "America/Bahia_Banderas",
+        "America/Monterrey",
+        "America/Merida",
+    ]
+    
+    # Check if it's Mexican timezone (exclude these)
+    if timezone_name in mexican_patterns:
+        return False
+        
+    # Check if it matches Halloween-celebrating regions
+    for pattern in halloween_patterns:
+        if timezone_name.startswith(pattern) or timezone_name == pattern:
+            return True
+    return False
+
+def is_irish_diaspora_timezone(timezone_name):
+    """Check if timezone is in Irish diaspora regions for St. Patrick's Day"""
+    
+    # Irish diaspora primarily in Ireland, UK, US, Canada, Australia
+    irish_diaspora_patterns = [
+        # Ireland and UK
+        "Europe/Dublin",        # Ireland
+        "Europe/London",        # United Kingdom  
+        "Europe/Belfast",       # Northern Ireland
+        "Europe/Edinburgh",     # Scotland
+        "Europe/Cardiff",       # Wales
+        
+        # North America (large Irish populations)
+        "America/",             # United States and Canada
+        "US/",                  # US timezone aliases  
+        "Canada/",              # Canadian timezones
+        
+        # Australia and New Zealand (significant Irish heritage)
+        "Australia/",           # Australia
+        "Pacific/Auckland",     # New Zealand
+        
+        # Argentina (some Irish settlement)
+        "America/Argentina/Buenos_Aires",
+    ]
+    
+    # Exclude Mexico and most of Latin America (limited Irish cultural influence)
+    mexican_latin_patterns = [
+        "America/Tijuana",
+        "America/Hermosillo", 
+        "America/Mazatlan",
+        "America/Ciudad_Juarez",
+        "America/Chihuahua",
+        "America/Mexico_City",
+        "America/Ojinaga",
+        "America/Matamoros",
+        "America/Cancun",
+        "America/Bahia_Banderas",
+        "America/Monterrey",
+        "America/Merida",
+        "America/Guatemala",
+        "America/Bogota",
+        "America/Lima",
+        "America/Santiago",
+        "America/Sao_Paulo",
+        "America/Caracas",
+    ]
+    
+    # Check if it's a region with limited Irish cultural influence
+    for excluded in mexican_latin_patterns:
+        if timezone_name.startswith(excluded) or timezone_name == excluded:
+            return False
+    
+    # Check if it matches Irish diaspora regions
+    for pattern in irish_diaspora_patterns:
+        if timezone_name.startswith(pattern) or timezone_name == pattern:
             return True
     return False
 

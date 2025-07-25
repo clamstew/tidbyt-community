@@ -142,16 +142,16 @@ REQUIRED: always put all files in `apps/yearclock/**` into the context window.
 #### 3.6. Edge Cases & Special Scenarios
 
 - [x] **Year Boundaries**: ✅ FIXED: Dec 31 Northern vs Jan 1 Southern positioning accuracy - proper edge contact
-- [ ] **Leap Day**: Feb 29 displays correctly with proper seasonal positioning
-- [ ] **Comprehensive Configs**: Complex parameter combinations render properly
-- [ ] **Contrast Extremes**: Maximum contrast scenarios (like grayscale + date) remain readable
+- [x] **Leap Day**: Feb 29 displays correctly with proper seasonal positioning
+- [x] **Comprehensive Configs**: Complex parameter combinations render properly
+- [x] **Contrast Extremes**: Maximum contrast scenarios (like grayscale + date) remain readable
 
 #### 3.7. Overall Design Cohesion
 
 - [x] **Dial Marker Design**: ✅ FIXED: White dial line with shadows/highlights works across all color schemes - added edge buffers
-- [ ] **Accent Dots**: Magenta top/bottom dots provide good contrast on all backgrounds
-- [ ] **Visual Hierarchy**: Date text doesn't compete with or distract from main gradient display
-- [ ] **Seasonal Feel**: Each color scheme successfully conveys the passage of time through the year
+- [x] **Accent Dots**: Magenta top/bottom dots provide good contrast on all backgrounds
+- [x] **Visual Hierarchy**: Date text doesn't compete with or distract from main gradient display
+- [x] **Seasonal Feel**: Each color scheme successfully conveys the passage of time through the year
 
 #### 3.8. Dial Marker Edge Positioning Fix ✅
 

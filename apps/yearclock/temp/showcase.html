@@ -2168,9 +2168,33 @@
 
         // Show special dates with different languages
         const specialLangDates = [
-          { lang: "es", name: "Christmas", example: "Dic 25", flag: "🇪🇸🎄", desc: "Spanish Christmas" },
-          { lang: "fr", name: "BastilleDay", example: "Jul 14", flag: "🇫🇷🗼", desc: "French Bastille Day" },
-          { lang: "de", name: "Halloween", example: "Okt 31", flag: "🇩🇪🎃", desc: "German Halloween" },
+          { 
+            lang: "es", 
+            name: "Christmas", 
+            example: "Dic 25", 
+            flag: "🇪🇸🎄", 
+            desc: "Spanish Christmas",
+            date: "2024-12-25T12:00:00Z",
+            timezone: ""
+          },
+          { 
+            lang: "fr", 
+            name: "BastilleDay", 
+            example: "Jul 14", 
+            flag: "🇫🇷🗼", 
+            desc: "French Bastille Day",
+            date: "2024-07-14T12:00:00Z",
+            timezone: " '$tz=Europe/Paris'"
+          },
+          { 
+            lang: "de", 
+            name: "Halloween", 
+            example: "Okt 31", 
+            flag: "🇩🇪🎃", 
+            desc: "German Halloween",
+            date: "2024-10-31T12:00:00Z",
+            timezone: ""
+          },
         ];
 
         specialLangDates.forEach((special) => {
@@ -2178,8 +2202,8 @@
             `10_special_lang_${special.lang}_${special.name}.webp`,
             `${special.flag} ${special.desc}`,
             `Shows '${special.example}' with ${special.name} theme`,
-            `language=${special.lang} + special_date`,
-            `show_date=true language=${special.lang} + special date theme`
+            `language=${special.lang} debug_date='${special.date}'${special.timezone}`,
+            `show_date=true language=${special.lang} debug_date='${special.date}' enable_special_dates=true${special.timezone}`
           );
         });
 

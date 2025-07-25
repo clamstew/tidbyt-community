@@ -403,12 +403,19 @@ echo "  Testing language support with special dates..."
 SPECIAL_LANG_DATES=("2024-12-25T12:00:00Z" "2024-07-14T12:00:00Z" "2024-10-31T12:00:00Z")
 SPECIAL_LANG_NAMES=("Christmas" "BastilleDay" "Halloween")
 SPECIAL_LANG_LANGS=("es" "fr" "de")
+SPECIAL_LANG_TIMEZONES=("" "Europe/Paris" "")  # Only Bastille Day needs French timezone to trigger regional holiday
 
 for i in "${!SPECIAL_LANG_DATES[@]}"; do
     date="${SPECIAL_LANG_DATES[$i]}"
     name="${SPECIAL_LANG_NAMES[$i]}"
     lang="${SPECIAL_LANG_LANGS[$i]}"
-    run_test "Special date with $lang: $name" "pixlet render year_clock.star show_date=true language=$lang debug_date='$date' enable_special_dates=true" "10_special_lang_${lang}_${name}.webp"
+    timezone="${SPECIAL_LANG_TIMEZONES[$i]}"
+    
+    if [ -n "$timezone" ]; then
+        run_test "Special date with $lang: $name" "pixlet render year_clock.star show_date=true language=$lang debug_date='$date' enable_special_dates=true '\$tz=$timezone'" "10_special_lang_${lang}_${name}.webp"
+    else
+        run_test "Special date with $lang: $name" "pixlet render year_clock.star show_date=true language=$lang debug_date='$date' enable_special_dates=true" "10_special_lang_${lang}_${name}.webp"
+    fi
 done
 echo ""
 

@@ -4,7 +4,7 @@ This document provides the complete set of `pixlet render` commands to generate 
 
 ## Overview
 
-- **Total Test Cases**: ~380+ unique configurations
+- **Total Test Cases**: ~385+ unique configurations
 - **Images Generated**: 6x magnification for gallery view
 - **High-res Available**: 12x magnification for modal view (with `-H` flag)
 - **Test Script**: `./test_harness.sh`
@@ -306,7 +306,7 @@ pixlet render year_clock.star debug_date='2024-12-21T12:00:00Z' enable_special_d
 
 ---
 
-## 10. Regional Holidays with Timezone Filtering (14 tests)
+## 10. Regional Holidays with Timezone Filtering (18 tests)
 
 Smart timezone filtering shows culturally relevant holidays based on location.
 
@@ -333,6 +333,12 @@ pixlet render year_clock.star debug_date='2024-10-31T12:00:00Z' enable_special_d
 
 # St. Patrick's Day (Irish diaspora regions only)
 pixlet render year_clock.star debug_date='2024-03-17T12:00:00Z' enable_special_dates=true show_date=true '$tz=Europe/Dublin'
+
+# Passover (US/Canada/Western regions)
+pixlet render year_clock.star debug_date='2024-04-23T12:00:00Z' enable_special_dates=true show_date=true '$tz=America/New_York'
+
+# Hanukkah (US/Canada/Western regions)
+pixlet render year_clock.star debug_date='2024-12-27T12:00:00Z' enable_special_dates=true show_date=true '$tz=America/New_York'
 ```
 
 ### Regional Holidays (Filtered in Wrong Timezone)
@@ -358,6 +364,12 @@ pixlet render year_clock.star debug_date='2024-10-31T12:00:00Z' enable_special_d
 
 # St. Patrick's Day filtered
 pixlet render year_clock.star debug_date='2024-03-17T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=Europe/Paris'
+
+# Passover filtered
+pixlet render year_clock.star debug_date='2024-04-23T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=Asia/Tokyo'
+
+# Hanukkah filtered
+pixlet render year_clock.star debug_date='2024-12-27T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/Mexico_City'
 ```
 
 ---

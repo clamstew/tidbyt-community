@@ -267,11 +267,11 @@ VARIABLE_ENABLED_TZ=("America/New_York" "America/New_York" "Asia/Tokyo")
 VARIABLE_DISABLED_TZ=("Europe/London" "Europe/London" "America/New_York")
 
 # Test regional holidays in correct timezones (should show special colors)
-# Add Halloween and St. Patrick's Day to regional holidays
-REGIONAL_DATES+=("2024-10-31T12:00:00Z" "2024-03-17T12:00:00Z")
-REGIONAL_NAMES+=("Halloween" "StPatricksDay")
-REGIONAL_ENABLED_TZ+=("America/New_York" "Europe/Dublin")
-REGIONAL_DISABLED_TZ+=("Europe/Paris" "Europe/Paris")
+# Add Halloween, St. Patrick's Day, and Jewish holidays to regional holidays
+REGIONAL_DATES+=("2024-10-31T12:00:00Z" "2024-03-17T12:00:00Z" "2024-04-23T12:00:00Z" "2024-12-27T12:00:00Z")
+REGIONAL_NAMES+=("Halloween" "StPatricksDay" "Passover" "Hanukkah")
+REGIONAL_ENABLED_TZ+=("America/New_York" "Europe/Dublin" "America/New_York" "America/New_York")
+REGIONAL_DISABLED_TZ+=("Europe/Paris" "Europe/Paris" "Asia/Tokyo" "America/Mexico_City")
 
 for i in "${!REGIONAL_DATES[@]}"; do
     date="${REGIONAL_DATES[$i]}"

@@ -151,6 +151,8 @@ Year Clock intelligently shows regional holidays based on your timezone for cult
 - **Boxing Day (Dec 26)**: Traditional green and gold post-Christmas colors (Europe/Commonwealth timezones)
 - **May Day (May 1)**: Workers' solidarity red transitioning to spring renewal greens (Europe/International, not US)
 - **Día de los Muertos (Nov 1-2)**: Vibrant orange, purple, and gold celebration colors (Latin American timezones)
+- **Passover (Apr 23)**: Blue, white, and gold spring freedom theme celebrating liberation (US/Canada/Western regions)
+- **Hanukkah (Dec 27)**: Blue, white, and gold Festival of Lights theme celebrating religious freedom (US/Canada/Western regions)
 
 ### Variable Date Regional Holidays (Timezone-Filtered)
 
@@ -170,10 +172,12 @@ Smart calculation of holidays with changing dates each year:
 - 🇺🇸 Thanksgiving: `America/*` timezones (excluding Mexico)
 - 🛍️ Black Friday: `America/*` timezones (excluding Mexico)
 - 🇯🇵 Golden Week: `Asia/Tokyo` and related Japanese timezones
+- 🕎 Passover: `America/*`, `Europe/*` (Western regions with significant Jewish communities)
+- 🕯️ Hanukkah: `America/*`, `Europe/*` (Western regions with significant Jewish communities)
 
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
 
-**Total: 17 special date themes** across holidays, astronomical events, and regional celebrations, each with culturally appropriate color palettes and smart timezone filtering.
+**Total: 19 special date themes** across holidays, astronomical events, and regional celebrations, each with culturally appropriate color palettes and smart timezone filtering.
 
 ## ✨ Holiday Animations
 

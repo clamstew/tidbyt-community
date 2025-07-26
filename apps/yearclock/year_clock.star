@@ -293,6 +293,36 @@ NEWYEAR_PALETTE = [
     "#2F2F2F",  # Dark Gray (back to start)
 ]
 
+PASSOVER_PALETTE = [
+    "#4169E1",  # Royal Blue (traditional Jewish blue)
+    "#6495ED",  # Cornflower Blue
+    "#87CEEB",  # Sky Blue
+    "#B0E0E6",  # Powder Blue
+    "#F0F8FF",  # Alice Blue (very light)
+    "#FFFFFF",  # White (purity, freedom)
+    "#FFFACD",  # Lemon Chiffon
+    "#FFD700",  # Gold (spring renewal)
+    "#FFFF99",  # Light Yellow
+    "#E6E6FA",  # Lavender
+    "#9370DB",  # Medium Purple
+    "#4169E1",  # Royal Blue (back to start)
+]
+
+HANUKKAH_PALETTE = [
+    "#191970",  # Midnight Blue (deep winter night)
+    "#4169E1",  # Royal Blue (traditional Jewish blue)
+    "#6495ED",  # Cornflower Blue
+    "#87CEEB",  # Sky Blue
+    "#B0E0E6",  # Powder Blue
+    "#F0F8FF",  # Alice Blue
+    "#FFFFFF",  # White (Festival of Lights)
+    "#C0C0C0",  # Silver
+    "#FFD700",  # Gold (menorah lights)
+    "#DAA520",  # Golden Rod
+    "#4682B4",  # Steel Blue
+    "#191970",  # Midnight Blue (back to start)
+]
+
 # Astronomical Event Color Palettes
 SPRING_EQUINOX_PALETTE = [
     "#E6F3FF",  # Very Pale Blue (dawn)
@@ -495,6 +525,8 @@ ADAPTIVE_ACCENT_COLORS = {
     "purple": "#00FF00",  # Green (complementary to purple)
     "halloween": "#00FFFF",  # Cyan (contrasts with orange/brown)
     "christmas": "#FFFF00",  # Yellow (contrasts with red/green)
+    "passover": "#FFD700",  # Gold (complements blue/white spring theme)
+    "hanukkah": "#FFD700",  # Gold (complements blue/white winter theme)
     "newyear": "#FF00FF",  # Magenta (contrasts with gold/silver)
     "spring_equinox": "#8A2BE2",  # Purple (contrasts with light spring colors)
     "summer_solstice": "#0000FF",  # Blue (contrasts with bright yellows)
@@ -520,6 +552,8 @@ CONTRAST_ACCENT_COLORS = {
     "purple": "#4B0082",  # Indigo (darker contrast)
     "halloween": "#2F1B14",  # Very dark brown (darker contrast)
     "christmas": "#006400",  # Dark green (darker contrast)
+    "passover": "#191970",  # Midnight blue (darker contrast on blue/white)
+    "hanukkah": "#191970",  # Midnight blue (darker contrast on blue/white)
     "newyear": "#B8860B",  # Dark golden rod (darker contrast)
     "spring_equinox": "#2E8B57",  # Sea green (darker contrast)
     "summer_solstice": "#B8860B",  # Dark golden rod (darker contrast)
@@ -1560,6 +1594,10 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if month == 3 and day == 17 and is_irish_diaspora_timezone(timezone_name):
         return "green"
 
+    # Passover (Apr 23) - Override to blue/white/gold spring theme (US/Canada/Western only)
+    if month == 4 and day == 23 and is_western_jewish_timezone(timezone_name):
+        return "passover"
+
     # Halloween (Oct 31) - Override to orange/black gradient (US/Canada/Ireland/UK only)
     if month == 10 and day == 31 and is_halloween_timezone(timezone_name):
         return "halloween"
@@ -1567,6 +1605,10 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     # Christmas (Dec 25) - Override to red/green gradient
     if month == 12 and day == 25:
         return "christmas"
+
+    # Hanukkah (Dec 27) - Override to blue/white/gold Festival of Lights theme (US/Canada/Western only)
+    if month == 12 and day == 27 and is_western_jewish_timezone(timezone_name):
+        return "hanukkah"
 
     # New Year's Eve (Dec 31) - Override to gold/silver gradient WITH sparkle animation
     if month == 12 and day == 31:
@@ -1838,6 +1880,64 @@ def is_irish_diaspora_timezone(timezone_name):
             return True
     return False
 
+def is_western_jewish_timezone(timezone_name):
+    """Check if timezone is in Western regions where Jewish holidays are widely recognized"""
+    
+    # Regions with significant Jewish populations and cultural recognition
+    western_jewish_patterns = [
+        # North America (large Jewish populations)
+        "America/",             # United States and Canada
+        "US/",                  # US timezone aliases  
+        "Canada/",              # Canadian timezones
+        
+        # Western Europe (significant Jewish communities)
+        "Europe/London",        # United Kingdom
+        "Europe/Paris",         # France
+        "Europe/Berlin",        # Germany
+        "Europe/Vienna",        # Austria
+        "Europe/Zurich",        # Switzerland
+        "Europe/Amsterdam",     # Netherlands
+        "Europe/Brussels",      # Belgium
+        "Europe/Stockholm",     # Sweden
+        "Europe/Oslo",          # Norway
+        "Europe/Copenhagen",    # Denmark
+        "Europe/Rome",          # Italy
+        
+        # Australia and New Zealand (Jewish communities)
+        "Australia/",           # Australia
+        "Pacific/Auckland",     # New Zealand
+        
+        # Israel (obviously)
+        "Asia/Jerusalem",       # Israel/Palestine
+        
+        # South Africa (significant Jewish community)
+        "Africa/Johannesburg",  # South Africa
+    ]
+    
+    # Exclude regions with limited Jewish cultural presence
+    limited_jewish_patterns = [
+        "America/Tijuana",
+        "America/Mexico_City",
+        "America/Cancun",
+        "America/Guatemala",
+        "America/Bogota", 
+        "America/Lima",
+        "America/Santiago",
+        "America/Caracas",
+        "America/Sao_Paulo",   # Brazil has Jewish communities but Hanukkah is summer there
+    ]
+    
+    # Check if it's a region with limited Jewish cultural recognition
+    for excluded in limited_jewish_patterns:
+        if timezone_name.startswith(excluded) or timezone_name == excluded:
+            return False
+    
+    # Check if it matches Western Jewish community regions
+    for pattern in western_jewish_patterns:
+        if timezone_name.startswith(pattern) or timezone_name == pattern:
+            return True
+    return False
+
 def calculate_thanksgiving(year):
     """Dynamically calculate Thanksgiving date (4th Thursday in November) for any year"""
 
@@ -1950,6 +2050,10 @@ def get_color_palette(color_scheme):
         return HALLOWEEN_PALETTE
     elif color_scheme == "christmas":
         return CHRISTMAS_PALETTE
+    elif color_scheme == "passover":
+        return PASSOVER_PALETTE
+    elif color_scheme == "hanukkah":
+        return HANUKKAH_PALETTE
     elif color_scheme == "newyear":
         return NEWYEAR_PALETTE
     elif color_scheme == "spring_equinox":

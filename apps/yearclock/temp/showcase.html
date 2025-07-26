@@ -613,6 +613,12 @@
         <a href="#timezone" class="nav-link">🌍 Timezone i18n <span class="nav-count">32</span></a>
         <a href="#language" class="nav-link">🗣️ Language Support <span class="nav-count">90</span></a>
       </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Resources</div>
+        <a href="https://tidbyt.dev/" target="_blank" class="nav-link">🔧 Tidbyt Dev Docs ↗️</a>
+        <a href="https://github.com/tidbyt/community/" target="_blank" class="nav-link">📦 Community Apps ↗️</a>
+      </div>
     </nav>
 
     <!-- Main Content -->
@@ -2619,18 +2625,24 @@
           });
         });
 
-        // Smooth scrolling for navigation links
+        // Smooth scrolling for navigation links (only for internal hash links)
         navLinks.forEach(link => {
           link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-              targetSection.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-              });
+            const href = this.getAttribute('href');
+            
+            // Only intercept internal hash links, let external links work normally
+            if (href && href.startsWith('#')) {
+              e.preventDefault();
+              const targetId = href.substring(1);
+              const targetSection = document.getElementById(targetId);
+              if (targetSection) {
+                targetSection.scrollIntoView({ 
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }
             }
+            // External links (http/https) will work normally without preventDefault
           });
         });
 

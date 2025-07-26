@@ -603,7 +603,7 @@
         <a href="#astronomical" class="nav-link">🌌 Astronomical <span class="nav-count">4</span></a>
         <a href="#regional" class="nav-link">🌍 Regional <span class="nav-count">16</span></a>
         <a href="#variable" class="nav-link">🗓️ Variable Date <span class="nav-count">6</span></a>
-        <a href="#animations" class="nav-link">✨ Holiday Animations <span class="nav-count">11</span></a>
+        <a href="#animations" class="nav-link">✨ Holiday Animations <span class="nav-count">10</span></a>
       </div>
 
       <div class="nav-section">
@@ -1066,7 +1066,7 @@
             pattern: "06_variable_",
             count: CONFIG.variableHolidays.length * 2,
           }, // variable holidays (enabled + filtered)
-          { pattern: "11_animation_", count: 11 }, // Holiday animation tests (New Year's, Halloween, Christmas, Valentine's + toggles)
+          { pattern: "11_animation_", count: 10 }, // Holiday animation tests (New Year's, Halloween, Christmas, Valentine's + toggles)
           { pattern: "07_comprehensive_", count: 3 }, // all_options, minimal, contrast
           { pattern: "08_accent_", count: 7 * 4 + 2 }, // adaptive, compare, fixed, none
           {
@@ -1864,7 +1864,7 @@
 
                 <!-- Holiday Animations -->
                 <div class="section" id="animations">
-                    <h2>✨ Holiday Animations (11 tests)</h2>
+                    <h2>✨ Holiday Animations (10 tests)</h2>
                     <div class="common-params"><code>Common: enable_special_dates=true enable_animations=true show_date=true</code></div>
                     <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
                         🎊 New Year's sparkles | 🎃 Halloween flicker | ❄️ Christmas snow | 💖 Valentine's hearts
@@ -1880,9 +1880,9 @@
                     
                     <h3>🎊 New Year's Sparkle Animation</h3>
                     <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
-                        Dec 31st: Party sparkle animation | Jan 1st: Chill gold/silver recovery
+                        Dec 31st: Party sparkle animation | Jan 1st: Chill gold/silver recovery (no animation)
                     </p>
-                    <div class="grid">
+                    <div class="grid grid-2" style="max-width: 600px; margin: 0 auto;">
                         ${createDevice(
                           "11_animation_NewYearsEve.webp",
                           "New Year's Eve ✨🎉",
@@ -1891,16 +1891,9 @@
                           "debug_date='2024-12-31T23:30:00Z' enable_special_dates=true enable_animations=true show_date=true"
                         )}
                         ${createDevice(
-                          "11_animation_NewYearsMidnight.webp", 
-                          "New Year's Midnight 🌅",
-                          "Jan 1st midnight: Chill recovery mode with gold/silver (no animation)",
-                          "debug_date='2024-01-01T00:30:00Z'",
-                          "debug_date='2024-01-01T00:30:00Z' enable_special_dates=true enable_animations=true show_date=true"
-                        )}
-                        ${createDevice(
                           "11_animation_NewYearsDay.webp",
                           "New Year's Day ☀️", 
-                          "Jan 1st daytime: Calm gold/silver theme for recovery day",
+                          "Jan 1st: Calm gold/silver theme for recovery day (no animation)",
                           "debug_date='2024-01-01T12:00:00Z'",
                           "debug_date='2024-01-01T12:00:00Z' enable_special_dates=true enable_animations=true show_date=true"
                         )}

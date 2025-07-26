@@ -604,6 +604,8 @@ ADAPTIVE_ACCENT_COLORS = {
     "songkran": "#FFD700",  # Gold (contrasts with water blues)
     "rosh_hashanah": "#8A2BE2",  # Purple (contrasts with honey/apple colors)
     "yom_kippur": "#4B0082",  # Indigo (contrasts with white/silver theme)
+    "kings_day": "#0000FF",  # Blue (contrasts with orange theme)
+    "midsummer": "#8A2BE2",  # Purple (contrasts with bright summer colors)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
@@ -635,6 +637,8 @@ CONTRAST_ACCENT_COLORS = {
     "songkran": "#000080",  # Navy (darker contrast on light water blues)
     "rosh_hashanah": "#8B4513",  # Saddle brown (darker contrast on honey/apple colors)
     "yom_kippur": "#2F2F2F",  # Dark gray (darker contrast on white/silver theme)
+    "kings_day": "#000000",  # Black (darker contrast on orange theme)
+    "midsummer": "#000000",  # Black (darker contrast on bright summer colors)
 }
 
 # Calendar conversion functions (borrowed from apps/calendars/calendars.star)
@@ -2221,6 +2225,14 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if is_golden_week_date(month, day) and timezone_name.startswith("Asia/") and "Tokyo" in timezone_name:
         return "golden_week"
 
+    # King's Day (Apr 27) - Dutch national holiday celebrating the monarchy
+    if month == 4 and day == 27 and is_dutch_timezone(timezone_name):
+        return "kings_day"
+
+    # Midsummer (Jun 21) - Nordic celebration of summer solstice and endless daylight
+    if month == 6 and day == 21 and is_nordic_timezone(timezone_name):
+        return "midsummer"
+
     return None
 
 def is_us_timezone(timezone_name):
@@ -2603,6 +2615,10 @@ def get_date_color(color_scheme, hemisphere):
         return "#000000"  # Black text for contrast on honey/apple colors
     elif color_scheme == "yom_kippur":
         return "#000000"  # Black text for contrast on white/silver colors
+    elif color_scheme == "kings_day":
+        return "#000000"  # Black text for contrast on orange colors
+    elif color_scheme == "midsummer":
+        return "#000000"  # Black text for contrast on bright summer colors
     else:
         return "#000000"  # Default to black text
 
@@ -2664,6 +2680,10 @@ def get_color_palette(color_scheme):
         return ROSH_HASHANAH_PALETTE
     elif color_scheme == "yom_kippur":
         return YOM_KIPPUR_PALETTE
+    elif color_scheme == "kings_day":
+        return KINGS_DAY_PALETTE
+    elif color_scheme == "midsummer":
+        return MIDSUMMER_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE
@@ -3221,3 +3241,59 @@ def get_schema():
             ),
         ],
     )
+
+# Regional Holiday Color Palettes (continued)
+KINGS_DAY_PALETTE = [
+    "#FF4500",  # Orange Red (House of Orange)
+    "#FF6600",  # Dark Orange
+    "#FF8C00",  # Dark Orange
+    "#FFA500",  # Orange (primary Dutch color)
+    "#FFB347",  # Peach
+    "#FFCC00",  # Bright Orange Yellow
+    "#FFD700",  # Gold (royal touch)
+    "#FFFF00",  # Yellow (bright celebration)
+    "#FFE55C",  # Golden Yellow
+    "#FFB347",  # Peach (back down)
+    "#FF8C00",  # Dark Orange
+    "#FF4500",  # Orange Red (back to start)
+]
+
+MIDSUMMER_PALETTE = [
+    "#87CEEB",  # Sky Blue (bright Nordic sky)
+    "#B0E0E6",  # Powder Blue
+    "#E0F6FF",  # Very Light Blue (endless daylight)
+    "#F0F8FF",  # Alice Blue
+    "#FFFACD",  # Lemon Chiffon (midnight sun)
+    "#FFFF99",  # Light Yellow (bright summer)
+    "#FFFF00",  # Pure Yellow (24-hour daylight)
+    "#FFD700",  # Gold (midsummer magic)
+    "#90EE90",  # Light Green (Nordic forests)
+    "#32CD32",  # Lime Green (summer foliage)
+    "#228B22",  # Forest Green
+    "#87CEEB",  # Sky Blue (back to start)
+]
+
+def is_dutch_timezone(timezone_name):
+    """Check if timezone is in Netherlands for King's Day celebration"""
+    dutch_patterns = [
+        "Europe/Amsterdam",  # Netherlands (main timezone)
+        "Europe/Brussels",  # Belgium (cultural ties)
+    ]
+
+    # Netherlands and culturally related regions
+    return timezone_name in dutch_patterns
+
+def is_nordic_timezone(timezone_name):
+    """Check if timezone is in Nordic regions for Midsummer celebration"""
+    nordic_patterns = [
+        "Europe/Stockholm",  # Sweden
+        "Europe/Oslo",  # Norway
+        "Europe/Copenhagen",  # Denmark
+        "Europe/Helsinki",  # Finland
+        "Atlantic/Reykjavik",  # Iceland
+        "Europe/Mariehamn",  # Åland Islands (Finland)
+        "Arctic/Longyearbyen",  # Svalbard (Norway)
+    ]
+
+    # Nordic countries where Midsummer is a major celebration
+    return timezone_name in nordic_patterns

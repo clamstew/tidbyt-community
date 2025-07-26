@@ -4,7 +4,7 @@ This document provides the complete set of `pixlet render` commands to generate 
 
 ## Overview
 
-- **Total Test Cases**: ~325+ unique configurations
+- **Total Test Cases**: ~327+ unique configurations
 - **Images Generated**: 6x magnification for gallery view
 - **High-res Available**: 12x magnification for modal view (with `-H` flag)
 - **Test Script**: `./test_harness.sh`
@@ -306,7 +306,7 @@ pixlet render year_clock.star debug_date='2024-12-21T12:00:00Z' enable_special_d
 
 ---
 
-## 10. Regional Holidays with Timezone Filtering (26 tests)
+## 10. Regional Holidays with Timezone Filtering (28 tests)
 
 Smart timezone filtering shows culturally relevant holidays based on location.
 
@@ -360,6 +360,12 @@ pixlet render year_clock.star debug_date='2024-09-25T12:00:00Z' enable_special_d
 
 # Yom Kippur (Day of Atonement)
 pixlet render year_clock.star debug_date='2024-10-05T12:00:00Z' enable_special_dates=true show_date=true '$tz=America/New_York'
+
+# King's Day (Netherlands)
+pixlet render year_clock.star debug_date='2024-04-27T12:00:00Z' enable_special_dates=true show_date=true '$tz=Europe/Amsterdam'
+
+# Midsummer (Nordic countries)
+pixlet render year_clock.star debug_date='2024-06-21T12:00:00Z' enable_special_dates=true show_date=true '$tz=Europe/Stockholm'
 ```
 
 ### Regional Holidays (Filtered in Wrong Timezone)
@@ -412,6 +418,12 @@ pixlet render year_clock.star debug_date='2024-09-25T12:00:00Z' enable_special_d
 
 # Yom Kippur filtered
 pixlet render year_clock.star debug_date='2024-10-05T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=Asia/Tokyo'
+
+# King's Day filtered
+pixlet render year_clock.star debug_date='2024-04-27T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
+
+# Midsummer filtered
+pixlet render year_clock.star debug_date='2024-06-21T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
 ```
 
 ---

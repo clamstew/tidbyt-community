@@ -35,6 +35,7 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 - [ ] **Latin America**: ~~Día de los Muertos (Mexico)~~, Carnival (Brazil), Cinco de Mayo
 - [ ] **African Nations**: Heritage Day (South Africa), Revolution Day (Egypt)
 - [ ] **Oceania**: ANZAC Day (Australia/NZ), Waitangi Day (New Zealand)
+- [ ] Canada specific holidays
 
 #### Language & Script Expansion
 

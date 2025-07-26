@@ -155,6 +155,8 @@ Year Clock intelligently shows regional holidays based on your timezone for cult
 - **Hanukkah (Dec 27)**: Blue, white, and gold Festival of Lights theme celebrating religious freedom (US/Canada/Western regions)
 - **Rosh Hashanah (Sep 25)**: Honey and apple themed colors celebrating the Jewish New Year with earth, gold, and green tones (US/Canada/Western regions)
 - **Yom Kippur (Oct 5)**: Solemn white, silver, and gray reflection colors for the Day of Atonement (US/Canada/Western regions)
+- **King's Day (Apr 27)**: Vibrant orange celebration colors honoring the Dutch monarchy with House of Orange theme (Netherlands/Belgium)
+- **Midsummer (Jun 21)**: Bright summer celebration colors with endless daylight blues, yellows, and Nordic forest greens (Nordic countries)
 - **Persian Nowruz (Mar 20-21)**: Spring equinox celebration with Persian garden colors - pale blues, mint greens, spring yellows, and traditional gold (Iran/Afghanistan/Central Asia timezones)
 - **Thai Songkran (Apr 13-15)**: Water festival celebration with deep navy, sky blues, powder blues, and spring green renewal colors (Thailand/Southeast Asia timezones)
 
@@ -180,12 +182,14 @@ Smart calculation of holidays with changing dates each year:
 - 🕯️ Hanukkah: `America/*`, `Europe/*` (Western regions with significant Jewish communities)
 - 🍯 Rosh Hashanah: `America/*`, `Europe/*` (Western regions with significant Jewish communities)
 - 🔯 Yom Kippur: `America/*`, `Europe/*` (Western regions with significant Jewish communities)
+- 👑 King's Day: `Europe/Amsterdam`, `Europe/Brussels` (Netherlands and Belgium)
+- 🌞 Midsummer: `Europe/Stockholm`, `Europe/Oslo`, `Europe/Copenhagen`, `Europe/Helsinki`, `Atlantic/Reykjavik` (Nordic countries)
 - 🌸 Persian Nowruz: `Asia/Tehran`, `Asia/Kabul`, `Asia/Dushanbe`, and Persian cultural regions
 - 💧 Thai Songkran: `Asia/Bangkok`, `Asia/Phnom_Penh`, `Asia/Vientiane`, `Asia/Yangon` (Southeast Asian water festivals)
 
 All special date themes are enabled by default but can be toggled off in the **"Enable Special Date Themes"** setting.
 
-**Total: 23 special date themes** across holidays, astronomical events, and regional celebrations, each with culturally appropriate color palettes and smart timezone filtering.
+**Total: 25 special date themes** across holidays, astronomical events, and regional celebrations, each with culturally appropriate color palettes and smart timezone filtering.
 
 ## ✨ Holiday Animations
 

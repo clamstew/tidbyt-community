@@ -1553,57 +1553,112 @@ def create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, c
     )
 
 def generate_valentine_hearts_for_frame(frame_idx):
-    """Generate pulsing heart pixels for a specific Valentine's animation frame"""
+    """Generate pulsing heart pixels for a specific Valentine's animation frame with romantic heart patterns"""
     hearts = []
 
-    # Heart shapes using simple pixel patterns (since we can't draw curves)
-    # We'll use different intensities to simulate pulsing
-    heart_positions = [
-        # Small hearts scattered around
-        (12, 8),
-        (28, 15),
-        (45, 5),
-        (58, 20),  # Single pixel hearts
-        (20, 25),
-        (40, 10),
-        (55, 18),  # More single pixel hearts
-    ]
-
-    # Pulsing effect - hearts get brighter/dimmer across frames
-    pulse_intensities = [0.6, 0.8, 1.0, 0.8, 0.6, 0.4]  # Smooth pulse
+    # Pulsing effect - hearts get brighter/dimmer across frames for romantic effect
+    pulse_intensities = [0.4, 0.6, 0.8, 1.0, 0.8, 0.6]  # Smooth romantic pulse
     intensity = pulse_intensities[frame_idx % len(pulse_intensities)]
 
-    # Heart colors with varying intensities
-    base_colors = ["#FF1493", "#FF69B4", "#FFB6C1", "#FF6347"]  # Deep pink, hot pink, light pink, tomato
+    # Heart colors with varying romantic intensities
+    base_colors = ["#FF1493", "#FF69B4", "#FFB6C1", "#DC143C"]  # Deep pink, hot pink, light pink, crimson
 
-    for i, (x, y) in enumerate(heart_positions):
-        # Apply pulse intensity to color
-        base_color = base_colors[i % len(base_colors)]
+    # Create multiple heart shapes of different sizes and styles
+
+    # Large decorative heart (3x3 pattern) - positioned to avoid dial marker area
+    large_heart_positions = [
+        (8, 8),  # Top left area
+        (52, 20),  # Bottom right area
+    ]
+
+    for i, (cx, cy) in enumerate(large_heart_positions):
+        if i < 2:  # Only create 2 large hearts
+            # Apply pulse intensity to color
+            base_color = base_colors[i % len(base_colors)]
+            base_rgb = hex_to_rgb(base_color)
+            pulsed_color = rgb_to_hex([
+                int(base_rgb[0] * intensity),
+                int(base_rgb[1] * intensity),
+                int(base_rgb[2] * intensity),
+            ])
+
+            # Create a pixelated heart shape (3x3 pattern)
+            # Pattern:  ■ ■   ■ ■
+            #           ■ ■ ■ ■ ■
+            #             ■ ■ ■
+            #               ■
+            heart_pattern = [
+                (cx - 1, cy - 1),
+                (cx, cy - 1),
+                (cx + 2, cy - 1),
+                (cx + 3, cy - 1),  # Top bumps
+                (cx - 2, cy),
+                (cx - 1, cy),
+                (cx, cy),
+                (cx + 1, cy),
+                (cx + 2, cy),
+                (cx + 3, cy),
+                (cx + 4, cy),  # Wide middle
+                (cx - 1, cy + 1),
+                (cx, cy + 1),
+                (cx + 1, cy + 1),
+                (cx + 2, cy + 1),  # Middle row
+                (cx, cy + 2),
+                (cx + 1, cy + 2),  # Bottom point
+            ]
+
+            for px, py in heart_pattern:
+                if 0 <= px and px < 64 and 0 <= py and py < 32:  # Stay in bounds
+                    hearts.append(
+                        render.Padding(
+                            pad = (px, py, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 1,
+                                color = pulsed_color,
+                            ),
+                        ),
+                    )
+
+    # Medium hearts (2x2 pattern) - floating romantically
+    medium_heart_positions = [
+        (18, 5),  # Upper area
+        (38, 12),  # Middle area
+        (25, 24),  # Lower area
+        (45, 7),  # Upper right
+    ]
+
+    for i, (cx, cy) in enumerate(medium_heart_positions):
+        # Apply pulse intensity with slight offset for each heart
+        pulse_offset = (i * 2) % len(pulse_intensities)
+        offset_intensity = pulse_intensities[(frame_idx + pulse_offset) % len(pulse_intensities)]
+
+        base_color = base_colors[(i + 1) % len(base_colors)]
         base_rgb = hex_to_rgb(base_color)
         pulsed_color = rgb_to_hex([
-            int(base_rgb[0] * intensity),
-            int(base_rgb[1] * intensity),
-            int(base_rgb[2] * intensity),
+            int(base_rgb[0] * offset_intensity),
+            int(base_rgb[1] * offset_intensity),
+            int(base_rgb[2] * offset_intensity),
         ])
 
-        hearts.append(
-            render.Padding(
-                pad = (x, y, 0, 0),
-                child = render.Box(
-                    width = 1,
-                    height = 1,
-                    color = pulsed_color,
-                ),
-            ),
-        )
+        # Create a smaller heart shape (2x2 pattern)
+        # Pattern:  ■   ■
+        #           ■ ■ ■
+        #             ■
+        small_heart_pattern = [
+            (cx - 1, cy),
+            (cx + 1, cy),  # Top bumps
+            (cx - 1, cy + 1),
+            (cx, cy + 1),
+            (cx + 1, cy + 1),  # Middle row
+            (cx, cy + 2),  # Bottom point
+        ]
 
-        # Add some larger heart shapes (2x2 pixels) for variety
-        if i < 3:  # Only first 3 hearts get the larger treatment
-            # Try to add a second pixel to create larger hearts
-            if x + 1 < 64:  # Make sure we stay in bounds
+        for px, py in small_heart_pattern:
+            if 0 <= px and px < 64 and 0 <= py and py < 32:  # Stay in bounds
                 hearts.append(
                     render.Padding(
-                        pad = (x + 1, y, 0, 0),
+                        pad = (px, py, 0, 0),
                         child = render.Box(
                             width = 1,
                             height = 1,
@@ -1611,6 +1666,55 @@ def generate_valentine_hearts_for_frame(frame_idx):
                         ),
                     ),
                 )
+
+    # Small floating hearts (single pixels) - scattered romantically like floating love
+    # These drift/float across frames for magical effect
+    base_small_positions = [
+        (15, 15),
+        (22, 8),
+        (35, 18),
+        (48, 11),
+        (58, 25),
+        (12, 22),
+        (42, 4),
+        (28, 28),
+    ]
+
+    for i, (base_x, base_y) in enumerate(base_small_positions):
+        # Create gentle floating motion - hearts drift slightly across frames
+        drift_x = (frame_idx + i * 2) % 4 - 2  # Drift -2 to +1 pixels
+        drift_y = (frame_idx * 2 + i) % 3 - 1  # Gentle up/down motion
+
+        x = base_x + drift_x
+        y = base_y + drift_y
+
+        # Skip hearts that would overlap with dial area (middle third)
+        if 20 <= x and x <= 44:
+            continue
+
+        # Apply gentle pulse with individual timing
+        pulse_offset = (i * 3) % len(pulse_intensities)
+        heart_intensity = pulse_intensities[(frame_idx + pulse_offset) % len(pulse_intensities)]
+
+        base_color = base_colors[(i + 2) % len(base_colors)]
+        base_rgb = hex_to_rgb(base_color)
+        pulsed_color = rgb_to_hex([
+            int(base_rgb[0] * heart_intensity * 0.8),  # Slightly dimmer for subtlety
+            int(base_rgb[1] * heart_intensity * 0.8),
+            int(base_rgb[2] * heart_intensity * 0.8),
+        ])
+
+        if 0 <= x and x < 64 and 0 <= y and y < 32:  # Stay in bounds
+            hearts.append(
+                render.Padding(
+                    pad = (x, y, 0, 0),
+                    child = render.Box(
+                        width = 1,
+                        height = 1,
+                        color = pulsed_color,
+                    ),
+                ),
+            )
 
     return hearts
 

@@ -460,6 +460,37 @@ DIA_DE_LOS_MUERTOS_PALETTE = [
     "#FF8C00",  # Dark Orange (back to start)
 ]
 
+# Multi-Calendar New Year Palettes
+NOWRUZ_PALETTE = [
+    "#E6F3FF",  # Very Pale Blue (dawn of spring)
+    "#B3E0FF",  # Light Sky Blue
+    "#80CCFF",  # Soft Blue (Persian sky)
+    "#66FFB3",  # Mint Green (new growth)
+    "#80FF80",  # Light Green (spring leaves)
+    "#B3FF66",  # Fresh Green (Persian gardens)
+    "#E6FF4D",  # Spring Yellow (Persian sun)
+    "#FFFF66",  # Bright Yellow (spring equinox light)
+    "#FFE066",  # Warm Yellow (Persian gold)
+    "#FFD700",  # Gold (Persian tradition)
+    "#FFA500",  # Orange (Persian saffron)
+    "#E6F3FF",  # Very Pale Blue (back to dawn)
+]
+
+SONGKRAN_PALETTE = [
+    "#000080",  # Deep Navy (traditional Thai blue)
+    "#1E90FF",  # Dodger Blue (water festival)
+    "#00BFFF",  # Deep Sky Blue (Thai sky)
+    "#87CEEB",  # Sky Blue (water clarity)
+    "#B0E0E6",  # Powder Blue (gentle water)
+    "#E0F6FF",  # Very Light Blue (water splash)
+    "#F0F8FF",  # Alice Blue (pure water)
+    "#E6F3FF",  # Very Pale Blue (water mist)
+    "#66FFB3",  # Mint Green (spring renewal)
+    "#80FF80",  # Light Green (Thai spring)
+    "#4169E1",  # Royal Blue (Thai tradition)
+    "#000080",  # Deep Navy (back to start)
+]
+
 # Variable Date Regional Holidays
 THANKSGIVING_PALETTE = [
     "#8B4513",  # Saddle Brown (autumn harvest)
@@ -539,6 +570,8 @@ ADAPTIVE_ACCENT_COLORS = {
     "thanksgiving": "#00FFFF",  # Cyan (contrasts with brown/orange harvest colors)
     "golden_week": "#0000FF",  # Blue (contrasts with pink cherry blossom colors)
     "black_friday": "#FFFF00",  # Yellow (contrasts with black, like a price tag)
+    "nowruz": "#8A2BE2",  # Purple (contrasts with spring blues/greens/yellows)
+    "songkran": "#FFD700",  # Gold (contrasts with water blues)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
@@ -566,6 +599,8 @@ CONTRAST_ACCENT_COLORS = {
     "thanksgiving": "#654321",  # Dark brown (darker contrast)
     "golden_week": "#8B008B",  # Dark magenta (darker contrast)
     "black_friday": "#2F2F2F",  # Dark gray (darker contrast on black theme)
+    "nowruz": "#2E8B57",  # Sea green (darker contrast on light spring colors)
+    "songkran": "#000080",  # Navy (darker contrast on light water blues)
 }
 
 # Calendar conversion functions (borrowed from apps/calendars/calendars.star)
@@ -697,7 +732,7 @@ def main(config):
     animated_holidays = []
     if special_override == "newyears_eve":  # Dec 31 - sparkle animation
         animated_holidays.append("newyears_eve")
-    elif special_override == "halloween":  # Oct 31 - flicker animation  
+    elif special_override == "halloween":  # Oct 31 - flicker animation
         animated_holidays.append("halloween")
     elif special_override == "christmas":  # Dec 25 - snow animation
         animated_holidays.append("christmas")
@@ -1004,7 +1039,7 @@ def generate_sparkles_for_frame(frame_idx):
 
 def create_holiday_animation(holiday_type, year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
     """Create animated holiday display - dispatcher for different holiday types"""
-    
+
     if holiday_type == "newyears_eve":
         return create_new_years_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
     elif holiday_type == "halloween":
@@ -1019,35 +1054,35 @@ def create_holiday_animation(holiday_type, year_fraction, color_scheme, hemisphe
 
 def create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
     """Create animated Halloween display with orange/black flickering effect"""
-    
+
     # Number of animation frames for flicker effect
     num_frames = 6
     frame_delay = 120  # slower than sparkles for spooky effect
-    
+
     # Create list of animation frames
     frames = []
-    
+
     for frame_idx in range(num_frames):
         # Create the gradient background with flicker effect
         gradient_children = []
         for x in range(64):
             # Calculate position in gradient (0.0 to 1.0)
             pos = x / 63.0
-            
+
             # Get base color for this position
             base_color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
-            
+
             # Apply flicker effect - darken certain frames to create spooky flicker
             flicker_intensity = [1.0, 0.7, 1.0, 0.5, 1.0, 0.8][frame_idx]
-            
+
             # Parse base color and apply flicker
             base_rgb = hex_to_rgb(base_color)
             flickered_color = rgb_to_hex([
                 int(base_rgb[0] * flicker_intensity),
                 int(base_rgb[1] * flicker_intensity),
-                int(base_rgb[2] * flicker_intensity)
+                int(base_rgb[2] * flicker_intensity),
             ])
-            
+
             # Create a vertical line for this x position
             gradient_children.append(
                 render.Box(
@@ -1056,16 +1091,16 @@ def create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, 
                     color = flickered_color,
                 ),
             )
-        
+
         # Calculate marker position with proper edge handling
         marker_x = min(62, int(year_fraction * 62) + 1)
-        
+
         # Get accent dot color based on style and color scheme
         accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
-        
+
         # Generate spooky flicker overlay for this frame
         flicker_children = generate_halloween_flicker_for_frame(frame_idx)
-        
+
         # Create the frame
         frame = render.Stack(
             children = [
@@ -1134,7 +1169,7 @@ def create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, 
                             # Alternative calendar date (if different from Gregorian)
                             render.Text(
                                 content = get_alternative_calendar_date(now, calendar_system) or "",
-                                font = "tom-thumb", 
+                                font = "tom-thumb",
                                 color = get_date_color(color_scheme, hemisphere),
                             ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
                         ],
@@ -1142,9 +1177,9 @@ def create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, 
                 ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
         )
-        
+
         frames.append(frame)
-    
+
     # Return animated root with all frames
     return render.Root(
         delay = frame_delay,
@@ -1156,13 +1191,13 @@ def create_halloween_flicker_animation(year_fraction, color_scheme, hemisphere, 
 def generate_halloween_flicker_for_frame(frame_idx):
     """Generate flickering overlay pixels for a specific Halloween animation frame"""
     flickers = []
-    
+
     # Different flicker patterns for each frame to create spooky effect
     # Some frames have more random flickers, others are calmer
     flicker_patterns = [
         # Frame 0: scattered orange flickers
         [(12, 8), (28, 15), (45, 5), (58, 22)],
-        # Frame 1: minimal flickers 
+        # Frame 1: minimal flickers
         [(20, 18), (40, 10)],
         # Frame 2: intense flicker
         [(8, 12), (25, 6), (35, 20), (48, 14), (60, 8), (52, 25)],
@@ -1173,17 +1208,17 @@ def generate_halloween_flicker_for_frame(frame_idx):
         # Frame 5: spooky finale
         [(22, 5), (42, 25), (18, 14), (45, 9)],
     ]
-    
+
     # Get flicker positions for this frame
     frame_flickers = flicker_patterns[frame_idx % len(flicker_patterns)]
-    
+
     # Create flicker pixels with orange/black colors
     flicker_colors = ["#FF6600", "#FF4500", "#1A0A00", "#FF8C00"]  # Orange, orange-red, dark brown, dark orange
-    
+
     for i, (x, y) in enumerate(frame_flickers):
         # Vary flicker color based on position
         color = flicker_colors[i % len(flicker_colors)]
-        
+
         flickers.append(
             render.Padding(
                 pad = (x, y, 0, 0),
@@ -1194,49 +1229,49 @@ def generate_halloween_flicker_for_frame(frame_idx):
                 ),
             ),
         )
-    
+
     return flickers
 
 def hex_to_rgb(hex_color):
     """Convert hex color to RGB tuple"""
-    hex_color = hex_color.lstrip('#')
-    return [int(hex_color[i:i+2], 16) for i in (0, 2, 4)]
+    hex_color = hex_color.lstrip("#")
+    return [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
 
 def rgb_to_hex(rgb):
     """Convert RGB tuple to hex color"""
     r = max(0, min(255, rgb[0]))
     g = max(0, min(255, rgb[1]))
     b = max(0, min(255, rgb[2]))
-    
+
     # Convert to hex manually since Starlark doesn't support format specifiers
     def to_hex(n):
         hex_chars = "0123456789abcdef"
         if n < 16:
             return "0" + hex_chars[n]
         return hex_chars[n // 16] + hex_chars[n % 16]
-    
+
     return "#" + to_hex(r) + to_hex(g) + to_hex(b)
 
 def create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
     """Create animated Christmas display with falling snow effect"""
-    
+
     # Number of animation frames for snow effect
     num_frames = 8
     frame_delay = 100  # Smooth snow falling
-    
+
     # Create list of animation frames
     frames = []
-    
+
     for frame_idx in range(num_frames):
         # Create the gradient background (Christmas colors)
         gradient_children = []
         for x in range(64):
             # Calculate position in gradient (0.0 to 1.0)
             pos = x / 63.0
-            
+
             # Get color for this position
             color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
-            
+
             # Create a vertical line for this x position
             gradient_children.append(
                 render.Box(
@@ -1245,16 +1280,16 @@ def create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, cal
                     color = color,
                 ),
             )
-        
+
         # Calculate marker position with proper edge handling
         marker_x = min(62, int(year_fraction * 62) + 1)
-        
+
         # Get accent dot color based on style and color scheme
         accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
-        
+
         # Generate snow for this frame
         snow_children = generate_christmas_snow_for_frame(frame_idx)
-        
+
         # Create the frame
         frame = render.Stack(
             children = [
@@ -1331,9 +1366,9 @@ def create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, cal
                 ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
         )
-        
+
         frames.append(frame)
-    
+
     # Return animated root with all frames
     return render.Root(
         delay = frame_delay,
@@ -1345,7 +1380,7 @@ def create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, cal
 def generate_christmas_snow_for_frame(frame_idx):
     """Generate falling snow pixels for a specific Christmas animation frame"""
     snow = []
-    
+
     # Different snow patterns for each frame to create falling effect
     # Snow "falls" by appearing at different Y positions across frames
     snow_patterns = [
@@ -1366,19 +1401,19 @@ def generate_christmas_snow_for_frame(frame_idx):
         # Frame 7: at bottom, new snow at top
         [(8, 23), (15, 22), (28, 24), (35, 22), (42, 23), (55, 24), (62, 22), (12, 19), (25, 20), (48, 19), (5, 17), (38, 16), (20, 11), (52, 12), (10, 1), (30, 2), (50, 1)],
     ]
-    
+
     # Get snow positions for this frame
     frame_snow = snow_patterns[frame_idx % len(snow_patterns)]
-    
+
     # Create snow pixels with white/light blue colors
     snow_colors = ["#FFFFFF", "#F0F8FF", "#E6F3FF", "#FFFAFA"]  # White, alice blue, very light blue, snow white
-    
+
     for i, (x, y) in enumerate(frame_snow):
         # Keep snow within bounds
         if (0 <= x and x < 64) and (0 <= y and y < 32):
             # Vary snow color slightly
             color = snow_colors[i % len(snow_colors)]
-            
+
             snow.append(
                 render.Padding(
                     pad = (x, y, 0, 0),
@@ -1389,29 +1424,29 @@ def generate_christmas_snow_for_frame(frame_idx):
                     ),
                 ),
             )
-    
+
     return snow
 
 def create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
     """Create animated Valentine's display with pulsing hearts effect"""
-    
+
     # Number of animation frames for heart pulsing effect
     num_frames = 6
     frame_delay = 150  # Slower, romantic pulse
-    
+
     # Create list of animation frames
     frames = []
-    
+
     for frame_idx in range(num_frames):
         # Create the gradient background (red/pink for Valentine's)
         gradient_children = []
         for x in range(64):
             # Calculate position in gradient (0.0 to 1.0)
             pos = x / 63.0
-            
+
             # Get color for this position
             color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
-            
+
             # Create a vertical line for this x position
             gradient_children.append(
                 render.Box(
@@ -1420,16 +1455,16 @@ def create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, c
                     color = color,
                 ),
             )
-        
+
         # Calculate marker position with proper edge handling
         marker_x = min(62, int(year_fraction * 62) + 1)
-        
+
         # Get accent dot color based on style and color scheme
         accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
-        
+
         # Generate hearts for this frame
         heart_children = generate_valentine_hearts_for_frame(frame_idx)
-        
+
         # Create the frame
         frame = render.Stack(
             children = [
@@ -1506,9 +1541,9 @@ def create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, c
                 ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
             ],
         )
-        
+
         frames.append(frame)
-    
+
     # Return animated root with all frames
     return render.Root(
         delay = frame_delay,
@@ -1520,22 +1555,27 @@ def create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, c
 def generate_valentine_hearts_for_frame(frame_idx):
     """Generate pulsing heart pixels for a specific Valentine's animation frame"""
     hearts = []
-    
+
     # Heart shapes using simple pixel patterns (since we can't draw curves)
     # We'll use different intensities to simulate pulsing
     heart_positions = [
         # Small hearts scattered around
-        (12, 8), (28, 15), (45, 5), (58, 20),  # Single pixel hearts
-        (20, 25), (40, 10), (55, 18)  # More single pixel hearts
+        (12, 8),
+        (28, 15),
+        (45, 5),
+        (58, 20),  # Single pixel hearts
+        (20, 25),
+        (40, 10),
+        (55, 18),  # More single pixel hearts
     ]
-    
+
     # Pulsing effect - hearts get brighter/dimmer across frames
     pulse_intensities = [0.6, 0.8, 1.0, 0.8, 0.6, 0.4]  # Smooth pulse
     intensity = pulse_intensities[frame_idx % len(pulse_intensities)]
-    
+
     # Heart colors with varying intensities
     base_colors = ["#FF1493", "#FF69B4", "#FFB6C1", "#FF6347"]  # Deep pink, hot pink, light pink, tomato
-    
+
     for i, (x, y) in enumerate(heart_positions):
         # Apply pulse intensity to color
         base_color = base_colors[i % len(base_colors)]
@@ -1543,9 +1583,9 @@ def generate_valentine_hearts_for_frame(frame_idx):
         pulsed_color = rgb_to_hex([
             int(base_rgb[0] * intensity),
             int(base_rgb[1] * intensity),
-            int(base_rgb[2] * intensity)
+            int(base_rgb[2] * intensity),
         ])
-        
+
         hearts.append(
             render.Padding(
                 pad = (x, y, 0, 0),
@@ -1556,7 +1596,7 @@ def generate_valentine_hearts_for_frame(frame_idx):
                 ),
             ),
         )
-        
+
         # Add some larger heart shapes (2x2 pixels) for variety
         if i < 3:  # Only first 3 hearts get the larger treatment
             # Try to add a second pixel to create larger hearts
@@ -1571,7 +1611,7 @@ def generate_valentine_hearts_for_frame(frame_idx):
                         ),
                     ),
                 )
-    
+
     return hearts
 
 def get_special_date_override(now, enable_special_dates, timezone_name):
@@ -1639,6 +1679,16 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     if month == 12 and day == 21:
         return "winter_solstice"
 
+    # Multi-Calendar New Year Celebrations
+
+    # Persian New Year - Nowruz (Mar 20-21) - Spring equinox celebration
+    if (month == 3 and (day == 20 or day == 21)) and is_persian_timezone(timezone_name):
+        return "nowruz"
+
+    # Thai New Year - Songkran (Apr 13-15) - Water festival
+    if (month == 4 and (day >= 13 and day <= 15)) and is_thai_timezone(timezone_name):
+        return "songkran"
+
     # Regional Holidays - Fixed Date Celebrations (timezone-filtered for cultural relevance)
 
     # Independence Day (Jul 4) - North American (US) patriotic colors
@@ -1697,11 +1747,11 @@ def is_us_timezone(timezone_name):
         "America/Anchorage",
         "Pacific/Honolulu",
     ]
-    
+
     # Mexican timezones to exclude
     mexico_patterns = [
         "America/Tijuana",
-        "America/Hermosillo", 
+        "America/Hermosillo",
         "America/Mazatlan",
         "America/Ciudad_Juarez",
         "America/Chihuahua",
@@ -1713,11 +1763,11 @@ def is_us_timezone(timezone_name):
         "America/Monterrey",
         "America/Merida",
     ]
-    
+
     # Check if it's a known Mexican timezone
     if timezone_name in mexico_patterns:
         return False
-        
+
     return timezone_name in us_patterns or timezone_name.startswith("America/")
 
 def is_french_timezone(timezone_name):
@@ -1779,27 +1829,27 @@ def is_latin_american_timezone(timezone_name):
 
 def is_halloween_timezone(timezone_name):
     """Check if timezone celebrates Halloween (US/Canada/Ireland/UK only)"""
-    
+
     # Halloween is primarily celebrated in Anglo-Saxon cultures
     halloween_patterns = [
         "America/",  # United States and Canada (North America)
-        "US/",       # US timezone aliases
-        "Canada/",   # Canadian timezones
-        "Europe/Dublin",        # Ireland
-        "Europe/London",        # United Kingdom
-        "Europe/Belfast",       # Northern Ireland
-        "Europe/Edinburgh",     # Scotland
-        "Europe/Cardiff",       # Wales
-        "Europe/Isle_of_Man",   # Isle of Man
-        "Europe/Jersey",        # Jersey
-        "Europe/Guernsey",      # Guernsey
-        "Atlantic/Reykjavik",   # Iceland (culturally similar)
+        "US/",  # US timezone aliases
+        "Canada/",  # Canadian timezones
+        "Europe/Dublin",  # Ireland
+        "Europe/London",  # United Kingdom
+        "Europe/Belfast",  # Northern Ireland
+        "Europe/Edinburgh",  # Scotland
+        "Europe/Cardiff",  # Wales
+        "Europe/Isle_of_Man",  # Isle of Man
+        "Europe/Jersey",  # Jersey
+        "Europe/Guernsey",  # Guernsey
+        "Atlantic/Reykjavik",  # Iceland (culturally similar)
     ]
-    
+
     # Exclude Mexico from Americas (Halloween not traditionally celebrated)
     mexican_patterns = [
         "America/Tijuana",
-        "America/Hermosillo", 
+        "America/Hermosillo",
         "America/Mazatlan",
         "America/Ciudad_Juarez",
         "America/Chihuahua",
@@ -1811,11 +1861,11 @@ def is_halloween_timezone(timezone_name):
         "America/Monterrey",
         "America/Merida",
     ]
-    
+
     # Check if it's Mexican timezone (exclude these)
     if timezone_name in mexican_patterns:
         return False
-        
+
     # Check if it matches Halloween-celebrating regions
     for pattern in halloween_patterns:
         if timezone_name.startswith(pattern) or timezone_name == pattern:
@@ -1824,33 +1874,33 @@ def is_halloween_timezone(timezone_name):
 
 def is_irish_diaspora_timezone(timezone_name):
     """Check if timezone is in Irish diaspora regions for St. Patrick's Day"""
-    
+
     # Irish diaspora primarily in Ireland, UK, US, Canada, Australia
     irish_diaspora_patterns = [
         # Ireland and UK
-        "Europe/Dublin",        # Ireland
-        "Europe/London",        # United Kingdom  
-        "Europe/Belfast",       # Northern Ireland
-        "Europe/Edinburgh",     # Scotland
-        "Europe/Cardiff",       # Wales
-        
+        "Europe/Dublin",  # Ireland
+        "Europe/London",  # United Kingdom
+        "Europe/Belfast",  # Northern Ireland
+        "Europe/Edinburgh",  # Scotland
+        "Europe/Cardiff",  # Wales
+
         # North America (large Irish populations)
-        "America/",             # United States and Canada
-        "US/",                  # US timezone aliases  
-        "Canada/",              # Canadian timezones
-        
+        "America/",  # United States and Canada
+        "US/",  # US timezone aliases
+        "Canada/",  # Canadian timezones
+
         # Australia and New Zealand (significant Irish heritage)
-        "Australia/",           # Australia
-        "Pacific/Auckland",     # New Zealand
-        
+        "Australia/",  # Australia
+        "Pacific/Auckland",  # New Zealand
+
         # Argentina (some Irish settlement)
         "America/Argentina/Buenos_Aires",
     ]
-    
+
     # Exclude Mexico and most of Latin America (limited Irish cultural influence)
     mexican_latin_patterns = [
         "America/Tijuana",
-        "America/Hermosillo", 
+        "America/Hermosillo",
         "America/Mazatlan",
         "America/Ciudad_Juarez",
         "America/Chihuahua",
@@ -1868,12 +1918,12 @@ def is_irish_diaspora_timezone(timezone_name):
         "America/Sao_Paulo",
         "America/Caracas",
     ]
-    
+
     # Check if it's a region with limited Irish cultural influence
     for excluded in mexican_latin_patterns:
         if timezone_name.startswith(excluded) or timezone_name == excluded:
             return False
-    
+
     # Check if it matches Irish diaspora regions
     for pattern in irish_diaspora_patterns:
         if timezone_name.startswith(pattern) or timezone_name == pattern:
@@ -1882,56 +1932,56 @@ def is_irish_diaspora_timezone(timezone_name):
 
 def is_western_jewish_timezone(timezone_name):
     """Check if timezone is in Western regions where Jewish holidays are widely recognized"""
-    
+
     # Regions with significant Jewish populations and cultural recognition
     western_jewish_patterns = [
         # North America (large Jewish populations)
-        "America/",             # United States and Canada
-        "US/",                  # US timezone aliases  
-        "Canada/",              # Canadian timezones
-        
+        "America/",  # United States and Canada
+        "US/",  # US timezone aliases
+        "Canada/",  # Canadian timezones
+
         # Western Europe (significant Jewish communities)
-        "Europe/London",        # United Kingdom
-        "Europe/Paris",         # France
-        "Europe/Berlin",        # Germany
-        "Europe/Vienna",        # Austria
-        "Europe/Zurich",        # Switzerland
-        "Europe/Amsterdam",     # Netherlands
-        "Europe/Brussels",      # Belgium
-        "Europe/Stockholm",     # Sweden
-        "Europe/Oslo",          # Norway
-        "Europe/Copenhagen",    # Denmark
-        "Europe/Rome",          # Italy
-        
+        "Europe/London",  # United Kingdom
+        "Europe/Paris",  # France
+        "Europe/Berlin",  # Germany
+        "Europe/Vienna",  # Austria
+        "Europe/Zurich",  # Switzerland
+        "Europe/Amsterdam",  # Netherlands
+        "Europe/Brussels",  # Belgium
+        "Europe/Stockholm",  # Sweden
+        "Europe/Oslo",  # Norway
+        "Europe/Copenhagen",  # Denmark
+        "Europe/Rome",  # Italy
+
         # Australia and New Zealand (Jewish communities)
-        "Australia/",           # Australia
-        "Pacific/Auckland",     # New Zealand
-        
+        "Australia/",  # Australia
+        "Pacific/Auckland",  # New Zealand
+
         # Israel (obviously)
-        "Asia/Jerusalem",       # Israel/Palestine
-        
+        "Asia/Jerusalem",  # Israel/Palestine
+
         # South Africa (significant Jewish community)
         "Africa/Johannesburg",  # South Africa
     ]
-    
+
     # Exclude regions with limited Jewish cultural presence
     limited_jewish_patterns = [
         "America/Tijuana",
         "America/Mexico_City",
         "America/Cancun",
         "America/Guatemala",
-        "America/Bogota", 
+        "America/Bogota",
         "America/Lima",
         "America/Santiago",
         "America/Caracas",
-        "America/Sao_Paulo",   # Brazil has Jewish communities but Hanukkah is summer there
+        "America/Sao_Paulo",  # Brazil has Jewish communities but Hanukkah is summer there
     ]
-    
+
     # Check if it's a region with limited Jewish cultural recognition
     for excluded in limited_jewish_patterns:
         if timezone_name.startswith(excluded) or timezone_name == excluded:
             return False
-    
+
     # Check if it matches Western Jewish community regions
     for pattern in western_jewish_patterns:
         if timezone_name.startswith(pattern) or timezone_name == pattern:
@@ -1987,6 +2037,33 @@ def is_golden_week_date(month, day):
         return True
     return False
 
+def is_persian_timezone(timezone_name):
+    """Check if timezone is in Persian/Iranian regions for Nowruz celebration"""
+    persian_patterns = [
+        "Asia/Tehran",  # Iran
+        "Asia/Kabul",  # Afghanistan
+        "Asia/Dushanbe",  # Tajikistan
+        "Asia/Samarkand",  # Uzbekistan (some Persian influence)
+        "Asia/Tashkent",  # Uzbekistan
+        "Asia/Bishkek",  # Kyrgyzstan (some Persian influence)
+        "Asia/Almaty",  # Kazakhstan (some Persian influence)
+        "Asia/Baku",  # Azerbaijan (Persian cultural ties)
+        "Asia/Yerevan",  # Armenia (some Persian influence)
+    ]
+
+    return timezone_name in persian_patterns or timezone_name.startswith("Asia/Tehran")
+
+def is_thai_timezone(timezone_name):
+    """Check if timezone is in Thai regions for Songkran celebration"""
+    thai_patterns = [
+        "Asia/Bangkok",  # Thailand (main timezone)
+        "Asia/Phnom_Penh",  # Cambodia (similar water festival)
+        "Asia/Vientiane",  # Laos (similar water festival)
+        "Asia/Yangon",  # Myanmar (similar water festival - Thingyan)
+    ]
+
+    return timezone_name in thai_patterns or timezone_name.startswith("Asia/Bangkok")
+
 def get_date_color(color_scheme, hemisphere):
     """Get appropriate date text color based on color scheme and hemisphere"""
 
@@ -2027,6 +2104,10 @@ def get_date_color(color_scheme, hemisphere):
         return "#FFFFFF"  # White text for contrast on dark autumn colors
     elif color_scheme == "winter_solstice":
         return "#000000"  # Black text for contrast on light winter colors (includes whites)
+    elif color_scheme == "nowruz":
+        return "#000000"  # Black text for contrast on light spring colors
+    elif color_scheme == "songkran":
+        return "#000000"  # Black text for contrast on light water blues
     else:
         return "#000000"  # Default to black text
 
@@ -2080,6 +2161,10 @@ def get_color_palette(color_scheme):
         return GOLDEN_WEEK_PALETTE
     elif color_scheme == "black_friday":
         return BLACK_FRIDAY_PALETTE
+    elif color_scheme == "nowruz":
+        return NOWRUZ_PALETTE
+    elif color_scheme == "songkran":
+        return SONGKRAN_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE
@@ -2632,7 +2717,7 @@ def get_schema():
                 id = "enable_animations",
                 name = "Enable Holiday Animations",
                 desc = "Show animations on special holidays (New Year's sparkles, Halloween flicker, Christmas snow, Valentine's hearts)",
-                icon = "magic",
+                icon = "star",
                 default = True,
             ),
         ],

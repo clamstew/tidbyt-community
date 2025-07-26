@@ -255,23 +255,16 @@ for i in "${!ASTRONOMICAL_DATES[@]}"; do
 done
 
 # Test regional holidays with timezone filtering (fixed dates)
-REGIONAL_DATES=("2024-07-04T12:00:00Z" "2024-07-14T12:00:00Z" "2024-12-26T12:00:00Z" "2024-05-01T12:00:00Z" "2024-11-01T12:00:00Z")
-REGIONAL_NAMES=("IndependenceDay" "BastilleDay" "BoxingDay" "MayDay" "DiaDeLosMuertos")
-REGIONAL_ENABLED_TZ=("America/New_York" "Europe/Paris" "Europe/London" "Europe/Paris" "America/Mexico_City")
-REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York" "America/New_York")
+REGIONAL_DATES=("2024-07-04T12:00:00Z" "2024-07-14T12:00:00Z" "2024-12-26T12:00:00Z" "2024-05-01T12:00:00Z" "2024-11-01T12:00:00Z" "2024-10-31T12:00:00Z" "2024-03-17T12:00:00Z" "2024-04-23T12:00:00Z" "2024-12-27T12:00:00Z" "2024-03-20T12:00:00Z" "2024-03-21T12:00:00Z" "2024-04-13T12:00:00Z" "2024-04-14T12:00:00Z" "2024-04-15T12:00:00Z")
+REGIONAL_NAMES=("IndependenceDay" "BastilleDay" "BoxingDay" "MayDay" "DiaDeLosMuertos" "Halloween" "StPatricksDay" "Passover" "Hanukkah" "Nowruz_Mar20" "Nowruz_Mar21" "Songkran_Apr13" "Songkran_Apr14" "Songkran_Apr15")
+REGIONAL_ENABLED_TZ=("America/New_York" "Europe/Paris" "Europe/London" "Europe/Paris" "America/Mexico_City" "America/New_York" "Europe/Dublin" "America/New_York" "America/New_York" "Asia/Tehran" "Asia/Tehran" "Asia/Bangkok" "Asia/Bangkok" "Asia/Bangkok")
+REGIONAL_DISABLED_TZ=("Europe/London" "America/New_York" "America/New_York" "America/New_York" "America/New_York" "Europe/Paris" "Europe/Paris" "Asia/Tokyo" "America/Mexico_City" "America/New_York" "America/New_York" "America/New_York" "America/New_York" "America/New_York")
 
 # Test variable date regional holidays
 VARIABLE_DATES=("2024-11-28T12:00:00Z" "2024-11-29T12:00:00Z" "2024-05-01T12:00:00Z")
 VARIABLE_NAMES=("Thanksgiving" "BlackFriday" "GoldenWeek")
 VARIABLE_ENABLED_TZ=("America/New_York" "America/New_York" "Asia/Tokyo")
 VARIABLE_DISABLED_TZ=("Europe/London" "Europe/London" "America/New_York")
-
-# Test regional holidays in correct timezones (should show special colors)
-# Add Halloween, St. Patrick's Day, and Jewish holidays to regional holidays
-REGIONAL_DATES+=("2024-10-31T12:00:00Z" "2024-03-17T12:00:00Z" "2024-04-23T12:00:00Z" "2024-12-27T12:00:00Z")
-REGIONAL_NAMES+=("Halloween" "StPatricksDay" "Passover" "Hanukkah")
-REGIONAL_ENABLED_TZ+=("America/New_York" "Europe/Dublin" "America/New_York" "America/New_York")
-REGIONAL_DISABLED_TZ+=("Europe/Paris" "Europe/Paris" "Asia/Tokyo" "America/Mexico_City")
 
 for i in "${!REGIONAL_DATES[@]}"; do
     date="${REGIONAL_DATES[$i]}"

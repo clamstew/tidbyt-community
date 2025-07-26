@@ -817,14 +817,14 @@ def format_date_with_timezone_detection(date, timezone_name, user_override=None)
   - [ ] Create CHINESE_NEWYEAR_PALETTE with red/gold traditional colors
   - [ ] Add timezone filtering (Asia/Shanghai, Asia/Hong_Kong, Asia/Taipei, etc.)
   - [ ] Variable date calculation (typically late January to mid-February)
-- [ ] **Persian New Year (Nowruz)**: Spring equinox-based celebration
-  - [ ] Already have Persian calendar support - extend for Nowruz detection
-  - [ ] Create NOWRUZ_PALETTE with spring colors
-  - [ ] Add timezone filtering (Asia/Tehran, Asia/Kabul, etc.)
-  - [ ] Fixed date (March 20-21, depending on astronomical calculation)
-- [ ] **Thai New Year (Songkran)**: April 13-15 celebration
-  - [ ] Create SONGKRAN_PALETTE with water festival blues and spring colors
-  - [ ] Add timezone filtering (Asia/Bangkok, etc.)
+- [x] **Persian New Year (Nowruz)**: Spring equinox-based celebration ✅ COMPLETED
+  - [x] Already have Persian calendar support - extend for Nowruz detection ✅ COMPLETED
+  - [x] Create NOWRUZ_PALETTE with spring colors ✅ COMPLETED: Persian garden colors with pale blues, mint greens, spring yellows, and traditional gold
+  - [x] Add timezone filtering (Asia/Tehran, Asia/Kabul, etc.) ✅ COMPLETED: 9 Persian cultural regions
+  - [x] Fixed date (March 20-21, depending on astronomical calculation) ✅ COMPLETED: March 20-21 date range
+- [x] **Thai New Year (Songkran)**: April 13-15 celebration ✅ COMPLETED
+  - [x] Create SONGKRAN_PALETTE with water festival blues and spring colors ✅ COMPLETED: Deep navy, sky blues, powder blues, and spring green renewal colors
+  - [x] Add timezone filtering (Asia/Bangkok, etc.) ✅ COMPLETED: Southeast Asian water festival regions (Thailand, Cambodia, Laos, Myanmar)
 - [ ] **Islamic New Year**: Hijri calendar integration
   - [ ] Already have Islamic calendar support - extend for New Year detection
   - [ ] Create ISLAMIC_NEWYEAR_PALETTE

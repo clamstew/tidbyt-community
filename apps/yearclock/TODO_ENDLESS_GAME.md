@@ -22,7 +22,7 @@ _Cultural expansion that could theoretically continue forever - mapping the worl
 #### Religious & Cultural Holidays
 
 - [ ] **Hindu Holidays**: Diwali, Holi, Navratri with regional variations
-- [ ] **Buddhist Holidays**: Vesak, Songkran, Losar across different traditions
+- [ ] **Buddhist Holidays**: Vesak, ~~Songkran~~, Losar across different traditions
 - [ ] **Islamic Holidays**: Eid al-Fitr, Eid al-Adha, Mawlid with lunar calculations
 - [ ] **Jewish Holidays**: Rosh Hashanah, Yom Kippur, Passover, Hanukkah
 - [ ] **Sikh Holidays**: Guru Nanak's birthday, Vaisakhi

@@ -4,7 +4,7 @@ This document provides the complete set of `pixlet render` commands to generate 
 
 ## Overview
 
-- **Total Test Cases**: ~385+ unique configurations
+- **Total Test Cases**: ~390+ unique configurations
 - **Images Generated**: 6x magnification for gallery view
 - **High-res Available**: 12x magnification for modal view (with `-H` flag)
 - **Test Script**: `./test_harness.sh`
@@ -306,7 +306,7 @@ pixlet render year_clock.star debug_date='2024-12-21T12:00:00Z' enable_special_d
 
 ---
 
-## 10. Regional Holidays with Timezone Filtering (18 tests)
+## 10. Regional Holidays with Timezone Filtering (24 tests)
 
 Smart timezone filtering shows culturally relevant holidays based on location.
 
@@ -339,6 +339,21 @@ pixlet render year_clock.star debug_date='2024-04-23T12:00:00Z' enable_special_d
 
 # Hanukkah (US/Canada/Western regions)
 pixlet render year_clock.star debug_date='2024-12-27T12:00:00Z' enable_special_dates=true show_date=true '$tz=America/New_York'
+
+# Persian Nowruz (Iran/Afghanistan/Central Asia)
+pixlet render year_clock.star debug_date='2024-03-20T12:00:00Z' enable_special_dates=true show_date=true '$tz=Asia/Tehran'
+
+# Persian Nowruz Day 2
+pixlet render year_clock.star debug_date='2024-03-21T12:00:00Z' enable_special_dates=true show_date=true '$tz=Asia/Tehran'
+
+# Thai Songkran Day 1 (Thailand/Southeast Asia water festivals)
+pixlet render year_clock.star debug_date='2024-04-13T12:00:00Z' enable_special_dates=true show_date=true '$tz=Asia/Bangkok'
+
+# Thai Songkran Day 2
+pixlet render year_clock.star debug_date='2024-04-14T12:00:00Z' enable_special_dates=true show_date=true '$tz=Asia/Bangkok'
+
+# Thai Songkran Day 3
+pixlet render year_clock.star debug_date='2024-04-15T12:00:00Z' enable_special_dates=true show_date=true '$tz=Asia/Bangkok'
 ```
 
 ### Regional Holidays (Filtered in Wrong Timezone)
@@ -370,6 +385,21 @@ pixlet render year_clock.star debug_date='2024-04-23T12:00:00Z' enable_special_d
 
 # Hanukkah filtered
 pixlet render year_clock.star debug_date='2024-12-27T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/Mexico_City'
+
+# Persian Nowruz filtered (shows spring equinox theme instead)
+pixlet render year_clock.star debug_date='2024-03-20T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
+
+# Persian Nowruz Day 2 filtered
+pixlet render year_clock.star debug_date='2024-03-21T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
+
+# Thai Songkran Day 1 filtered (shows default rainbow)
+pixlet render year_clock.star debug_date='2024-04-13T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
+
+# Thai Songkran Day 2 filtered
+pixlet render year_clock.star debug_date='2024-04-14T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
+
+# Thai Songkran Day 3 filtered
+pixlet render year_clock.star debug_date='2024-04-15T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
 ```
 
 ---

@@ -28,8 +28,8 @@ This TODO has been broken into focused documents:
 ### Multi-Calendar New Years
 
 - [ ] **Chinese New Year**: Lunar calendar integration, red/gold palette
-- [ ] **Persian Nowruz**: Spring equinox-based, already have Persian calendar
-- [ ] **Thai Songkran**: April 13-15, water festival blues
+- [x] **Persian Nowruz**: Spring equinox-based, already have Persian calendar ✅ COMPLETED
+- [x] **Thai Songkran**: April 13-15, water festival blues ✅ COMPLETED
 - [ ] **Islamic New Year**: Hijri calendar integration, already have Islamic calendar
 - [ ] **Jewish Rosh Hashanah**: Hebrew calendar algorithms needed
 
@@ -72,7 +72,7 @@ _Note: Infinite expansion acknowledged but not actively pursued._
 
 If continuing development:
 
-1. **Multi-Calendar New Years** - Low hanging fruit since Persian/Islamic calendars already implemented
+1. **Chinese New Year** - Only remaining feasible multi-calendar new year (Nowruz ✅ and Songkran ✅ completed)
 2. **Animation Expansion** - Build on New Year's sparkle system for other holidays
 3. **Independent Color Controls** - User-requested grayscale + colored bar feature
 4. **Cultural Research** - Expand regional holidays with proper timezone filtering

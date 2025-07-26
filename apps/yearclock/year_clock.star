@@ -323,6 +323,36 @@ HANUKKAH_PALETTE = [
     "#191970",  # Midnight Blue (back to start)
 ]
 
+ROSH_HASHANAH_PALETTE = [
+    "#8B4513",  # Saddle Brown (earth, grounding)
+    "#D2691E",  # Chocolate (richness)
+    "#DAA520",  # Golden Rod (honey)
+    "#FFD700",  # Gold (honey, sweetness)
+    "#FFFF99",  # Light Yellow (honey glow)
+    "#FFFFFF",  # White (purity, new beginnings)
+    "#F0FFF0",  # Honeydew (light green)
+    "#90EE90",  # Light Green (apples)
+    "#32CD32",  # Lime Green (fresh apples)
+    "#228B22",  # Forest Green (apple tree)
+    "#B8860B",  # Dark Golden Rod (deep honey)
+    "#8B4513",  # Saddle Brown (back to start)
+]
+
+YOM_KIPPUR_PALETTE = [
+    "#2F2F2F",  # Dark Gray (solemn reflection)
+    "#696969",  # Dim Gray
+    "#A9A9A9",  # Dark Gray
+    "#C0C0C0",  # Silver (purity)
+    "#D3D3D3",  # Light Gray
+    "#E6E6FA",  # Lavender (spiritual)
+    "#F8F8FF",  # Ghost White
+    "#FFFFFF",  # Pure White (atonement, purity)
+    "#F0F8FF",  # Alice Blue (spiritual cleansing)
+    "#E0E6FF",  # Light Blue (heavenly)
+    "#B0C4DE",  # Light Steel Blue
+    "#2F2F2F",  # Dark Gray (back to start)
+]
+
 # Astronomical Event Color Palettes
 SPRING_EQUINOX_PALETTE = [
     "#E6F3FF",  # Very Pale Blue (dawn)
@@ -572,6 +602,8 @@ ADAPTIVE_ACCENT_COLORS = {
     "black_friday": "#FFFF00",  # Yellow (contrasts with black, like a price tag)
     "nowruz": "#8A2BE2",  # Purple (contrasts with spring blues/greens/yellows)
     "songkran": "#FFD700",  # Gold (contrasts with water blues)
+    "rosh_hashanah": "#8A2BE2",  # Purple (contrasts with honey/apple colors)
+    "yom_kippur": "#4B0082",  # Indigo (contrasts with white/silver theme)
 }
 
 # Contrast-based accent colors (darker/lighter than background)
@@ -601,6 +633,8 @@ CONTRAST_ACCENT_COLORS = {
     "black_friday": "#2F2F2F",  # Dark gray (darker contrast on black theme)
     "nowruz": "#2E8B57",  # Sea green (darker contrast on light spring colors)
     "songkran": "#000080",  # Navy (darker contrast on light water blues)
+    "rosh_hashanah": "#8B4513",  # Saddle brown (darker contrast on honey/apple colors)
+    "yom_kippur": "#2F2F2F",  # Dark gray (darker contrast on white/silver theme)
 }
 
 # Calendar conversion functions (borrowed from apps/calendars/calendars.star)
@@ -1048,6 +1082,10 @@ def create_holiday_animation(holiday_type, year_fraction, color_scheme, hemisphe
         return create_christmas_snow_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
     elif holiday_type == "valentine":
         return create_valentine_hearts_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    elif holiday_type == "rosh_hashanah":
+        return create_rosh_hashanah_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
+    elif holiday_type == "yom_kippur":
+        return create_yom_kippur_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
     else:
         # Fallback to static display
         return create_static_year_clock(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config)
@@ -1718,6 +1756,347 @@ def generate_valentine_hearts_for_frame(frame_idx):
 
     return hearts
 
+def create_rosh_hashanah_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated Rosh Hashanah display with honey/apple theme"""
+
+    # Number of animation frames for honey/apple theme
+    num_frames = 8
+    frame_delay = 100  # Smooth honey/apple transition
+
+    # Create list of animation frames
+    frames = []
+
+    for frame_idx in range(num_frames):
+        # Create the gradient background (honey/apple colors)
+        gradient_children = []
+        for x in range(64):
+            # Calculate position in gradient (0.0 to 1.0)
+            pos = x / 63.0
+
+            # Get color for this position
+            color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
+
+            # Create a vertical line for this x position
+            gradient_children.append(
+                render.Box(
+                    width = 1,
+                    height = 32,
+                    color = color,
+                ),
+            )
+
+        # Calculate marker position with proper edge handling
+        marker_x = min(62, int(year_fraction * 62) + 1)
+
+        # Get accent dot color based on style and color scheme
+        accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+
+        # Generate honey/apple overlay for this frame
+        honey_apple_children = generate_rosh_hashanah_for_frame(frame_idx)
+
+        # Create the frame
+        frame = render.Stack(
+            children = [
+                # Rosh Hashanah gradient background
+                render.Row(
+                    children = gradient_children,
+                ),
+                # Honey/apple overlay
+                render.Stack(
+                    children = honey_apple_children,
+                ),
+                # Dial marker
+                render.Stack(
+                    children = [
+                        # Main dial line (white)
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#FFFFFF",
+                            ),
+                        ),
+                        # Left shadow (darker)
+                        render.Padding(
+                            pad = (max(0, marker_x - 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#999999",
+                            ),
+                        ) if marker_x > 0 else render.Box(width = 0, height = 0),
+                        # Right highlight (lighter)
+                        render.Padding(
+                            pad = (min(63, marker_x + 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#CCCCCC",
+                            ),
+                        ) if marker_x < 63 else render.Box(width = 0, height = 0),
+                        # Top and bottom accent dots
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Column(
+                                children = [
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                    render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                ],
+                            ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
+                    ],
+                ),
+                # Optional date display
+                render.Padding(
+                    pad = (1, 26, 0, 0),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
+                    ),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
+            ],
+        )
+
+        frames.append(frame)
+
+    # Return animated root with all frames
+    return render.Root(
+        delay = frame_delay,
+        child = render.Animation(
+            children = frames,
+        ),
+    )
+
+def generate_rosh_hashanah_for_frame(frame_idx):
+    """Generate honey/apple pixels for a specific Rosh Hashanah animation frame"""
+    honey_apple = []
+
+    # Different honey/apple patterns for each frame to create a smooth transition
+    honey_apple_patterns = [
+        # Frame 0: honey at top
+        [(8, 2), (15, 1), (28, 3), (35, 1), (42, 2), (55, 3), (62, 1)],
+        # Frame 1: honey falling
+        [(8, 5), (15, 4), (28, 6), (35, 4), (42, 5), (55, 6), (62, 4), (12, 1), (25, 2), (48, 1)],
+        # Frame 2: honey continues falling
+        [(8, 8), (15, 7), (28, 9), (35, 7), (42, 8), (55, 9), (62, 7), (12, 4), (25, 5), (48, 4), (5, 2), (38, 1)],
+        # Frame 3: mid fall
+        [(8, 11), (15, 10), (28, 12), (35, 10), (42, 11), (55, 12), (62, 10), (12, 7), (25, 8), (48, 7), (5, 5), (38, 4)],
+        # Frame 4: continuing to fall
+        [(8, 14), (15, 13), (28, 15), (35, 13), (42, 14), (55, 15), (62, 13), (12, 10), (25, 11), (48, 10), (5, 8), (38, 7), (20, 2), (52, 3)],
+        # Frame 5: lower honey
+        [(8, 17), (15, 16), (28, 18), (35, 16), (42, 17), (55, 18), (62, 16), (12, 13), (25, 14), (48, 13), (5, 11), (38, 10), (20, 5), (52, 6)],
+        # Frame 6: near bottom
+        [(8, 20), (15, 19), (28, 21), (35, 19), (42, 20), (55, 21), (62, 19), (12, 16), (25, 17), (48, 16), (5, 14), (38, 13), (20, 8), (52, 9)],
+        # Frame 7: at bottom, new honey at top
+        [(8, 23), (15, 22), (28, 24), (35, 22), (42, 23), (55, 24), (62, 22), (12, 19), (25, 20), (48, 19), (5, 17), (38, 16), (20, 11), (52, 12), (10, 1), (30, 2), (50, 1)],
+    ]
+
+    # Get honey/apple positions for this frame
+    frame_honey_apple = honey_apple_patterns[frame_idx % len(honey_apple_patterns)]
+
+    # Create honey/apple pixels with different intensities
+    honey_apple_colors = ["#FFFF99", "#FFD700", "#FFB347", "#FFA500", "#FF8C00", "#FF6600", "#FF4500", "#FF0000"]  # Honey, golden, peach, orange, dark orange, red, orange-red, dark brown
+
+    for i, (x, y) in enumerate(frame_honey_apple):
+        # Vary honey/apple intensity based on position in sequence
+        color = honey_apple_colors[i % len(honey_apple_colors)]
+
+        honey_apple.append(
+            render.Padding(
+                pad = (x, y, 0, 0),
+                child = render.Box(
+                    width = 1,
+                    height = 1,
+                    color = color,
+                ),
+            ),
+        )
+
+    return honey_apple
+
+def create_yom_kippur_animation(year_fraction, color_scheme, hemisphere, calendar_system, accent_dot_style, now, timezone, date_format, language, config):
+    """Create animated Yom Kippur display with solemn reflection colors"""
+
+    # Number of animation frames for solemn reflection
+    num_frames = 8
+    frame_delay = 100  # Smooth reflection transition
+
+    # Create list of animation frames
+    frames = []
+
+    for frame_idx in range(num_frames):
+        # Create the gradient background (solemn reflection colors)
+        gradient_children = []
+        for x in range(64):
+            # Calculate position in gradient (0.0 to 1.0)
+            pos = x / 63.0
+
+            # Get color for this position
+            color = get_gradient_color(pos, color_scheme, hemisphere, calendar_system)
+
+            # Create a vertical line for this x position
+            gradient_children.append(
+                render.Box(
+                    width = 1,
+                    height = 32,
+                    color = color,
+                ),
+            )
+
+        # Calculate marker position with proper edge handling
+        marker_x = min(62, int(year_fraction * 62) + 1)
+
+        # Get accent dot color based on style and color scheme
+        accent_dot_color = get_accent_dot_color(accent_dot_style, color_scheme)
+
+        # Generate reflection overlay for this frame
+        reflection_children = generate_yom_kippur_for_frame(frame_idx)
+
+        # Create the frame
+        frame = render.Stack(
+            children = [
+                # Yom Kippur gradient background
+                render.Row(
+                    children = gradient_children,
+                ),
+                # Reflection overlay
+                render.Stack(
+                    children = reflection_children,
+                ),
+                # Dial marker
+                render.Stack(
+                    children = [
+                        # Main dial line (white)
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#FFFFFF",
+                            ),
+                        ),
+                        # Left shadow (darker)
+                        render.Padding(
+                            pad = (max(0, marker_x - 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#999999",
+                            ),
+                        ) if marker_x > 0 else render.Box(width = 0, height = 0),
+                        # Right highlight (lighter)
+                        render.Padding(
+                            pad = (min(63, marker_x + 1), 0, 0, 0),
+                            child = render.Box(
+                                width = 1,
+                                height = 32,
+                                color = "#CCCCCC",
+                            ),
+                        ) if marker_x < 63 else render.Box(width = 0, height = 0),
+                        # Top and bottom accent dots
+                        render.Padding(
+                            pad = (marker_x, 0, 0, 0),
+                            child = render.Column(
+                                children = [
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                    render.Box(width = 1, height = 30, color = "#00000000"),  # transparent spacer
+                                    render.Box(width = 1, height = 1, color = accent_dot_color),
+                                ],
+                            ),
+                        ) if accent_dot_style != "none" else render.Box(width = 0, height = 0),
+                    ],
+                ),
+                # Optional date display
+                render.Padding(
+                    pad = (1, 26, 0, 0),
+                    child = render.Column(
+                        children = [
+                            # Gregorian date (primary)
+                            render.Text(
+                                content = format_date_with_timezone_detection(now, timezone, date_format, language),
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ),
+                            # Alternative calendar date (if different from Gregorian)
+                            render.Text(
+                                content = get_alternative_calendar_date(now, calendar_system) or "",
+                                font = "tom-thumb",
+                                color = get_date_color(color_scheme, hemisphere),
+                            ) if calendar_system != "Gregorian" and get_alternative_calendar_date(now, calendar_system) else render.Box(width = 0, height = 0),
+                        ],
+                    ),
+                ) if config.bool("show_date", False) else render.Box(width = 0, height = 0),
+            ],
+        )
+
+        frames.append(frame)
+
+    # Return animated root with all frames
+    return render.Root(
+        delay = frame_delay,
+        child = render.Animation(
+            children = frames,
+        ),
+    )
+
+def generate_yom_kippur_for_frame(frame_idx):
+    """Generate reflection pixels for a specific Yom Kippur animation frame"""
+    reflection = []
+
+    # Different reflection patterns for each frame to create a subtle effect
+    # Some frames have more random reflections, others are calmer
+    reflection_patterns = [
+        # Frame 0: scattered silver reflections
+        [(12, 8), (28, 15), (45, 5), (58, 22)],
+        # Frame 1: minimal reflections
+        [(20, 18), (40, 10)],
+        # Frame 2: intense reflection
+        [(8, 12), (25, 6), (35, 20), (48, 14), (60, 8), (52, 25)],
+        # Frame 3: calm
+        [(30, 16), (50, 12)],
+        # Frame 4: medium reflection
+        [(15, 22), (38, 8), (55, 18)],
+        # Frame 5: serene finale
+        [(22, 5), (42, 25), (18, 14), (45, 9)],
+    ]
+
+    # Get reflection positions for this frame
+    frame_reflection = reflection_patterns[frame_idx % len(reflection_patterns)]
+
+    # Create reflection pixels with silver/gray colors
+    reflection_colors = ["#CCCCCC", "#A9A9A9", "#808080", "#666666", "#4D4D4D", "#333333", "#1A1A1A", "#000000"]  # Silver, gray, dark gray, medium gray, light gray, lighter gray, very light gray, black
+
+    for i, (x, y) in enumerate(frame_reflection):
+        # Vary reflection color based on position
+        color = reflection_colors[i % len(reflection_colors)]
+
+        reflection.append(
+            render.Padding(
+                pad = (x, y, 0, 0),
+                child = render.Box(
+                    width = 1,
+                    height = 1,
+                    color = color,
+                ),
+            ),
+        )
+
+    return reflection
+
 def get_special_date_override(now, enable_special_dates, timezone_name):
     """
     Detect if current date falls on a special date and return override color scheme.
@@ -1741,6 +2120,14 @@ def get_special_date_override(now, enable_special_dates, timezone_name):
     # Passover (Apr 23) - Override to blue/white/gold spring theme (US/Canada/Western only)
     if month == 4 and day == 23 and is_western_jewish_timezone(timezone_name):
         return "passover"
+
+    # Rosh Hashanah (Sep 25) - Jewish New Year with honey/apple themes (US/Canada/Western only)
+    if month == 9 and day == 25 and is_western_jewish_timezone(timezone_name):
+        return "rosh_hashanah"
+
+    # Yom Kippur (Oct 5) - Day of Atonement with solemn reflection colors (US/Canada/Western only)
+    if month == 10 and day == 5 and is_western_jewish_timezone(timezone_name):
+        return "yom_kippur"
 
     # Halloween (Oct 31) - Override to orange/black gradient (US/Canada/Ireland/UK only)
     if month == 10 and day == 31 and is_halloween_timezone(timezone_name):
@@ -2212,6 +2599,10 @@ def get_date_color(color_scheme, hemisphere):
         return "#000000"  # Black text for contrast on light spring colors
     elif color_scheme == "songkran":
         return "#000000"  # Black text for contrast on light water blues
+    elif color_scheme == "rosh_hashanah":
+        return "#000000"  # Black text for contrast on honey/apple colors
+    elif color_scheme == "yom_kippur":
+        return "#000000"  # Black text for contrast on white/silver colors
     else:
         return "#000000"  # Default to black text
 
@@ -2269,6 +2660,10 @@ def get_color_palette(color_scheme):
         return NOWRUZ_PALETTE
     elif color_scheme == "songkran":
         return SONGKRAN_PALETTE
+    elif color_scheme == "rosh_hashanah":
+        return ROSH_HASHANAH_PALETTE
+    elif color_scheme == "yom_kippur":
+        return YOM_KIPPUR_PALETTE
     else:
         # Default fallback
         return RAINBOW_PALETTE

@@ -4,7 +4,7 @@ This document provides the complete set of `pixlet render` commands to generate 
 
 ## Overview
 
-- **Total Test Cases**: ~390+ unique configurations
+- **Total Test Cases**: ~325+ unique configurations
 - **Images Generated**: 6x magnification for gallery view
 - **High-res Available**: 12x magnification for modal view (with `-H` flag)
 - **Test Script**: `./test_harness.sh`
@@ -306,7 +306,7 @@ pixlet render year_clock.star debug_date='2024-12-21T12:00:00Z' enable_special_d
 
 ---
 
-## 10. Regional Holidays with Timezone Filtering (24 tests)
+## 10. Regional Holidays with Timezone Filtering (26 tests)
 
 Smart timezone filtering shows culturally relevant holidays based on location.
 
@@ -354,6 +354,12 @@ pixlet render year_clock.star debug_date='2024-04-14T12:00:00Z' enable_special_d
 
 # Thai Songkran Day 3
 pixlet render year_clock.star debug_date='2024-04-15T12:00:00Z' enable_special_dates=true show_date=true '$tz=Asia/Bangkok'
+
+# Rosh Hashanah (Jewish New Year)
+pixlet render year_clock.star debug_date='2024-09-25T12:00:00Z' enable_special_dates=true show_date=true '$tz=America/New_York'
+
+# Yom Kippur (Day of Atonement)
+pixlet render year_clock.star debug_date='2024-10-05T12:00:00Z' enable_special_dates=true show_date=true '$tz=America/New_York'
 ```
 
 ### Regional Holidays (Filtered in Wrong Timezone)
@@ -400,6 +406,12 @@ pixlet render year_clock.star debug_date='2024-04-14T12:00:00Z' enable_special_d
 
 # Thai Songkran Day 3 filtered
 pixlet render year_clock.star debug_date='2024-04-15T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=America/New_York'
+
+# Rosh Hashanah filtered
+pixlet render year_clock.star debug_date='2024-09-25T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=Asia/Tokyo'
+
+# Yom Kippur filtered
+pixlet render year_clock.star debug_date='2024-10-05T12:00:00Z' enable_special_dates=true show_date=true color_scheme=rainbow '$tz=Asia/Tokyo'
 ```
 
 ---

@@ -436,7 +436,7 @@ pixlet render year_clock.star debug_date='2024-05-01T12:00:00Z' enable_special_d
 
 ---
 
-## 12. Holiday Animations (11 tests)
+## 12. Holiday Animations (12 tests)
 
 🎊 New Year's sparkles | 🎃 Halloween flicker | ❄️ Christmas snow | 💖 Valentine's hearts
 
@@ -482,6 +482,9 @@ pixlet render year_clock.star debug_date='2024-10-31T20:00:00Z' enable_special_d
 
 # Christmas no animation (disabled) - Keeps red/green colors but no snow
 pixlet render year_clock.star debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=false show_date=true
+
+# Valentine's no animation (disabled) - Keeps red spectrum colors but no hearts
+pixlet render year_clock.star debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=false show_date=true
 
 # New Year's animation (red scheme override) - Animation overrides color scheme setting
 pixlet render year_clock.star debug_date='2024-01-01T00:00:00Z' color_scheme=red enable_special_dates=true enable_animations=true show_date=true

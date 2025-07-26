@@ -448,6 +448,7 @@ run_test "Valentine's hearts animation" "pixlet render year_clock.star debug_dat
 echo "  Testing animation toggle..."
 run_test "Halloween no animation (disabled)" "pixlet render year_clock.star debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=false show_date=true \$tz=America/New_York" "11_animation_Halloween_Disabled.webp"
 run_test "Christmas no animation (disabled)" "pixlet render year_clock.star debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=false show_date=true" "11_animation_Christmas_Disabled.webp"
+run_test "Valentine's no animation (disabled)" "pixlet render year_clock.star debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=false show_date=true" "11_animation_Valentine_Disabled.webp"
 
 # Test that animations still work with different color scheme overrides
 echo "  Testing animation with color scheme overrides..."

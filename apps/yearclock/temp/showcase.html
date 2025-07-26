@@ -1837,7 +1837,7 @@
                     <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
                         Spooky orange/black flicker effect with variable intensity
                     </p>
-                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 30px; max-width: 600px; margin: 0 auto;">
                         ${createDevice(
                           "11_animation_Halloween.webp",
                           "Halloween Flicker 🎃",
@@ -1845,13 +1845,20 @@
                           "debug_date='2024-10-31T20:00:00Z' \$tz=America/New_York",
                           "debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=true show_date=true \$tz=America/New_York"
                         )}
+                        ${createDevice(
+                          "11_animation_Halloween_Disabled.webp",
+                          "Halloween (Static) 🎃",
+                          "Oct 31st: Orange/brown gradient without flicker animation",
+                          "debug_date='2024-10-31T20:00:00Z' \$tz=America/New_York",
+                          "debug_date='2024-10-31T20:00:00Z' enable_special_dates=true enable_animations=false show_date=true \$tz=America/New_York"
+                        )}
                     </div>
                     
                     <h3>❄️ Christmas Snow Animation</h3>
                     <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
                         Gentle falling snow effect over Christmas red/green gradient
                     </p>
-                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 30px; max-width: 600px; margin: 0 auto;">
                         ${createDevice(
                           "11_animation_Christmas.webp",
                           "Christmas Snow ❄️",
@@ -1859,19 +1866,33 @@
                           "debug_date='2024-12-25T14:00:00Z'",
                           "debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=true show_date=true"
                         )}
+                        ${createDevice(
+                          "11_animation_Christmas_Disabled.webp",
+                          "Christmas (Static) 🎄",
+                          "Dec 25th: Christmas red/green gradient without animation",
+                          "debug_date='2024-12-25T14:00:00Z'",
+                          "debug_date='2024-12-25T14:00:00Z' enable_special_dates=true enable_animations=false show_date=true"
+                        )}
                     </div>
                     
                     <h3>💖 Valentine's Hearts Animation</h3>
                     <p style="text-align: center; margin-bottom: 20px; opacity: 0.7; font-size: 0.9em;">
                         Romantic pulsing hearts over red/pink gradient
                     </p>
-                    <div class="grid" style="max-width: 300px; margin: 0 auto;">
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 30px; max-width: 600px; margin: 0 auto;">
                         ${createDevice(
                           "11_animation_Valentine.webp",
                           "Valentine's Hearts 💖",
                           "Feb 14th: Gentle pulsing heart animation over red spectrum",
                           "debug_date='2024-02-14T18:00:00Z'",
                           "debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=true show_date=true"
+                        )}
+                        ${createDevice(
+                          "11_animation_Valentine_Disabled.webp",
+                          "Valentine's Day (Static) ❤️",
+                          "Feb 14th: Red spectrum gradient without heart animation",
+                          "debug_date='2024-02-14T18:00:00Z'",
+                          "debug_date='2024-02-14T18:00:00Z' enable_special_dates=true enable_animations=false show_date=true"
                         )}
                     </div>
                     
